@@ -26,14 +26,23 @@ jobs:
       - name: Validar configuração
         env:
           SUPABASE_URL: ${{ vars.SUPABASE_URL }}
-          SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
+          SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY || vars.SUPABASE_PUBLISHABLE_KEY }}
         run: |
-          test -n "$SUPABASE_URL" || (echo "Defina a variável SUPABASE_URL" && exit 1)
-          test -n "$SUPABASE_PUBLISHABLE_KEY" || (echo "Defina o secret SUPABASE_PUBLISHABLE_KEY" && exit 1)
+          test -n "$SUPABASE_URL" || (echo "::error::Defina a variável SUPABASE_URL" && exit 1)
+          test -n "$SUPABASE_PUBLISHABLE_KEY" || (echo "::error::Defina SUPABASE_PUBLISHABLE_KEY em Secrets ou Variables" && exit 1)
+          case "$SUPABASE_PUBLISHABLE_KEY" in
+            sb_publishable_*) ;;
+            sb_secret_*) echo "::error::Chave proibida: você colocou uma Secret Key (sb_secret_) no frontend. Copie a Publishable Key (sb_publishable_) em Supabase > Settings > API Keys."; exit 1 ;;
+            *) echo "::error::SUPABASE_PUBLISHABLE_KEY inválida. Para este projeto use a chave que começa com sb_publishable_."; exit 1 ;;
+          esac
+          case "$SUPABASE_URL" in
+            https://*.supabase.co) ;;
+            *) echo "::error::SUPABASE_URL inválida. Use a Project URL HTTPS do Supabase."; exit 1 ;;
+          esac
       - name: Montar site estático
         env:
           SUPABASE_URL: ${{ vars.SUPABASE_URL }}
-          SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
+          SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY || vars.SUPABASE_PUBLISHABLE_KEY }}
         run: |
           mkdir -p _site
           cp index.html admin.html display.html simulator.html _site/
