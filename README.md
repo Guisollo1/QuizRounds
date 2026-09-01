@@ -1,6 +1,6 @@
-# QuizRounds v3.12 — Question Studio
+# QuizRounds v3.13 — Question Studio
 
-## v3.12 — Edite e prepare suas perguntas
+## v3.13 — Edite e prepare suas perguntas
 
 - A aba **Editar perguntas** virou um workspace em 100vh com quatro funções claras: **Criador**, **Prévia ao vivo**, **Organizador** e **Banco de Perguntas**.
 - Criador guiado em 4 etapas: enunciado, respostas/gabarito, pontuação/tempo e organização.
@@ -14,7 +14,7 @@
 - Importação/exportação TXT continua integrada ao mesmo workspace, nos modos **Adicionar** e **Substituir tudo**.
 - Visual competitivo/festivo com gradientes, brilho controlado, cards de game show e microanimações; `prefers-reduced-motion` é respeitado.
 - Desktop usa três áreas simultâneas; notebook reorganiza em duas colunas; celular usa coluna única sem sobreposição e sem scroll horizontal.
-- CSS/JS versionados como `v3.12`.
+- CSS/JS versionados como `v3.13`.
 
 ## Atualização do projeto online existente
 
@@ -260,7 +260,7 @@ As migrations e o bootstrap administrativo não são publicados no Pages.
 - CSS versionado em `app-v3.7.css` e `simulator-v3.7.css`; os nomes antigos de folhas de estilo não são mais referenciados pelos HTMLs.
 
 
-## v3.12 — refatoração de aproveitamento de tela
+## v3.13 — refatoração de aproveitamento de tela
 - Removida a camada legada v3.6 que ainda reposicionava `.bank-card` e causava o grande vazio à direita.
 - Question Studio passa a ter uma única camada de layout, com áreas explícitas: Editor 38% | Prévia/Lote 24% | Biblioteca 38%.
 - Biblioteca usa duas colunas de cards quando o próprio painel tiver largura suficiente.
@@ -268,3 +268,11 @@ As migrations e o bootstrap administrativo não são publicados no Pages.
 - Header, navegação, hero e toolbar ficam mais compactos enquanto a aba Perguntas estiver ativa, recuperando altura útil.
 - Scroll independente no Editor, Lote e Biblioteca no desktop; reflow progressivo em notebook/tablet/celular.
 - Nenhuma migration nova: backend/Supabase da v3.11 permanece compatível.
+
+
+## v3.13 — scroll da página e importação TXT
+- A aba Editar perguntas usa a barra de rolagem principal do navegador para subir e descer por todo o workspace.
+- O parser TXT ignora cabeçalhos/comentários iniciados por # e não cria mais um bloco vazio antes da primeira pergunta.
+- O botão de importação não falha silenciosamente: quando há erro, mostra a quantidade e direciona para o primeiro bloco inválido.
+- Arquivos TXT válidos são analisados automaticamente ao selecionar o arquivo.
+- Inclui `20_Perguntas_Teste.txt`, validado para importação direta.

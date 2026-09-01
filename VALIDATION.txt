@@ -27,3 +27,9 @@ TESTES EXECUTADOS NA ENTREGA
 - Regra legada conflitante `[data-panel="questions"] .bank-card`: removida.
 - Grid explícito `editor support bank`: confirmado.
 - Container queries do Editor e Biblioteca: confirmadas.
+
+QuizRounds v3.13
+- Scroll principal da aba Perguntas: OK
+- Parser TXT com comentários/cabeçalho: OK
+- 20 perguntas de teste: 20/20 válidas
+- Botão de importação com feedback de erro: OK
