@@ -1,6 +1,50 @@
-# Quiz Rounds v3.6 — Supabase + GitHub Pages + Simulador
+# QuizRounds v3.9 — estabilidade, ranking estável e CSS refatorado
+
+## v3.9 — correções principais
+
+- Corrigida a causa raiz do ADM alternando repetidamente entre **Conectando…** e **Conectado**: o fechamento intencional de canais Realtime antigos não dispara mais uma nova reconexão em cascata.
+- O mesmo guard de assinatura foi aplicado ao **Jogador** e ao **Telão**.
+- Adicionada proteção contra respostas RPC fora de ordem: uma resposta de sincronização antiga não pode sobrescrever um estado mais novo.
+- **Ranking ao vivo não pisca mais**: Admin, Jogador, Telão e Simulador só reconstruem o DOM quando a classificação realmente muda.
+- Removida a animação de entrada recorrente das linhas do ranking do ADM.
+- Lobby pode iniciar com **1 participante no mínimo**. O painel não cria um limite máximo artificial de participantes.
+- A regra de mínimo 1 foi aplicada também no Supabase pela migration `010_min_one_participant_start.sql`.
+- CSS compartilhado foi auditado e limpo; regras antigas exclusivas do Jogador foram removidas de `app-v3.9.css`, pois o jogador usa `player-v3.9.css` isolado.
+- Declarações CSS comprovadamente sobrescritas na mesma camada foram deduplicadas sem alterar a especificidade final.
+- Assets ativos foram consolidados em `*-v3.9.*`; arquivos antigos `v3.7/v3.8` não são mais carregados.
+- `index.html` continua com folha própria, responsiva em PC/celular e viewport 100vh/100dvh.
+
+### Atualização do projeto online existente
+
+Não crie outro Supabase nem outro repositório. Envie os arquivos da v3.9 por cima do repositório GitHub `QuizRounds`. A migration 010 já foi aplicada ao projeto Supabase `QuizRounds` nesta atualização.
+
+# Quiz Rounds v3.8 — Supabase + GitHub Pages + Simulador
+
+## v3.8 — refatoração limpa do modo Jogador
+
+- `index.html` deixou de carregar o CSS compartilhado antigo do ADM/Telão.
+- Nova folha exclusiva `assets/css/player-v3.8.css`, reconstruída para o jogador.
+- Layout 100vh/100svh com Grid + Flexbox e scroll apenas na área útil.
+- Corrigido painel de entrada excessivamente alto, texto aparecendo por trás do formulário e sobreposição entre hero/form.
+- Desktop: apresentação e formulário lado a lado; tablet/celular: composição em coluna única.
+- Tela de jogo, alternativas, ranking, Top 5 e retomada permanecem responsivos.
+- Nenhuma lógica Supabase, autenticação, rounds, ranking ou retomada foi alterada.
+
 
 Quiz ao vivo responsivo para celular, PC e projetor, preparado para 50+ participantes e teste local de até 200 jogadores. O administrador controla todo o evento por login/senha, banco de perguntas, configuração da sala e modo Apresentação.
+
+## v3.7 — Jogador 100vh + proteção de chave no GitHub Pages
+
+- `index.html` refeito para ocupar **100vh** no PC e no celular, com header em fluxo e conteúdo usando somente a área restante.
+- Entrada, pergunta, alternativas e ranking usam **Grid/Flexbox responsivos**, sem sobreposição nem overflow horizontal.
+- Em telas pequenas o jogo passa para uma coluna e a rolagem fica dentro da área útil, mantendo o app preso ao viewport.
+- Breakpoints adicionais para celulares estreitos e telas com pouca altura.
+- O botão de som/trocar sala não usa mais posicionamento absoluto no celular, evitando elementos sobrepostos.
+- GitHub Actions agora **recusa qualquer chave `sb_secret_`** antes de publicar.
+- O deploy aceita somente uma chave que comece com `sb_publishable_`.
+- `common-v3.7.js` também valida a configuração e impede inicialização com chave secreta.
+- Base inclui a migration `008_game_show_complete.sql` corrigida.
+- Assets principais foram versionados como `app-v3.7.css`, `simulator-v3.7.css` e scripts `*-v3.7.js`.
 
 ## Arquitetura
 
@@ -10,9 +54,9 @@ Quiz ao vivo responsivo para celular, PC e projetor, preparado para 50+ particip
 - **Segurança:** frontend usa somente Project URL + Publishable Key. Nunca coloque `service_role`/secret key no navegador.
 - **Simulador:** isolado do Supabase real e com estado local próprio.
 
-## v3.6 — Grid + Flexbox + responsividade consolidada
+## v3.7 — Grid + Flexbox + responsividade consolidada
 
-### CSS v3.6 — Layout estrutural responsivo em 100vh
+### CSS v3.7 — Layout estrutural responsivo em 100vh
 
 - **CSS Grid** passou a controlar a estrutura macro das abas, banco de perguntas, configuração, apresentação, jogador, telão e simulador.
 - **Flexbox** passou a controlar cabeçalhos, ações, filtros, grupos de botões, status e alinhamentos internos.
@@ -199,7 +243,7 @@ As migrations e o bootstrap administrativo não são publicados no Pages.
 10. No final, o telão mostra campeão/pódio e o ADM pode exportar o relatório.
 
 
-## v3.6 — correção e refatoração CSS
+## v3.7 — correção e refatoração CSS
 
 - Corrigidos conflitos de flex/grid acumulados no ADM, jogador, telão e simulador.
 - Filtros do banco de perguntas agora quebram linha sem estourar os cards.
@@ -209,4 +253,4 @@ As migrations e o bootstrap administrativo não são publicados no Pages.
 - Telão e ranking tratam nomes/textos longos sem cortar a estrutura.
 - Jogador usa viewport dinâmico (`dvh`/`svh`) e remove `background-attachment: fixed` no mobile.
 - Simulador recebeu as mesmas correções de overflow, grids e drawer do celular de teste.
-- CSS versionado em `app-v3.6.css` e `simulator-v3.6.css`; os nomes antigos de folhas de estilo não são mais referenciados pelos HTMLs.
+- CSS versionado em `app-v3.7.css` e `simulator-v3.7.css`; os nomes antigos de folhas de estilo não são mais referenciados pelos HTMLs.

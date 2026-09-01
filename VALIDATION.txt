@@ -1,15 +1,23 @@
-QuizRounds v3.6 — Correção de layout da aba 1 Perguntas / Banco local
+QuizRounds v3.9 — validação final
 
-VALIDAÇÕES EXECUTADAS:
-- CSS app-v3.6.css: 0 erros de parsing.
-- CSS simulator-v3.6.css: 0 erros de parsing.
-- JavaScript: sintaxe validada com node --check.
-- HTML: sem IDs duplicados.
-- Referências locais src/href: nenhuma quebrada.
-- Grid do simulador usa áreas explícitas para Editor, Importar/Exportar TXT e Banco de perguntas.
-- Desktop: três áreas independentes na mesma linha.
-- Notebook: Editor + Importação lado a lado; Banco abaixo em largura total.
-- Mobile: uma coluna intencional sem sobreposição.
-- Nenhuma lógica Supabase, ranking, rounds, respostas ou importação foi alterada.
+ROOT CAUSE
+- Realtime: CLOSED de canal removido intencionalmente podia agendar reconexão concorrente.
+- Ranking: innerHTML era refeito a cada polling/broadcast, reaplicando animação e causando piscada.
 
-Observação: o Chromium headless do ambiente bloqueia navegação local/localhost por política administrativa; por isso a validação visual automatizada não foi usada como evidência.
+CORREÇÕES
+- epoch/identity guard para canais Realtime em ADM/Jogador/Telão.
+- timer de reconexão único + fallback de polling.
+- guards de sequência para RPCs de estado fora de ordem.
+- ranking por assinatura: sem DOM rewrite se posição/pontos não mudaram.
+- mínimo 1 participante para iniciar; sem máximo artificial no fluxo de lobby.
+- migration 010 aplicada ao Supabase.
+- CSS compartilhado sem camada antiga do jogador; jogador usa CSS isolado.
+
+TESTES ESTÁTICOS
+- JavaScript: node --check aprovado em todos os assets ativos.
+- CSS: tinycss2 sem erros de parsing em app-v3.9.css, player-v3.9.css e simulator-v3.9.css.
+- HTML: sem IDs duplicados; referências locais resolvidas.
+- GitHub Pages: workflow mantém bloqueio para sb_secret_ e exige sb_publishable_.
+
+REGRESSÃO PRESERVADA
+- login ADM, Supabase, banco de perguntas, TXT, QR, lobby, rounds, ranking, retomada e simulador mantidos.

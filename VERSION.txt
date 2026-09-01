@@ -1,1 +1,2 @@
-QuizRounds v3.6
+QuizRounds v3.9
+Estabilidade Realtime + ranking sem piscar + lobby mínimo 1 + CSS audit/refactor
