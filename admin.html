@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#5d28c7">
+  <title>Quiz Rounds v3.6 — Administração</title>
+  <link rel="stylesheet" href="assets/css/app-v3.6.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.min.js"></script>
+  <script src="assets/vendor/qr-bundle.js"></script>
+</head>
+<body class="admin-body admin-v17" data-auth-scope="admin">
+<div class="ambient ambient-a"></div><div class="ambient ambient-b"></div><div class="ambient ambient-c"></div>
+<main class="shell wide admin-shell">
+  <header class="top admin-top">
+    <div class="brand-lockup">
+      <div class="brand-mark" aria-hidden="true">Q</div>
+      <div><div class="eyebrow light">QUIZ ROUNDS</div><h1>Painel do Administrador</h1><p>Prepare, apresente e controle o quiz em tempo real.</p></div>
+    </div>
+    <div class="top-actions">
+      <span id="adminConnection" class="connection-pill connecting">Conectando…</span>
+      <a class="ghost glass" href="simulator.html">Simulador</a>
+      <a class="ghost glass" href="index.html">Modo jogador</a>
+      <button id="logoutBtn" class="ghost glass hidden">Sair</button>
+    </div>
+  </header>
+
+  <section id="loginView" class="admin-login-stage">
+    <article class="login-card card">
+      <div class="login-visual" aria-hidden="true"><div class="orbit o1"></div><div class="orbit o2"></div><div class="login-badge">ADM</div></div>
+      <div class="login-copy">
+        <div class="eyebrow">ACESSO RESTRITO</div>
+        <h2>Entrar no modo administrador</h2>
+        <p class="muted">Use a conta cadastrada no Supabase Authentication e autorizada como administrador.</p>
+        <label>Login (e-mail)<input id="email" type="email" autocomplete="username" placeholder="admin@empresa.com"></label>
+        <label>Senha<input id="password" type="password" autocomplete="current-password" placeholder="Sua senha"></label>
+        <button id="loginBtn" class="primary jumbo">Entrar no painel</button>
+        <p class="error" id="loginError"></p>
+      </div>
+    </article>
+  </section>
+
+  <section id="adminView" class="hidden admin-workspace">
+    <nav id="adminTabs" class="admin-tabs" aria-label="Áreas do painel">
+      <button class="admin-tab active" type="button" data-tab="questions" aria-selected="true"><span>1</span><b>Editar perguntas</b><small>Criar e organizar</small></button>
+      <button class="admin-tab" type="button" data-tab="config" aria-selected="false"><span>2</span><b>Configuração</b><small>Montar a partida</small></button>
+      <button class="admin-tab" type="button" data-tab="presentation" aria-selected="false"><span>3</span><b>Apresentação</b><small>Lobby e rounds</small></button>
+    </nav>
+
+    <section class="tab-panel active" data-panel="questions">
+      <div class="section-heading"><div><div class="eyebrow">BANCO DE CONTEÚDO</div><h2>Edite e prepare suas perguntas</h2><p>Cadastre individualmente, importe TXT em lote e arquive para reutilizar depois.</p></div><div class="section-chip">Salvo no Supabase</div></div>
+      <div class="admin-grid questions-grid">
+        <article class="card question-editor-card">
+          <div class="row wrap"><div><h2>Nova pergunta</h2><p class="muted">Cada pergunta guarda pontuação e tempo próprios.</p></div><span class="badge">EDITOR</span></div>
+          <label>Pergunta<textarea id="qPrompt" rows="4" maxlength="1000" placeholder="Digite o enunciado..."></textarea></label>
+          <label>Tipo<select id="qType"><option value="choice">Múltipla escolha</option><option value="numeric">Número / mais próximo</option></select></label>
+          <div id="choiceFields" class="choice-editor-grid">
+            <label class="opt-field opt-a">A<input id="optA" maxlength="500" placeholder="Alternativa A"></label>
+            <label class="opt-field opt-b">B<input id="optB" maxlength="500" placeholder="Alternativa B"></label>
+            <label class="opt-field opt-c">C<input id="optC" maxlength="500" placeholder="Alternativa C"></label>
+            <label class="opt-field opt-d">D<input id="optD" maxlength="500" placeholder="Alternativa D"></label>
+            <label class="full-row">Resposta correta<select id="correctChoice"><option>A</option><option>B</option><option>C</option><option>D</option></select></label>
+          </div>
+          <div id="numericFields" class="hidden"><label>Valor correto<input id="correctNumber" type="number" step="any" inputmode="decimal"></label></div>
+          <div class="two-cols"><label>Pontuação<input id="points" type="number" min="1" max="100000" value="10"></label><label>Tempo para responder (s)<input id="timeLimit" type="number" min="5" max="600" value="30"></label></div>
+          <div class="two-cols"><label>Categoria<input id="qCategory" maxlength="60" value="Geral" placeholder="Ex.: Segurança"></label><label>Dificuldade<select id="qDifficulty"><option value="facil">Fácil</option><option value="medio" selected>Médio</option><option value="dificil">Difícil</option><option value="final">Final</option></select></label></div>
+          <div class="two-cols"><label>Bônus máximo por velocidade (%)<input id="qSpeedBonus" type="number" min="0" max="100" value="0"></label><label class="switch-line"><input id="qTiebreaker" type="checkbox"><span><b>Pergunta de desempate</b><small>Conta também como critério de desempate.</small></span></label></div>
+          <label class="switch-line"><input id="qScoreEnabled" type="checkbox" checked><span><b>Vale pontos</b><small>Desative para pergunta de diversão/ensaio sem alterar o ranking.</small></span></label>
+          <label>Nota privada do apresentador<textarea id="qPresenterNotes" rows="3" maxlength="2000" placeholder="Explicação, curiosidade ou orientação que só o ADM verá."></textarea></label>
+          <button id="saveQuestionBtn" class="primary">Salvar pergunta</button><p id="questionMsg" class="success"></p>
+        </article>
+
+        <article class="card bulk-question-card bulk-bank-card">
+          <div class="row wrap bulk-bank-head">
+            <div><h2>Importar / exportar banco de perguntas</h2><p class="muted">O TXT inclui enunciado, alternativas, gabarito, pontuação, tempo e metadados da pergunta.</p></div>
+            <span class="badge ready">LOTE SEGURO</span>
+          </div>
+          <div class="filter-actions bulk-file-actions">
+            <label class="file-button ghost">Selecionar .txt<input id="txtImportFile" type="file" accept=".txt,text/plain" hidden></label>
+            <button id="downloadTemplateBtn" class="ghost">Baixar modelo TXT</button>
+            <button id="exportQuestionsBtn" class="ghost">Exportar banco completo</button>
+          </div>
+
+          <fieldset class="import-mode-box">
+            <legend>Como aplicar o lote validado?</legend>
+            <label class="import-mode-option selected"><input type="radio" name="importMode" value="append" checked><span><b>Adicionar ao banco</b><small>Mantém as perguntas atuais e acrescenta as novas.</small></span></label>
+            <label class="import-mode-option replace-option"><input type="radio" name="importMode" value="replace"><span><b>Substituir tudo</b><small>Remove o banco atual da operação e deixa somente o novo lote.</small></span></label>
+          </fieldset>
+
+          <div id="replaceImportWarning" class="replace-import-warning hidden" role="alert">
+            <b>Substituição protegida</b>
+            <span>O lote inteiro será validado antes. As perguntas atuais serão desativadas somente se a nova importação concluir com sucesso. Partidas, históricos e filas de rounds já montadas permanecem preservados; a troca afeta somente o banco de perguntas disponível para novas seleções.</span>
+            <label class="switch-line compact-switch"><input id="backupBeforeReplace" type="checkbox" checked><span><b>Exportar backup automático antes de substituir</b><small>Baixa um TXT completo do banco atual antes da troca.</small></span></label>
+          </div>
+
+          <label>Entrada em lote<textarea id="bulkQuestionText" class="bulk-textarea" rows="12" placeholder="PERGUNTA: Qual é a capital do Brasil?&#10;TIPO: ESCOLHA&#10;A: São Paulo&#10;B: Brasília&#10;C: Salvador&#10;D: Recife&#10;CORRETA: B&#10;PONTOS: 100&#10;TEMPO: 30&#10;---"></textarea></label>
+          <div class="actions wrap"><button id="analyzeImportBtn" class="ghost">Analisar lote</button><button id="importQuestionsBtn" disabled>Adicionar lote validado</button><button id="clearImportBtn" class="ghost">Limpar</button></div>
+          <div id="importSummary" class="import-summary muted">Cole um texto ou selecione um TXT. Nada será gravado antes da validação.</div>
+          <div id="importPreview" class="import-preview"></div>
+        </article>
+
+        <article class="card span2 bank-card">
+          <div class="row wrap"><div><h2>Banco de perguntas</h2><p class="muted">Disponíveis, arquivadas e reutilizáveis em novas salas.</p></div><div class="filter-actions bank-filters"><input id="questionSearch" class="bank-search" placeholder="Pesquisar pergunta..."><select id="questionCategoryFilter"><option value="">Todas categorias</option></select><select id="questionDifficultyFilter"><option value="">Todas dificuldades</option><option value="facil">Fácil</option><option value="medio">Médio</option><option value="dificil">Difícil</option><option value="final">Final</option></select><select id="questionUsageFilter"><option value="">Qualquer uso</option><option value="unused">Nunca usada</option><option value="recent">Usada recentemente</option></select><select id="questionScope"><option value="active">Disponíveis</option><option value="archived">Arquivadas</option><option value="all">Todas</option></select><button id="refreshQuestionsBtn" class="ghost">Atualizar</button></div></div>
+          <div id="questionList" class="question-list"></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="tab-panel" data-panel="config">
+      <div class="section-heading"><div><div class="eyebrow">ANTES DE COMEÇAR</div><h2>Configure a partida</h2><p>Defina a sala, quantidade de rounds e selecione exatamente as perguntas que serão usadas.</p></div><span id="eventStatusBadge" class="badge neutral">SEM SALA</span></div>
+      <div class="admin-grid">
+        <article class="card config-main-card">
+          <h2>Dados do evento</h2>
+          <label>Nome da sala<input id="roomTitle" maxlength="60" value="Quiz ao vivo"></label>
+          <label>Quantidade de rounds<input id="plannedRounds" type="number" min="1" max="200" value="10"></label>
+          <label class="random-order-toggle"><input id="randomizeQueueToggle" type="checkbox"><span><b>Ordem aleatória</b><small>Embaralha as perguntas automaticamente ao começar a partida.</small></span></label>
+          <button id="createRoomBtn" class="primary jumbo">Criar sala</button>
+          <div id="roomInfo" class="room-code"></div><div id="roomProgress" class="progress-summary hidden"></div>
+          <p class="muted compact">Depois do início, a quantidade de rounds e a fila ficam bloqueadas para preservar o resultado.</p>
+          <details class="advanced-config" open>
+            <summary>Competição, entrada e experiência</summary>
+            <div class="config-option-grid">
+              <label class="switch-line"><input id="classificationEnabled" type="checkbox"><span><b>Modo classificação</b><small>Destaca quem está dentro/fora da zona de corte.</small></span></label>
+              <label>Classificam até a posição<input id="qualifyTop" type="number" min="1" max="200" value="5"></label>
+              <label class="span2">Cortes progressivos por round<input id="qualificationSchedule" placeholder="Ex.: 5:30, 10:15, 15:5, 20:1"><small>Opcional. Formato round:Top. O corte muda automaticamente após cada marco.</small></label>
+              <label>Entrada tardia<select id="lateJoinPolicy"><option value="allow_zero">Permitir com zero nos anteriores</option><option value="until_round">Permitir somente até o round...</option><option value="deny">Bloquear depois de começar</option></select></label>
+              <label>Último round para entrada<input id="lateJoinUntil" type="number" min="1" max="200" value="3"></label>
+              <label class="switch-line"><input id="autoCloseAll" type="checkbox"><span><b>Encerrar quando todos responderem</b><small>O ADM fecha automaticamente ao receber todas as respostas.</small></span></label>
+              <label class="switch-line"><input id="streakEnabled" type="checkbox" checked><span><b>Mostrar sequência de acertos</b><small>Feedback 🔥 para sequência.</small></span></label>
+              <label class="switch-line"><input id="speedBonusEnabled" type="checkbox" checked><span><b>Bônus de velocidade</b><small>Usa o percentual definido em cada pergunta.</small></span></label>
+              <label>Bônus fixo por sequência<input id="streakBonus" type="number" min="0" max="100000" value="0"></label>
+              <label>Evitar perguntas usadas nas últimas partidas<input id="avoidRecentGames" type="number" min="0" max="50" value="0"></label>
+              <label>Tema<select id="themePreset"><option value="violet">Violeta</option><option value="ocean">Oceano</option><option value="emerald">Esmeralda</option><option value="sunset">Pôr do sol</option><option value="midnight">Midnight</option></select></label>
+              <label>Logo (URL opcional)<input id="logoUrl" type="url" maxlength="500" placeholder="https://..."></label>
+              <label class="switch-line"><input id="soundEnabled" type="checkbox" checked><span><b>Sons do evento</b><small>Contagem, resposta e campeão.</small></span></label>
+              <label class="switch-line"><input id="rehearsalMode" type="checkbox"><span><b>Modo ensaio</b><small>Marca esta sala como teste para não confundir com evento oficial.</small></span></label>
+              <label class="switch-line"><input id="allowDuplicateNames" type="checkbox"><span><b>Permitir nomes repetidos</b><small>Por padrão o sistema exige nomes únicos.</small></span></label>
+              <label class="span2">Palavras bloqueadas nos nomes<input id="bannedWords" placeholder="palavra1, palavra2, palavra3"></label>
+            </div>
+            <div class="template-tools"><label>Modelos salvos<select id="templateSelect"><option value="">Selecione um modelo...</option></select></label><div class="actions wrap"><button id="loadTemplateBtn" class="ghost" type="button">Criar sala deste modelo</button><button id="duplicateRoomBtn" class="ghost" type="button">Duplicar sala atual</button></div></div>
+            <div class="actions wrap"><button id="saveRoomSettingsBtn" class="ghost" type="button">Salvar configurações</button><button id="saveTemplateBtn" class="ghost" type="button">Salvar como modelo</button><button id="exportReportBtn" class="ghost" type="button">Exportar relatório CSV</button></div>
+          </details>
+        </article>
+
+        <article class="card setup-guide-card">
+          <div class="eyebrow">CHECKLIST</div><h2>Pronto para jogar?</h2>
+          <div class="flow-list animated-flow">
+            <div><strong>1</strong><span>Crie a sala e confirme a quantidade de rounds.</span></div>
+            <div><strong>2</strong><span>Adicione exatamente a quantidade de perguntas configurada.</span></div>
+            <div><strong>3</strong><span>Vá para Apresentação, abra o lobby e espere todos entrarem.</span></div>
+            <div><strong>4</strong><span>Quando estiver pronto, clique em Começar Quiz.</span></div>
+          </div>
+        </article>
+
+        <article class="card span2">
+          <div class="row wrap"><div><h2>Perguntas escolhidas para os rounds</h2><p class="muted">A ordem abaixo será a ordem oficial da partida.</p></div><div class="actions wrap"><button id="goQuestionsBtn" class="ghost" type="button">Escolher no banco</button><button id="shuffleQueueBtn" class="ghost" type="button" disabled>Embaralhar agora</button><span id="queueCount" class="badge">0 / 0</span></div></div>
+          <div id="queueWarning" class="queue-warning">Crie uma sala para montar os rounds.</div><div id="roundQueue" class="question-list"></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="tab-panel" data-panel="presentation">
+      <div class="section-heading"><div><div class="eyebrow">CENTRAL AO VIVO</div><h2>Apresentação e controle do jogo</h2><p>Use esta tela para o lobby, acompanhar conexões e avançar os rounds.</p></div><span id="presentationStageBadge" class="live-stage-badge">LOBBY</span></div>
+
+      <div class="presentation-stepper" aria-label="Etapas da partida"><div data-stage="lobby" class="active"><b>1</b><span>Lobby</span></div><i></i><div data-stage="question"><b>2</b><span>Perguntas</span></div><i></i><div data-stage="result"><b>3</b><span>Resultados</span></div></div>
+
+      <div class="presentation-grid">
+        <article class="card presentation-lobby-card">
+          <div class="lobby-admin-top"><div><div class="eyebrow">ENTRADA DOS JOGADORES</div><h2 id="presentationStageTitle">Lobby aberto</h2><p id="presentationStageHint" class="muted">Peça para todos escanearem o QR Code ou digitarem o PIN.</p></div><span id="stateVersionAdmin" class="badge neutral">v0</span></div>
+          <div class="admin-lobby-grid">
+            <div class="admin-pin-block"><small>PIN DA SALA</small><strong id="adminLobbyCode">------</strong><button id="copyJoinLinkBtn" class="ghost" disabled>Copiar link de entrada</button><p id="joinLinkStatus" class="muted compact"></p></div>
+            <div class="admin-qr-block"><div id="adminQr" class="admin-qr" aria-label="QR Code da sala"></div><b>Escaneie para entrar</b><span id="adminJoinUrl">Crie uma sala para gerar o link</span></div>
+          </div>
+          <div class="room-stats admin-live-stats">
+            <span><strong id="participantCount">0</strong> cadastrados</span><span><strong id="activeCount">0</strong> conectados</span><span><strong id="answerCount">0</strong> respostas</span><span><strong id="pendingCount">0</strong> sem resposta</span><span><strong id="responseRate">0%</strong> participação</span>
+          </div>
+          <div class="response-meter"><i id="adminResponseBar"></i></div>
+          <div class="actions wrap presentation-actions"><button id="displayBtn" class="ghost" disabled>Abrir telão / projetor</button><button id="fullscreenDisplayBtn" class="ghost" disabled>Abrir telão em nova janela</button><button id="forceSyncBtn" class="ghost" data-admin-action>Sincronizar</button><button id="connectionTestBtn" class="ghost" data-admin-action>Testar conexões</button><button id="restartQuizBtn" class="restart-game" disabled>Recomeçar partida</button><button id="startQuizBtn" class="primary start-game" disabled>Começar Quiz</button></div>
+        </article>
+
+        <article class="card round-control-card">
+          <div class="row wrap"><div><div class="eyebrow">CONTROLE</div><h2>Round atual</h2></div><span id="roundProgressBadge" class="badge">0 / 0</span></div>
+          <div class="round-clock" id="adminTimer">Aguardando início</div><div class="stability-strip"><span id="adminActionStatus" class="muted compact"></span></div>
+          <div id="currentQuestionAdmin" class="current-question muted">Nenhuma pergunta em execução.</div>
+          <div id="presenterPrivate" class="presenter-private hidden"><div><b>Gabarito/nota do apresentador</b><span id="presenterAnswer"></span><p id="presenterNotes"></p></div></div>
+          <div id="nextPreview" class="next-preview hidden"><div class="eyebrow">PRÓXIMA PERGUNTA</div><strong id="nextPreviewPrompt"></strong><div id="nextPreviewMeta" class="question-meta"></div></div>
+          <div class="actions round-actions multi"><button id="prepareRoundBtn" disabled>Preparar próximo round</button><button id="openRoundBtn" disabled>Liberar agora</button><button id="closeRoundBtn" class="warn" disabled>Encerrar e pontuar</button></div>
+          <div class="actions wrap secondary-live-actions"><button id="pauseQuizBtn" class="ghost" disabled>Pausar</button><button id="extend5Btn" class="ghost" disabled>+5 s</button><button id="extend10Btn" class="ghost" disabled>+10 s</button><button id="annulRoundBtn" class="ghost danger-soft" disabled>Anular pergunta</button><button id="regradeRoundBtn" class="ghost" disabled>Corrigir gabarito</button></div>
+          <div class="reveal-controls"><span>Revelação:</span><button data-reveal="answer" class="ghost small">Resposta</button><button data-reveal="distribution" class="ghost small">Distribuição</button><button data-reveal="ranking" class="ghost small">Ranking</button></div>
+          <p id="roundHint" class="muted compact">O primeiro round começa com uma contagem 3…2…1 sincronizada.</p>
+        </article>
+
+        <article class="card"><div class="row wrap"><div><h2>Ranking ao vivo</h2><p class="muted">Atualizado após cada round pontuado.</p></div><span id="qualificationBadge" class="badge neutral">Sem corte</span></div><ol id="adminRanking" class="admin-ranking"></ol><div id="rankingMovers" class="ranking-movers"></div></article>
+        <article class="card"><div class="row wrap"><div><h2>Participantes</h2><p class="muted">Conexão, prontidão e controle de acesso.</p></div><div class="actions wrap"><span id="connectionTestResult" class="badge neutral">Teste não executado</span><button id="refreshParticipantsBtn" class="ghost small">Atualizar</button></div></div><div id="participantAdminList" class="participant-admin-list"></div></article>
+        <article class="card span2"><div class="row wrap"><div><h2>Histórico e evolução</h2><p class="muted">Respostas, pontos, rounds perdidos e evolução da classificação.</p></div><div class="actions"><button id="loadHistoryBtn" class="ghost small">Atualizar histórico</button><button id="showEvolutionBtn" class="ghost small">Evolução de posição</button></div></div><div id="historySummary" class="history-summary"></div><div id="evolutionChart" class="evolution-chart hidden"></div></article>
+        <article class="card span2"><div class="row wrap"><div><h2>Auditoria da sala</h2><p class="muted">Ações e transições registradas no Supabase.</p></div><span id="latencyBadge" class="badge neutral">Latência —</span></div><div id="auditList" class="audit-list"></div></article>
+      </div>
+    </section>
+  </section>
+</main>
+<script type="module" src="assets/js/admin.js"></script>
+</body>
+</html>

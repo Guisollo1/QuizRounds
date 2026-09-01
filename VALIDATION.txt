@@ -1,0 +1,15 @@
+QuizRounds v3.6 — Correção de layout da aba 1 Perguntas / Banco local
+
+VALIDAÇÕES EXECUTADAS:
+- CSS app-v3.6.css: 0 erros de parsing.
+- CSS simulator-v3.6.css: 0 erros de parsing.
+- JavaScript: sintaxe validada com node --check.
+- HTML: sem IDs duplicados.
+- Referências locais src/href: nenhuma quebrada.
+- Grid do simulador usa áreas explícitas para Editor, Importar/Exportar TXT e Banco de perguntas.
+- Desktop: três áreas independentes na mesma linha.
+- Notebook: Editor + Importação lado a lado; Banco abaixo em largura total.
+- Mobile: uma coluna intencional sem sobreposição.
+- Nenhuma lógica Supabase, ranking, rounds, respostas ou importação foi alterada.
+
+Observação: o Chromium headless do ambiente bloqueia navegação local/localhost por política administrativa; por isso a validação visual automatizada não foi usada como evidência.

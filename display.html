@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Quiz Rounds v3.6 — Tela de Perguntas</title>
+  <link rel="stylesheet" href="assets/css/app-v3.6.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.min.js"></script>
+  <script src="assets/vendor/qr-bundle.js"></script>
+</head>
+<body class="display-body" data-auth-scope="display">
+<main class="display-shell">
+  <section id="displayConnect" class="display-connect">
+    <div class="display-connect-card">
+      <div class="eyebrow">Tela de apresentação</div>
+      <h1>Quiz Rounds</h1>
+      <p>Informe o código da sala para colocar o lobby, as perguntas e o ranking na TV ou projetor.</p>
+      <div class="display-code-entry">
+        <input id="displayRoomCode" maxlength="8" autocomplete="off" placeholder="ABC123">
+        <button id="displayConnectBtn">Abrir sala</button>
+      </div>
+      <p id="displayError" class="error"></p>
+    </div>
+  </section>
+
+  <section id="displayStage" class="hidden display-stage">
+    <header class="display-header">
+      <div>
+        <div id="displayTitle" class="display-title">Quiz ao vivo</div>
+        <div id="displayRoomInfo" class="display-room-info">Sala ------</div>
+        <div class="display-header-actions"><span id="displayConnection" class="connection-pill connecting">Conectando…</span><button id="displaySoundBtn" class="display-mini-btn" type="button">Som ✓</button><button id="displayFullscreenBtn" class="display-mini-btn" type="button">Tela cheia</button></div>
+      </div>
+      <div class="display-header-right">
+        <div id="displayMiniQr" class="display-mini-qr" aria-label="QR Code de entrada"></div>
+        <div class="display-header-stats">
+        <div><strong id="displayConnected">0</strong><span>conectados</span></div>
+        <div><strong id="displayRegistered">0</strong><span>cadastrados</span></div>
+        <div><strong id="displayAnswers">0</strong><span>respostas</span></div>
+        <div><strong id="displayResponseRate">0%</strong><span>participação</span></div>
+        </div>
+      </div>
+    </header>
+
+    <div id="displayLobby" class="display-center-panel display-lobby-panel">
+      <div class="display-kicker">ENTRE PELO CELULAR</div>
+      <div class="display-lobby-grid">
+        <div class="display-lobby-pin">
+          <div class="display-lobby-label">PIN DA SALA</div>
+          <div id="displayLobbyCode" class="display-big-code">------</div>
+          <p id="displayLobbyRounds">0 rounds preparados</p>
+        </div>
+        <div class="display-qr-card">
+          <div id="displayQr" class="display-qr" aria-label="QR Code da sala"></div>
+          <strong>Escaneie para entrar</strong>
+          <span id="displayJoinUrl">Abra pelo celular</span>
+        </div>
+      </div>
+      <div class="display-lobby-stats">
+        <div><strong id="displayLobbyConnected">0</strong><span>conectados agora</span></div>
+        <div><strong id="displayLobbyRegistered">0</strong><span>participantes cadastrados</span></div>
+      </div>
+      <h1>Aguardando o administrador começar</h1>
+    </div>
+
+    <div id="displayPreparing" class="hidden display-center-panel display-preparing-panel"><div class="display-kicker">PRÓXIMO ROUND</div><div id="displayCountdown" class="display-countdown">3</div><h1>Prepare-se!</h1><p id="displayPreparingLabel">A pergunta será liberada em instantes.</p></div>
+    <div id="displayPaused" class="hidden display-center-panel"><div class="display-kicker">INTERVALO</div><h1>Partida pausada</h1><p>O administrador retomará quando estiver pronto.</p></div>
+    <div id="displayQuestion" class="hidden display-question-panel">
+      <div class="display-round-line">
+        <div id="displayRoundLabel" class="display-round-label">ROUND 1 DE 10</div>
+        <div id="displayTimer" class="display-timer">30</div>
+      </div>
+      <div id="displayQuestionText" class="display-question-text"></div>
+      <div id="displayOptions" class="display-options"></div>
+      <div id="displayNumericHint" class="hidden display-numeric-hint">Digite sua resposta numérica no celular</div>
+      <div class="display-live-response">
+        <div id="displayAnswerProgress" class="display-answer-progress">0 respostas recebidas</div>
+        <div class="display-response-meter"><i id="displayResponseBar"></i></div>
+        <div id="displayWaitingText" class="display-waiting-text">Aguardando respostas...</div>
+      </div>
+    </div>
+
+    <div id="displayResult" class="hidden display-result-panel">
+      <div id="displayRevealStep" class="display-reveal-step">RESPOSTA</div>
+      <div id="displayResultRound" class="display-kicker">ROUND ENCERRADO</div>
+      <h1 id="displayResultText">Resultado</h1>
+      <div id="displayDistribution" class="display-distribution hidden"></div>
+      <div id="displayMovers" class="display-movers hidden"></div>
+      <div class="display-ranking-wrap">
+        <h2>Ranking</h2>
+        <ol id="displayRanking" class="display-ranking"></ol>
+      </div>
+      <div id="displayNextText" class="display-next-text">Aguardando a próxima pergunta...</div>
+    </div>
+
+    <div id="displayFinished" class="hidden display-result-panel display-finished-stage">
+      <div class="display-kicker">QUIZ ENCERRADO</div>
+      <div id="championCelebration" class="champion-celebration"><div class="champion-crown">★</div><span>CAMPEÃO</span><h1 id="championName">Resultado final</h1><p id="championScore"></p></div>
+      <div class="display-ranking-wrap final">
+        <ol id="displayFinalRanking" class="display-ranking"></ol>
+      </div>
+    </div>
+  </section>
+</main>
+<script type="module" src="assets/js/display.js"></script>
+</body>
+</html>
