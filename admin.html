@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#5d28c7">
-  <title>Quiz Rounds v3.9 — Administração</title>
-  <link rel="stylesheet" href="assets/css/app-v3.9.css">
+  <title>Quiz Rounds v3.11 — Administração</title>
+  <link rel="stylesheet" href="assets/css/app-v3.11.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.min.js"></script>
   <script src="assets/vendor/qr-bundle.js"></script>
 </head>
@@ -47,61 +47,160 @@
       <button class="admin-tab" type="button" data-tab="presentation" aria-selected="false"><span>3</span><b>Apresentação</b><small>Lobby e rounds</small></button>
     </nav>
 
-    <section class="tab-panel active" data-panel="questions">
-      <div class="section-heading"><div><div class="eyebrow">BANCO DE CONTEÚDO</div><h2>Edite e prepare suas perguntas</h2><p>Cadastre individualmente, importe TXT em lote e arquive para reutilizar depois.</p></div><div class="section-chip">Salvo no Supabase</div></div>
-      <div class="admin-grid questions-grid">
-        <article class="card question-editor-card">
-          <div class="row wrap"><div><h2>Nova pergunta</h2><p class="muted">Cada pergunta guarda pontuação e tempo próprios.</p></div><span class="badge">EDITOR</span></div>
-          <label>Pergunta<textarea id="qPrompt" rows="4" maxlength="1000" placeholder="Digite o enunciado..."></textarea></label>
-          <label>Tipo<select id="qType"><option value="choice">Múltipla escolha</option><option value="numeric">Número / mais próximo</option></select></label>
-          <div id="choiceFields" class="choice-editor-grid">
-            <label class="opt-field opt-a">A<input id="optA" maxlength="500" placeholder="Alternativa A"></label>
-            <label class="opt-field opt-b">B<input id="optB" maxlength="500" placeholder="Alternativa B"></label>
-            <label class="opt-field opt-c">C<input id="optC" maxlength="500" placeholder="Alternativa C"></label>
-            <label class="opt-field opt-d">D<input id="optD" maxlength="500" placeholder="Alternativa D"></label>
-            <label class="full-row">Resposta correta<select id="correctChoice"><option>A</option><option>B</option><option>C</option><option>D</option></select></label>
+    <section class="tab-panel active question-workbench-panel" data-panel="questions">
+      <div class="question-hero">
+        <div class="question-hero-copy">
+          <div class="eyebrow">CENTRAL DE CONTEÚDO</div>
+          <h2>Edite e prepare suas perguntas</h2>
+          <p>Crie, revise, organize, filtre e monte seu banco em um único espaço de trabalho.</p>
+        </div>
+        <div class="question-hero-stats" aria-label="Resumo do banco">
+          <div class="question-stat"><span>Visíveis</span><strong id="bankVisibleCount">0</strong></div>
+          <div class="question-stat choice-stat"><span>Escolha</span><strong id="bankChoiceCount">0</strong></div>
+          <div class="question-stat numeric-stat"><span>Numéricas</span><strong id="bankNumericCount">0</strong></div>
+          <div class="question-stat points-stat"><span>Média pts</span><strong id="bankPointsAverage">0</strong></div>
+        </div>
+      </div>
+
+      <div class="question-command-bar">
+        <div class="question-command-primary">
+          <button id="newQuestionBtn" class="primary competition-action" type="button">＋ Nova pergunta</button>
+          <button id="resetQuestionBtn" class="ghost" type="button">Limpar editor</button>
+        </div>
+        <div class="question-command-status">
+          <span id="editorModeBadge" class="editor-mode-badge">CRIANDO</span>
+          <span class="question-sync-dot" aria-hidden="true"></span>
+          <span id="editorSavedState">Banco sincronizado no Supabase</span>
+        </div>
+      </div>
+
+      <div class="question-studio-grid">
+        <article class="card question-editor-card question-studio-card">
+          <div class="studio-card-head editor-head">
+            <div><div class="studio-kicker">CRIADOR</div><h3 id="editorTitle">Nova pergunta</h3><p>Monte a pergunta por etapas e acompanhe a prévia ao lado.</p></div>
+            <span class="studio-icon" aria-hidden="true">✦</span>
           </div>
-          <div id="numericFields" class="hidden"><label>Valor correto<input id="correctNumber" type="number" step="any" inputmode="decimal"></label></div>
-          <div class="two-cols"><label>Pontuação<input id="points" type="number" min="1" max="100000" value="10"></label><label>Tempo para responder (s)<input id="timeLimit" type="number" min="5" max="600" value="30"></label></div>
-          <div class="two-cols"><label>Categoria<input id="qCategory" maxlength="60" value="Geral" placeholder="Ex.: Segurança"></label><label>Dificuldade<select id="qDifficulty"><option value="facil">Fácil</option><option value="medio" selected>Médio</option><option value="dificil">Difícil</option><option value="final">Final</option></select></label></div>
-          <div class="two-cols"><label>Bônus máximo por velocidade (%)<input id="qSpeedBonus" type="number" min="0" max="100" value="0"></label><label class="switch-line"><input id="qTiebreaker" type="checkbox"><span><b>Pergunta de desempate</b><small>Conta também como critério de desempate.</small></span></label></div>
-          <label class="switch-line"><input id="qScoreEnabled" type="checkbox" checked><span><b>Vale pontos</b><small>Desative para pergunta de diversão/ensaio sem alterar o ranking.</small></span></label>
-          <label>Nota privada do apresentador<textarea id="qPresenterNotes" rows="3" maxlength="2000" placeholder="Explicação, curiosidade ou orientação que só o ADM verá."></textarea></label>
-          <button id="saveQuestionBtn" class="primary">Salvar pergunta</button><p id="questionMsg" class="success"></p>
+
+          <div class="question-editor-scroll">
+            <section class="editor-block editor-block-prompt">
+              <div class="editor-block-title"><span>1</span><div><b>Enunciado</b><small>O que os jogadores precisam responder?</small></div></div>
+              <label>Pergunta
+                <textarea id="qPrompt" rows="4" maxlength="1000" placeholder="Digite um enunciado claro e direto..."></textarea>
+                <span class="field-counter"><b id="qPromptCount">0</b>/1000</span>
+              </label>
+              <label>Tipo de resposta<select id="qType"><option value="choice">Múltipla escolha</option><option value="numeric">Número / mais próximo</option></select></label>
+            </section>
+
+            <section class="editor-block editor-block-answers">
+              <div class="editor-block-title"><span>2</span><div><b>Respostas</b><small>Defina as opções e marque o gabarito.</small></div></div>
+              <div id="choiceFields" class="choice-editor-grid festive-options">
+                <label class="opt-field opt-a"><span class="option-symbol">◆</span>A<input id="optA" maxlength="500" placeholder="Alternativa A"></label>
+                <label class="opt-field opt-b"><span class="option-symbol">●</span>B<input id="optB" maxlength="500" placeholder="Alternativa B"></label>
+                <label class="opt-field opt-c"><span class="option-symbol">▲</span>C<input id="optC" maxlength="500" placeholder="Alternativa C"></label>
+                <label class="opt-field opt-d"><span class="option-symbol">■</span>D<input id="optD" maxlength="500" placeholder="Alternativa D"></label>
+                <label class="full-row answer-key-field">Resposta correta<select id="correctChoice"><option>A</option><option>B</option><option>C</option><option>D</option></select></label>
+              </div>
+              <div id="numericFields" class="hidden numeric-answer-box"><label>Valor correto<input id="correctNumber" type="number" step="any" inputmode="decimal" placeholder="Ex.: 42,5"></label><small>Se ninguém acertar exatamente, vence quem chegar mais perto.</small></div>
+            </section>
+
+            <section class="editor-block editor-block-rules">
+              <div class="editor-block-title"><span>3</span><div><b>Pontuação e tempo</b><small>Ajuste o ritmo e o valor competitivo.</small></div></div>
+              <div class="two-cols"><label>Pontuação<input id="points" type="number" min="1" max="100000" value="10"></label><label>Tempo para responder (s)<input id="timeLimit" type="number" min="5" max="600" value="30"></label></div>
+              <div class="preset-row"><span>Pontos rápidos</span><button type="button" data-points-preset="10">10</button><button type="button" data-points-preset="50">50</button><button type="button" data-points-preset="100">100</button><button type="button" data-points-preset="500">500</button></div>
+              <div class="preset-row"><span>Tempo rápido</span><button type="button" data-time-preset="10">10s</button><button type="button" data-time-preset="20">20s</button><button type="button" data-time-preset="30">30s</button><button type="button" data-time-preset="60">60s</button></div>
+              <div class="two-cols"><label>Bônus máximo por velocidade (%)<input id="qSpeedBonus" type="number" min="0" max="100" value="0"></label><label class="switch-line"><input id="qTiebreaker" type="checkbox"><span><b>Pergunta de desempate</b><small>Usada também como critério de desempate.</small></span></label></div>
+              <label class="switch-line"><input id="qScoreEnabled" type="checkbox" checked><span><b>Vale pontos</b><small>Desative para perguntas de diversão ou ensaio.</small></span></label>
+            </section>
+
+            <section class="editor-block editor-block-organize">
+              <div class="editor-block-title"><span>4</span><div><b>Organização</b><small>Facilite a busca e a reutilização no banco.</small></div></div>
+              <div class="two-cols"><label>Categoria<input id="qCategory" maxlength="60" value="Geral" placeholder="Ex.: Segurança"></label><label>Dificuldade<select id="qDifficulty"><option value="facil">Fácil</option><option value="medio" selected>Médio</option><option value="dificil">Difícil</option><option value="final">Final</option></select></label></div>
+              <label>Nota privada do apresentador<textarea id="qPresenterNotes" rows="3" maxlength="2000" placeholder="Explicação, curiosidade ou orientação que só o ADM verá."></textarea><span class="field-counter"><b id="qPresenterNotesCount">0</b>/2000</span></label>
+            </section>
+          </div>
+
+          <div class="editor-action-bar">
+            <button id="cancelQuestionEditBtn" class="ghost hidden" type="button">Cancelar edição</button>
+            <button id="saveQuestionBtn" class="primary save-question-action" type="button">Salvar pergunta</button>
+            <p id="questionMsg" class="success" aria-live="polite"></p>
+          </div>
         </article>
 
-        <article class="card bulk-question-card bulk-bank-card">
-          <div class="row wrap bulk-bank-head">
-            <div><h2>Importar / exportar banco de perguntas</h2><p class="muted">O TXT inclui enunciado, alternativas, gabarito, pontuação, tempo e metadados da pergunta.</p></div>
-            <span class="badge ready">LOTE SEGURO</span>
+        <div class="question-middle-stack">
+          <article class="card question-preview-card">
+            <div class="studio-card-head preview-head"><div><div class="studio-kicker">PRÉVIA</div><h3>Como o jogador verá</h3><p>Atualização automática enquanto você digita.</p></div><span class="preview-live"><i></i> AO VIVO</span></div>
+            <div class="player-question-preview">
+              <div class="preview-topline"><span id="previewQuestionType">MÚLTIPLA ESCOLHA</span><strong id="previewMeta">10 pts • 30s</strong></div>
+              <div id="previewQuestionText" class="preview-question-text">Sua pergunta aparecerá aqui.</div>
+              <div id="previewAnswers" class="preview-answer-grid">
+                <div class="preview-answer preview-a"><span>◆ A</span><b>Alternativa A</b></div>
+                <div class="preview-answer preview-b"><span>● B</span><b>Alternativa B</b></div>
+                <div class="preview-answer preview-c"><span>▲ C</span><b>Alternativa C</b></div>
+                <div class="preview-answer preview-d"><span>■ D</span><b>Alternativa D</b></div>
+              </div>
+              <div class="preview-footer"><span id="previewCategory">Geral</span><span id="previewDifficulty">Médio</span></div>
+            </div>
+            <div class="creator-tips"><b>Dica de criação</b><span id="creatorTip">Use enunciados curtos e alternativas com tamanho parecido para o jogo ficar mais rápido.</span></div>
+          </article>
+
+          <article class="card bulk-question-card bulk-bank-card question-batch-card">
+            <div class="studio-card-head batch-head"><div><div class="studio-kicker">LOTE</div><h3>Importar / exportar</h3><p>Adicione muitas perguntas sem cadastrar uma por uma.</p></div><span class="badge ready">TXT</span></div>
+            <div class="filter-actions bulk-file-actions">
+              <label class="file-button ghost">Selecionar .txt<input id="txtImportFile" type="file" accept=".txt,text/plain" hidden></label>
+              <button id="downloadTemplateBtn" class="ghost">Modelo TXT</button>
+              <button id="exportQuestionsBtn" class="ghost">Exportar banco</button>
+            </div>
+            <fieldset class="import-mode-box">
+              <legend>Como aplicar?</legend>
+              <label class="import-mode-option selected"><input type="radio" name="importMode" value="append" checked><span><b>Adicionar</b><small>Mantém o banco atual.</small></span></label>
+              <label class="import-mode-option replace-option"><input type="radio" name="importMode" value="replace"><span><b>Substituir tudo</b><small>Troca o banco disponível.</small></span></label>
+            </fieldset>
+            <div id="replaceImportWarning" class="replace-import-warning hidden" role="alert"><b>Substituição protegida</b><span>O lote inteiro é validado antes. Históricos e rounds antigos permanecem preservados.</span><label class="switch-line compact-switch"><input id="backupBeforeReplace" type="checkbox" checked><span><b>Gerar backup antes</b><small>Baixa o TXT atual antes da troca.</small></span></label></div>
+            <label class="batch-input-label">Entrada em lote<textarea id="bulkQuestionText" class="bulk-textarea" rows="9" placeholder="PERGUNTA: Qual é a capital do Brasil?&#10;TIPO: ESCOLHA&#10;A: São Paulo&#10;B: Brasília&#10;C: Salvador&#10;D: Recife&#10;CORRETA: B&#10;PONTOS: 100&#10;TEMPO: 30&#10;---"></textarea></label>
+            <div class="actions wrap batch-actions"><button id="analyzeImportBtn" class="ghost">Analisar</button><button id="importQuestionsBtn" disabled>Adicionar lote</button><button id="clearImportBtn" class="ghost">Limpar</button></div>
+            <div id="importSummary" class="import-summary muted">Cole um texto ou selecione um TXT. Nada será gravado antes da validação.</div>
+            <div id="importPreview" class="import-preview"></div>
+          </article>
+        </div>
+
+        <article class="card bank-card question-bank-workspace">
+          <div class="studio-card-head bank-head"><div><div class="studio-kicker">ORGANIZADOR + BANCO</div><h3>Biblioteca de perguntas</h3><p>Pesquise, ordene, selecione várias e reutilize com rapidez.</p></div><span id="bankResultBadge" class="badge neutral">0 ITENS</span></div>
+
+          <div class="bank-quick-filters" aria-label="Filtros rápidos">
+            <button type="button" class="active" data-bank-quick="all">Todas</button>
+            <button type="button" data-bank-quick="choice">Escolha</button>
+            <button type="button" data-bank-quick="numeric">Numéricas</button>
+            <button type="button" data-bank-quick="unused">Nunca usadas</button>
+            <button type="button" data-bank-quick="tiebreaker">Desempate</button>
+            <button type="button" data-bank-quick="unscored">Sem pontos</button>
+            <button type="button" data-bank-quick="final">Final</button>
           </div>
-          <div class="filter-actions bulk-file-actions">
-            <label class="file-button ghost">Selecionar .txt<input id="txtImportFile" type="file" accept=".txt,text/plain" hidden></label>
-            <button id="downloadTemplateBtn" class="ghost">Baixar modelo TXT</button>
-            <button id="exportQuestionsBtn" class="ghost">Exportar banco completo</button>
+
+          <div class="bank-filters bank-filters-v311">
+            <input id="questionSearch" class="bank-search" placeholder="Pesquisar por pergunta ou categoria...">
+            <select id="questionCategoryFilter"><option value="">Todas categorias</option></select>
+            <select id="questionDifficultyFilter"><option value="">Todas dificuldades</option><option value="facil">Fácil</option><option value="medio">Médio</option><option value="dificil">Difícil</option><option value="final">Final</option></select>
+            <select id="questionUsageFilter"><option value="">Qualquer uso</option><option value="unused">Nunca usada</option><option value="recent">Usada recentemente</option></select>
+            <select id="questionScope"><option value="active">Disponíveis</option><option value="archived">Arquivadas</option><option value="all">Todas</option></select>
+            <select id="questionSort" aria-label="Ordenar banco"><option value="newest">Mais novas</option><option value="prompt">A–Z</option><option value="category">Categoria</option><option value="difficulty">Dificuldade</option><option value="points_desc">Mais pontos</option><option value="used_desc">Mais usadas</option></select>
+            <button id="clearQuestionFiltersBtn" class="ghost" type="button">Limpar filtros</button>
+            <button id="refreshQuestionsBtn" class="ghost" type="button">Atualizar</button>
           </div>
 
-          <fieldset class="import-mode-box">
-            <legend>Como aplicar o lote validado?</legend>
-            <label class="import-mode-option selected"><input type="radio" name="importMode" value="append" checked><span><b>Adicionar ao banco</b><small>Mantém as perguntas atuais e acrescenta as novas.</small></span></label>
-            <label class="import-mode-option replace-option"><input type="radio" name="importMode" value="replace"><span><b>Substituir tudo</b><small>Remove o banco atual da operação e deixa somente o novo lote.</small></span></label>
-          </fieldset>
+          <div id="categoryQuickFilters" class="category-chip-row" aria-label="Categorias rápidas"></div>
 
-          <div id="replaceImportWarning" class="replace-import-warning hidden" role="alert">
-            <b>Substituição protegida</b>
-            <span>O lote inteiro será validado antes. As perguntas atuais serão desativadas somente se a nova importação concluir com sucesso. Partidas, históricos e filas de rounds já montadas permanecem preservados; a troca afeta somente o banco de perguntas disponível para novas seleções.</span>
-            <label class="switch-line compact-switch"><input id="backupBeforeReplace" type="checkbox" checked><span><b>Exportar backup automático antes de substituir</b><small>Baixa um TXT completo do banco atual antes da troca.</small></span></label>
+          <div class="bank-bulk-toolbar">
+            <div class="bank-selection-info"><b id="selectedQuestionCount">0 selecionadas</b><span>Use a caixa nos cards para ações em lote.</span></div>
+            <div class="bank-selection-actions">
+              <button id="selectVisibleQuestionsBtn" class="ghost small" type="button">Selecionar visíveis</button>
+              <button id="clearQuestionSelectionBtn" class="ghost small" type="button">Limpar seleção</button>
+              <button id="queueSelectedQuestionsBtn" class="small" type="button">＋ Adicionar à sala</button>
+              <button id="archiveSelectedQuestionsBtn" class="ghost small" type="button">Arquivar</button>
+              <button id="restoreSelectedQuestionsBtn" class="ghost small" type="button">Restaurar</button>
+            </div>
           </div>
 
-          <label>Entrada em lote<textarea id="bulkQuestionText" class="bulk-textarea" rows="12" placeholder="PERGUNTA: Qual é a capital do Brasil?&#10;TIPO: ESCOLHA&#10;A: São Paulo&#10;B: Brasília&#10;C: Salvador&#10;D: Recife&#10;CORRETA: B&#10;PONTOS: 100&#10;TEMPO: 30&#10;---"></textarea></label>
-          <div class="actions wrap"><button id="analyzeImportBtn" class="ghost">Analisar lote</button><button id="importQuestionsBtn" disabled>Adicionar lote validado</button><button id="clearImportBtn" class="ghost">Limpar</button></div>
-          <div id="importSummary" class="import-summary muted">Cole um texto ou selecione um TXT. Nada será gravado antes da validação.</div>
-          <div id="importPreview" class="import-preview"></div>
-        </article>
-
-        <article class="card span2 bank-card">
-          <div class="row wrap"><div><h2>Banco de perguntas</h2><p class="muted">Disponíveis, arquivadas e reutilizáveis em novas salas.</p></div><div class="filter-actions bank-filters"><input id="questionSearch" class="bank-search" placeholder="Pesquisar pergunta..."><select id="questionCategoryFilter"><option value="">Todas categorias</option></select><select id="questionDifficultyFilter"><option value="">Todas dificuldades</option><option value="facil">Fácil</option><option value="medio">Médio</option><option value="dificil">Difícil</option><option value="final">Final</option></select><select id="questionUsageFilter"><option value="">Qualquer uso</option><option value="unused">Nunca usada</option><option value="recent">Usada recentemente</option></select><select id="questionScope"><option value="active">Disponíveis</option><option value="archived">Arquivadas</option><option value="all">Todas</option></select><button id="refreshQuestionsBtn" class="ghost">Atualizar</button></div></div>
-          <div id="questionList" class="question-list"></div>
+          <div id="questionList" class="question-list question-library-list"></div>
         </article>
       </div>
     </section>
@@ -198,6 +297,6 @@
     </section>
   </section>
 </main>
-<script type="module" src="assets/js/admin-v3.9.js"></script>
+<script type="module" src="assets/js/admin-v3.11.js"></script>
 </body>
 </html>

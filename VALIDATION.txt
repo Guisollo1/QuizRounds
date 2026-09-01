@@ -1,23 +1,17 @@
-QuizRounds v3.9 — validação final
+QuizRounds v3.11 — validação final
 
-ROOT CAUSE
-- Realtime: CLOSED de canal removido intencionalmente podia agendar reconexão concorrente.
-- Ranking: innerHTML era refeito a cada polling/broadcast, reaplicando animação e causando piscada.
+ESCOPO
+- Question Studio da aba ADM “Editar perguntas”.
+- Criador guiado, edição real, prévia ao vivo, organizador, filtros, seleção em lote e banco.
+- Visual competitivo/festivo responsivo em 100vh.
 
-CORREÇÕES
-- epoch/identity guard para canais Realtime em ADM/Jogador/Telão.
-- timer de reconexão único + fallback de polling.
-- guards de sequência para RPCs de estado fora de ordem.
-- ranking por assinatura: sem DOM rewrite se posição/pontos não mudaram.
-- mínimo 1 participante para iniciar; sem máximo artificial no fluxo de lobby.
-- migration 010 aplicada ao Supabase.
-- CSS compartilhado sem camada antiga do jogador; jogador usa CSS isolado.
-
-TESTES ESTÁTICOS
-- JavaScript: node --check aprovado em todos os assets ativos.
-- CSS: tinycss2 sem erros de parsing em app-v3.9.css, player-v3.9.css e simulator-v3.9.css.
-- HTML: sem IDs duplicados; referências locais resolvidas.
-- GitHub Pages: workflow mantém bloqueio para sb_secret_ e exige sb_publishable_.
-
-REGRESSÃO PRESERVADA
-- login ADM, Supabase, banco de perguntas, TXT, QR, lobby, rounds, ranking, retomada e simulador mantidos.
+VALIDAÇÕES
+- JavaScript: todos os arquivos assets/js/*.js passaram em node --check.
+- HTML: admin, display, index e simulator sem IDs duplicados.
+- Assets: todas as referências locais dos quatro HTML existem.
+- CSS: app-v3.11.css, player-v3.11.css e simulator-v3.11.css sem erros de parsing (tinycss2).
+- Layout: Grid/Flexbox com min-width:0, proteção contra overflow horizontal, scroll interno no desktop e coluna única no mobile.
+- Acessibilidade: controles nativos, labels, aria-live do editor e suporte a prefers-reduced-motion.
+- Backend: migration 011 cria admin_update_question_v3; anon sem EXECUTE, authenticated com EXECUTE e validação interna de ADM/ownership.
+- Supabase atual: função admin_update_question_v3 criada e privilégio anon verificado como false.
+- Snapshots: editar pergunta não altera filas/rounds já preparados.

@@ -1,2 +1,3 @@
-QuizRounds v3.9
-Estabilidade Realtime + ranking sem piscar + lobby mínimo 1 + CSS audit/refactor
+QuizRounds v3.11
+Question Studio — Criador + Prévia + Organizador + Banco de Perguntas
+Supabase + GitHub Pages

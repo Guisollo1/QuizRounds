@@ -1,22 +1,24 @@
-# QuizRounds v3.9 — estabilidade, ranking estável e CSS refatorado
+# QuizRounds v3.11 — Question Studio
 
-## v3.9 — correções principais
+## v3.11 — Edite e prepare suas perguntas
 
-- Corrigida a causa raiz do ADM alternando repetidamente entre **Conectando…** e **Conectado**: o fechamento intencional de canais Realtime antigos não dispara mais uma nova reconexão em cascata.
-- O mesmo guard de assinatura foi aplicado ao **Jogador** e ao **Telão**.
-- Adicionada proteção contra respostas RPC fora de ordem: uma resposta de sincronização antiga não pode sobrescrever um estado mais novo.
-- **Ranking ao vivo não pisca mais**: Admin, Jogador, Telão e Simulador só reconstruem o DOM quando a classificação realmente muda.
-- Removida a animação de entrada recorrente das linhas do ranking do ADM.
-- Lobby pode iniciar com **1 participante no mínimo**. O painel não cria um limite máximo artificial de participantes.
-- A regra de mínimo 1 foi aplicada também no Supabase pela migration `010_min_one_participant_start.sql`.
-- CSS compartilhado foi auditado e limpo; regras antigas exclusivas do Jogador foram removidas de `app-v3.9.css`, pois o jogador usa `player-v3.9.css` isolado.
-- Declarações CSS comprovadamente sobrescritas na mesma camada foram deduplicadas sem alterar a especificidade final.
-- Assets ativos foram consolidados em `*-v3.9.*`; arquivos antigos `v3.7/v3.8` não são mais carregados.
-- `index.html` continua com folha própria, responsiva em PC/celular e viewport 100vh/100dvh.
+- A aba **Editar perguntas** virou um workspace em 100vh com quatro funções claras: **Criador**, **Prévia ao vivo**, **Organizador** e **Banco de Perguntas**.
+- Criador guiado em 4 etapas: enunciado, respostas/gabarito, pontuação/tempo e organização.
+- **Edição real** de perguntas existentes: o botão Editar carrega todos os dados e salva no mesmo registro, sem criar cópia. Snapshots de partidas/filas já preparadas permanecem preservados.
+- Prévia ao vivo no estilo do jogador enquanto o ADM digita, com alternativas coloridas, pontos, tempo, categoria e dificuldade.
+- Presets rápidos de pontuação (10/50/100/500) e tempo (10/20/30/60 s).
+- Banco com pesquisa, categoria, dificuldade, uso, arquivo e ordenação por data, nome, categoria, dificuldade, pontos ou utilização.
+- Filtros rápidos: **Todas, Escolha, Número, Não usadas, Desempate, Sem pontos e Finais**.
+- Chips de categorias e indicadores do banco: visíveis, escolha, numéricas e média de pontos.
+- Seleção em lote para adicionar à sala, arquivar/restaurar e selecionar tudo que está visível.
+- Importação/exportação TXT continua integrada ao mesmo workspace, nos modos **Adicionar** e **Substituir tudo**.
+- Visual competitivo/festivo com gradientes, brilho controlado, cards de game show e microanimações; `prefers-reduced-motion` é respeitado.
+- Desktop usa três áreas simultâneas; notebook reorganiza em duas colunas; celular usa coluna única sem sobreposição e sem scroll horizontal.
+- CSS/JS versionados como `v3.11`.
 
-### Atualização do projeto online existente
+## Atualização do projeto online existente
 
-Não crie outro Supabase nem outro repositório. Envie os arquivos da v3.9 por cima do repositório GitHub `QuizRounds`. A migration 010 já foi aplicada ao projeto Supabase `QuizRounds` nesta atualização.
+Use o mesmo projeto **QuizRounds** no Supabase e o mesmo repositório GitHub. A função de edição `admin_update_question_v3` já foi aplicada ao Supabase atual. Para outra instalação nova, aplique as migrations `001` a `011` em ordem.
 
 # Quiz Rounds v3.8 — Supabase + GitHub Pages + Simulador
 
@@ -204,6 +206,8 @@ O simulador não usa nem altera o Supabase real. Ele reproduz:
    - `007_restart_random_order.sql`
    - `008_game_show_complete.sql`
    - `009_question_bank_replace_import.sql`
+   - `010_min_one_participant_start.sql`
+   - `011_question_editor_update.sql`
 4. Crie o usuário administrador em **Authentication > Users** com e-mail e senha.
 5. Edite o e-mail em `supabase/ADMIN_BOOTSTRAP.sql` e execute no SQL Editor.
 6. Use somente a **Project URL** e a **Publishable Key** no frontend.
