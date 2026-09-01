@@ -1,35 +1,44 @@
-QuizRounds v3.12 — validação final
+QuizRounds v3.14 — VALIDAÇÃO FINAL
 
-ESCOPO
-- Refatoração do Question Studio ADM, sem alteração de regras de jogo ou Supabase.
-- Aproveitamento integral da largura e altura útil em desktop.
+BASE ESTÁVEL
+- Origem: QuizRounds v3.13.
+- Lógica Supabase, autenticação, rounds, ranking, importação TXT e edição de perguntas preservada.
+- Nenhuma migration nova.
 
-ROOT CAUSE CORRIGIDA
-- Removida regra legada v3.6 `[data-panel="questions"] .bank-card` que ainda forçava coluna/linha da Biblioteca e deixava uma faixa grande sem conteúdo.
-- Uma única camada v3.12 controla o layout atual.
+AUDITORIA CSS
+- app-v3.13.css original: 1410 regras qualificadas; 92 seletores exatos duplicados (104 ocorrências extras).
+- app-v3.14.css: 818 regras qualificadas; 0 seletores exatos duplicados.
+- app.css: ~126 KB -> ~78 KB.
+- !important no app.css: 60 -> 9, mantidos apenas onde úteis para utilitário hidden, QR e reduced-motion.
+- Regras do jogador removidas do app.css por serem código morto nesse bundle.
+- player-v3.14.css: 0 seletores exatos duplicados.
+- simulator-v3.14.css: duplicações aditivas consolidadas; 0 seletores exatos duplicados.
+- tinycss2: 0 erros de parsing em todos os CSS.
 
-LAYOUT
+HEADER / RESPONSIVIDADE
+- Desktop: header em grid, marca + ações sem sobreposição.
+- Notebook: ações fazem reflow para linha própria.
+- Mobile: ações em grade, status em linha exclusiva, título reduzido sem overflow.
+- Admin usa min-height 100dvh e scroll vertical do navegador; não prende o Question Studio em altura fixa.
+
+QUESTION STUDIO
 - Desktop amplo: Editor 38% | Prévia/Lote 24% | Biblioteca 38%.
-- Biblioteca: 2 colunas quando seu container >= 690px.
-- Editor: Regras + Organização lado a lado quando seu container >= 650px.
-- Notebook estreito: Editor + Banco no topo; suporte abaixo.
-- Mobile: coluna única, sem overflow horizontal.
-- Scroll interno independente e barra visível no desktop.
+- <=1199 px: Editor + Banco / suporte abaixo.
+- <=900 px: coluna única para os blocos principais.
+- Biblioteca usa 2 colunas quando há largura e 1 coluna em telas menores.
+- Sem scroll horizontal intencional.
 
-REGRESSÃO
-- Supabase/login/rounds/ranking/importação/edição não foram modificados.
-- Migration 011 permanece a última alteração de banco necessária.
+ACESSIBILIDADE / CONTRASTE
+- Skip link para conteúdo principal.
+- Admin tabs com role=tablist/tab/tabpanel e aria-controls.
+- Status de conexão com role=status + aria-live.
+- Foco visível para teclado.
+- prefers-reduced-motion preservado.
+- Contrastes críticos verificados: branco/#5a22c4 8.53:1; branco/#6b35d7 6.74:1; #746d83/branco 4.93:1.
 
-TESTES EXECUTADOS NA ENTREGA
+REGRESSÃO / INTEGRIDADE
 - node --check em todos os assets/js/*.js: OK.
-- tinycss2 em todos os CSS: 0 erros de parsing.
-- admin/display/index/simulator: 0 IDs duplicados e 0 referências locais ausentes.
-- Regra legada conflitante `[data-panel="questions"] .bank-card`: removida.
-- Grid explícito `editor support bank`: confirmado.
-- Container queries do Editor e Biblioteca: confirmadas.
-
-QuizRounds v3.13
-- Scroll principal da aba Perguntas: OK
-- Parser TXT com comentários/cabeçalho: OK
-- 20 perguntas de teste: 20/20 válidas
-- Botão de importação com feedback de erro: OK
+- IDs HTML: validação sem duplicatas.
+- Referências locais de CSS/JS: validação sem arquivos ausentes.
+- Config público permanece placeholder no ZIP; GitHub Actions continua gerando config.js com SUPABASE_URL + SUPABASE_PUBLISHABLE_KEY.
+- Workflow continua bloqueando sb_secret_ no frontend.

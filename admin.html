@@ -4,21 +4,22 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#5d28c7">
-  <title>Quiz Rounds v3.13 — Administração</title>
-  <link rel="stylesheet" href="assets/css/app-v3.13.css">
+  <title>Quiz Rounds v3.14 — Administração</title>
+  <link rel="stylesheet" href="assets/css/app-v3.14.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.min.js"></script>
   <script src="assets/vendor/qr-bundle.js"></script>
 </head>
 <body class="admin-body admin-v17" data-auth-scope="admin">
+<a class="skip-link" href="#mainContent">Pular para o conteúdo</a>
 <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div><div class="ambient ambient-c"></div>
-<main class="shell wide admin-shell">
-  <header class="top admin-top">
+<main id="mainContent" class="shell wide admin-shell">
+  <header class="top admin-top" aria-label="Cabeçalho do administrador">
     <div class="brand-lockup">
       <div class="brand-mark" aria-hidden="true">Q</div>
       <div><div class="eyebrow light">QUIZ ROUNDS</div><h1>Painel do Administrador</h1><p>Prepare, apresente e controle o quiz em tempo real.</p></div>
     </div>
-    <div class="top-actions">
-      <span id="adminConnection" class="connection-pill connecting">Conectando…</span>
+    <div class="top-actions" aria-label="Ações do administrador">
+      <span id="adminConnection" class="connection-pill connecting" role="status" aria-live="polite">Conectando…</span>
       <a class="ghost glass" href="simulator.html">Simulador</a>
       <a class="ghost glass" href="index.html">Modo jogador</a>
       <button id="logoutBtn" class="ghost glass hidden">Sair</button>
@@ -41,13 +42,13 @@
   </section>
 
   <section id="adminView" class="hidden admin-workspace">
-    <nav id="adminTabs" class="admin-tabs" aria-label="Áreas do painel">
-      <button class="admin-tab active" type="button" data-tab="questions" aria-selected="true"><span>1</span><b>Editar perguntas</b><small>Criar e organizar</small></button>
-      <button class="admin-tab" type="button" data-tab="config" aria-selected="false"><span>2</span><b>Configuração</b><small>Montar a partida</small></button>
-      <button class="admin-tab" type="button" data-tab="presentation" aria-selected="false"><span>3</span><b>Apresentação</b><small>Lobby e rounds</small></button>
+    <nav id="adminTabs" class="admin-tabs" role="tablist" aria-label="Áreas do painel">
+      <button id="adminTabQuestions" class="admin-tab active" type="button" role="tab" data-tab="questions" aria-selected="true" aria-controls="adminPanelQuestions"><span>1</span><b>Editar perguntas</b><small>Criar e organizar</small></button>
+      <button id="adminTabConfig" class="admin-tab" type="button" role="tab" data-tab="config" aria-selected="false" aria-controls="adminPanelConfig"><span>2</span><b>Configuração</b><small>Montar a partida</small></button>
+      <button id="adminTabPresentation" class="admin-tab" type="button" role="tab" data-tab="presentation" aria-selected="false" aria-controls="adminPanelPresentation"><span>3</span><b>Apresentação</b><small>Lobby e rounds</small></button>
     </nav>
 
-    <section class="tab-panel active question-workbench-panel" data-panel="questions">
+    <section id="adminPanelQuestions" class="tab-panel active question-workbench-panel" role="tabpanel" aria-labelledby="adminTabQuestions" data-panel="questions">
       <div class="question-hero">
         <div class="question-hero-copy">
           <div class="eyebrow">CENTRAL DE CONTEÚDO</div>
@@ -205,7 +206,7 @@
       </div>
     </section>
 
-    <section class="tab-panel" data-panel="config">
+    <section id="adminPanelConfig" class="tab-panel" role="tabpanel" aria-labelledby="adminTabConfig" data-panel="config">
       <div class="section-heading"><div><div class="eyebrow">ANTES DE COMEÇAR</div><h2>Configure a partida</h2><p>Defina a sala, quantidade de rounds e selecione exatamente as perguntas que serão usadas.</p></div><span id="eventStatusBadge" class="badge neutral">SEM SALA</span></div>
       <div class="admin-grid">
         <article class="card config-main-card">
@@ -258,7 +259,7 @@
       </div>
     </section>
 
-    <section class="tab-panel" data-panel="presentation">
+    <section id="adminPanelPresentation" class="tab-panel" role="tabpanel" aria-labelledby="adminTabPresentation" data-panel="presentation">
       <div class="section-heading"><div><div class="eyebrow">CENTRAL AO VIVO</div><h2>Apresentação e controle do jogo</h2><p>Use esta tela para o lobby, acompanhar conexões e avançar os rounds.</p></div><span id="presentationStageBadge" class="live-stage-badge">LOBBY</span></div>
 
       <div class="presentation-stepper" aria-label="Etapas da partida"><div data-stage="lobby" class="active"><b>1</b><span>Lobby</span></div><i></i><div data-stage="question"><b>2</b><span>Perguntas</span></div><i></i><div data-stage="result"><b>3</b><span>Resultados</span></div></div>

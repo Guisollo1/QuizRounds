@@ -1,4 +1,19 @@
-# QuizRounds v3.13 — Question Studio
+# QuizRounds v3.14 — CSS/HTML Refactor Profissional
+
+## v3.14 — auditoria estrutural completa
+
+- `app-v3.14.css` reconstruído a partir da base funcional estável, removendo as camadas de correção v3.6/v3.10/v3.12/v3.13 que se sobrepunham.
+- **0 seletores exatos duplicados** no CSS principal após a consolidação.
+- CSS principal reduzido de aproximadamente **126 KB para 78 KB**, sem alteração das regras de jogo/Supabase.
+- Código morto do jogador removido do `app.css`; o jogador continua isolado em `player-v3.14.css`.
+- Simulador consolidado em `simulator-v3.14.css`, removendo regras duplicadas aditivas.
+- Tokens, reset, contratos anti-overflow, `minmax(0, ...)`, `min-width: 0`, `dvh` e breakpoints reorganizados em uma única camada de layout.
+- Header ADM refeito em formato compacto: marca à esquerda, status e ações organizadas, reflow em notebook e grade 2×2 no celular.
+- Question Studio continua **full-width** e usa o scroll vertical da própria página; desktop usa Editor | Prévia/Lote | Biblioteca e reduz progressivamente para duas/uma coluna.
+- Configuração e Apresentação agora usam uma grade de 12 colunas coerente, sem larguras fixas conflitantes.
+- Acessibilidade: skip link, roles de tabs/tabpanel, status de conexão com `aria-live`, foco visível e `prefers-reduced-motion`.
+- Contraste revisado nos pares principais (texto/header, botões, muted e alertas) com razão WCAG AA ou superior para texto normal nos pares críticos avaliados.
+- Nenhuma migration nova e nenhum JavaScript funcional foi alterado.
 
 ## v3.13 — Edite e prepare suas perguntas
 

@@ -1,0 +1,8 @@
+QUIZ ROUNDS v3.11 - SIMULADOR LOCAL
+
+Login ADM de teste
+Usuario: admin
+Senha: quiz123
+
+Estas credenciais funcionam SOMENTE no simulator.html local.
+O Painel ADM real continua usando Supabase Authentication.
