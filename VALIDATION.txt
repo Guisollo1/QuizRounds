@@ -1,17 +1,29 @@
-QuizRounds v3.11 — validação final
+QuizRounds v3.12 — validação final
 
 ESCOPO
-- Question Studio da aba ADM “Editar perguntas”.
-- Criador guiado, edição real, prévia ao vivo, organizador, filtros, seleção em lote e banco.
-- Visual competitivo/festivo responsivo em 100vh.
+- Refatoração do Question Studio ADM, sem alteração de regras de jogo ou Supabase.
+- Aproveitamento integral da largura e altura útil em desktop.
 
-VALIDAÇÕES
-- JavaScript: todos os arquivos assets/js/*.js passaram em node --check.
-- HTML: admin, display, index e simulator sem IDs duplicados.
-- Assets: todas as referências locais dos quatro HTML existem.
-- CSS: app-v3.11.css, player-v3.11.css e simulator-v3.11.css sem erros de parsing (tinycss2).
-- Layout: Grid/Flexbox com min-width:0, proteção contra overflow horizontal, scroll interno no desktop e coluna única no mobile.
-- Acessibilidade: controles nativos, labels, aria-live do editor e suporte a prefers-reduced-motion.
-- Backend: migration 011 cria admin_update_question_v3; anon sem EXECUTE, authenticated com EXECUTE e validação interna de ADM/ownership.
-- Supabase atual: função admin_update_question_v3 criada e privilégio anon verificado como false.
-- Snapshots: editar pergunta não altera filas/rounds já preparados.
+ROOT CAUSE CORRIGIDA
+- Removida regra legada v3.6 `[data-panel="questions"] .bank-card` que ainda forçava coluna/linha da Biblioteca e deixava uma faixa grande sem conteúdo.
+- Uma única camada v3.12 controla o layout atual.
+
+LAYOUT
+- Desktop amplo: Editor 38% | Prévia/Lote 24% | Biblioteca 38%.
+- Biblioteca: 2 colunas quando seu container >= 690px.
+- Editor: Regras + Organização lado a lado quando seu container >= 650px.
+- Notebook estreito: Editor + Banco no topo; suporte abaixo.
+- Mobile: coluna única, sem overflow horizontal.
+- Scroll interno independente e barra visível no desktop.
+
+REGRESSÃO
+- Supabase/login/rounds/ranking/importação/edição não foram modificados.
+- Migration 011 permanece a última alteração de banco necessária.
+
+TESTES EXECUTADOS NA ENTREGA
+- node --check em todos os assets/js/*.js: OK.
+- tinycss2 em todos os CSS: 0 erros de parsing.
+- admin/display/index/simulator: 0 IDs duplicados e 0 referências locais ausentes.
+- Regra legada conflitante `[data-panel="questions"] .bank-card`: removida.
+- Grid explícito `editor support bank`: confirmado.
+- Container queries do Editor e Biblioteca: confirmadas.

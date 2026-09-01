@@ -1,6 +1,6 @@
-# QuizRounds v3.11 — Question Studio
+# QuizRounds v3.12 — Question Studio
 
-## v3.11 — Edite e prepare suas perguntas
+## v3.12 — Edite e prepare suas perguntas
 
 - A aba **Editar perguntas** virou um workspace em 100vh com quatro funções claras: **Criador**, **Prévia ao vivo**, **Organizador** e **Banco de Perguntas**.
 - Criador guiado em 4 etapas: enunciado, respostas/gabarito, pontuação/tempo e organização.
@@ -14,7 +14,7 @@
 - Importação/exportação TXT continua integrada ao mesmo workspace, nos modos **Adicionar** e **Substituir tudo**.
 - Visual competitivo/festivo com gradientes, brilho controlado, cards de game show e microanimações; `prefers-reduced-motion` é respeitado.
 - Desktop usa três áreas simultâneas; notebook reorganiza em duas colunas; celular usa coluna única sem sobreposição e sem scroll horizontal.
-- CSS/JS versionados como `v3.11`.
+- CSS/JS versionados como `v3.12`.
 
 ## Atualização do projeto online existente
 
@@ -258,3 +258,13 @@ As migrations e o bootstrap administrativo não são publicados no Pages.
 - Jogador usa viewport dinâmico (`dvh`/`svh`) e remove `background-attachment: fixed` no mobile.
 - Simulador recebeu as mesmas correções de overflow, grids e drawer do celular de teste.
 - CSS versionado em `app-v3.7.css` e `simulator-v3.7.css`; os nomes antigos de folhas de estilo não são mais referenciados pelos HTMLs.
+
+
+## v3.12 — refatoração de aproveitamento de tela
+- Removida a camada legada v3.6 que ainda reposicionava `.bank-card` e causava o grande vazio à direita.
+- Question Studio passa a ter uma única camada de layout, com áreas explícitas: Editor 38% | Prévia/Lote 24% | Biblioteca 38%.
+- Biblioteca usa duas colunas de cards quando o próprio painel tiver largura suficiente.
+- Editor usa a largura interna para colocar Regras e Organização lado a lado quando couber.
+- Header, navegação, hero e toolbar ficam mais compactos enquanto a aba Perguntas estiver ativa, recuperando altura útil.
+- Scroll independente no Editor, Lote e Biblioteca no desktop; reflow progressivo em notebook/tablet/celular.
+- Nenhuma migration nova: backend/Supabase da v3.11 permanece compatível.
