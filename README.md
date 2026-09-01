@@ -1,3 +1,30 @@
+# QuizRounds v3.15 — Avatares + Cidade dos Jogadores
+
+## Novidades v3.15
+
+- Jogador escolhe **nome + avatar** antes de entrar.
+- 12 avatares animados: Raposa, Robô, Gato, Astronauta, Ninja, Panda, Alien, Leão, Sapo, Unicórnio, Tubarão e Coruja.
+- O avatar escolhido fica salvo no navegador e no participante da sala.
+- Ranking do jogador e ranking do telão mostram o avatar.
+- Lista de participantes do ADM mostra o avatar de cada jogador.
+- O modo **Abrir telão / projetor** ganhou a **Cidade dos Jogadores**: prédios, parque, rua e avatares caminhando continuamente.
+- No lobby a cidade fica maior; durante pergunta/resultado ela vira uma faixa compacta para não esconder o conteúdo.
+- Top 3 ganha destaque na cidade depois que existe pontuação (coroa / prata / bronze).
+- Jogadores desconectados continuam visíveis temporariamente em estilo dessaturado.
+- A cidade usa animação CSS com `transform`, sem loop JavaScript por frame, para reduzir custo de CPU/GPU.
+- A lista da cidade só é recriada quando participantes/avatar/pontos/conexão realmente mudam, evitando piscadas.
+- `prefers-reduced-motion` desativa as animações para acessibilidade.
+
+## Supabase v3.15
+
+Migration nova: `supabase/migrations/012_player_avatars_city.sql`.
+
+No projeto Supabase atual usado durante o desenvolvimento, esta migration já foi aplicada. Para uma instalação nova, rode as migrations em ordem até `012`.
+
+A migration adiciona `quiz_participants.avatar_key` e as RPCs `join_quiz_room_v2`, `player_set_avatar` e `get_public_avatar_roster`, mantendo `join_quiz_room` antigo compatível.
+
+---
+
 # QuizRounds v3.14 — CSS/HTML Refactor Profissional
 
 ## v3.14 — auditoria estrutural completa

@@ -1,2 +1,2 @@
-QuizRounds v3.14
-CSS architecture refactor + compact responsive header
+QuizRounds v3.15
+Avatares animados + Cidade dos Jogadores no telão

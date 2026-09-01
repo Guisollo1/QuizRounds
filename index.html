@@ -4,8 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#5927c7">
-  <title>Quiz Rounds v3.14 — Jogador</title>
+  <title>Quiz Rounds v3.15 — Jogador</title>
   <link rel="stylesheet" href="assets/css/player-v3.14.css">
+  <link rel="stylesheet" href="assets/css/avatars-v3.15.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.min.js"></script>
 </head>
 <body class="player-body player-v38" data-auth-scope="player">
@@ -22,6 +23,11 @@
       <div class="join-form-card">
         <label>PIN da sala<input id="roomCode" maxlength="8" autocomplete="off" autocapitalize="characters" placeholder="ABC123"></label>
         <label>Seu nome<input id="playerName" maxlength="32" autocomplete="nickname" placeholder="Como quer aparecer?"></label>
+        <fieldset class="avatar-picker">
+          <legend>Escolha seu avatar</legend>
+          <div id="avatarPicker" class="avatar-picker-grid" aria-label="Avatares disponíveis"></div>
+          <div id="avatarSelectedLine" class="avatar-selected-line" aria-live="polite"></div>
+        </fieldset>
         <button id="joinBtn" class="primary jumbo">Entrar na partida</button>
         <div id="resumeHint" class="resume-hint hidden"></div>
         <p class="error" id="joinError"></p>
@@ -55,6 +61,6 @@
     </div>
   </section>
 </main>
-<script type="module" src="assets/js/player-v3.11.js"></script>
+<script type="module" src="assets/js/player-v3.15.js"></script>
 </body>
 </html>

@@ -3,8 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Quiz Rounds v3.14 — Tela de Perguntas</title>
+  <title>Quiz Rounds v3.15 — Cidade dos Jogadores</title>
   <link rel="stylesheet" href="assets/css/app-v3.14.css">
+  <link rel="stylesheet" href="assets/css/avatars-v3.15.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.min.js"></script>
   <script src="assets/vendor/qr-bundle.js"></script>
 </head>
@@ -40,6 +41,17 @@
         </div>
       </div>
     </header>
+
+    <section id="avatarCity" class="avatar-city" aria-label="Cidade animada dos participantes">
+      <div class="city-sun"></div><div class="city-cloud c1"></div><div class="city-cloud c2"></div>
+      <div class="city-skyline" aria-hidden="true">
+        <i class="city-building" style="--bh:58%"></i><i class="city-building" style="--bh:86%"></i><i class="city-building" style="--bh:68%"></i><i class="city-building" style="--bh:95%"></i><i class="city-building" style="--bh:62%"></i><i class="city-building" style="--bh:80%"></i><i class="city-building" style="--bh:52%"></i><i class="city-building" style="--bh:90%"></i><i class="city-building" style="--bh:66%"></i><i class="city-building" style="--bh:76%"></i>
+      </div>
+      <div class="city-park" aria-hidden="true"></div><i class="city-tree t1" aria-hidden="true"></i><i class="city-tree t2" aria-hidden="true"></i>
+      <div class="city-sidewalk" aria-hidden="true"></div><div class="city-road" aria-hidden="true"></div>
+      <div id="avatarCityWalkers" class="city-walkers"></div>
+      <div id="avatarCityPopulation" class="city-population-badge">0 moradores</div>
+    </section>
 
     <div id="displayLobby" class="display-center-panel display-lobby-panel">
       <div class="display-kicker">ENTRE PELO CELULAR</div>
@@ -101,6 +113,6 @@
     </div>
   </section>
 </main>
-<script type="module" src="assets/js/display-v3.11.js"></script>
+<script type="module" src="assets/js/display-v3.15.js"></script>
 </body>
 </html>
