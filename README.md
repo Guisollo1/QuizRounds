@@ -1,3 +1,21 @@
+# QuizRounds v3.25 — Lobby do Telão Reorganizado
+
+## O que mudou na v3.25
+
+- O lobby do telão foi **reorganizado para aproveitar melhor o espaço disponível**.
+- PIN da sala, QR Code, rounds, URL de entrada, contadores e mensagem final ficaram **menos apertados e mais legíveis**.
+- O card do PIN foi ampliado e o card do QR ganhou um **rótulo visual próprio**.
+- Os contadores passaram para uma grade mais organizada, com melhor espaçamento e alinhamento.
+- A base funcional da v3.24 foi preservada sem mexer na lógica do quiz.
+
+## Validação v3.25
+
+- Arquivos ativos versionados para `v3.25`.
+- HTML do telão revisado e CSS do lobby reorganizado.
+- JavaScript ativo validado com `node --check`.
+
+---
+
 # QuizRounds v3.24 — Correção da regressão do QR
 
 ## Correção

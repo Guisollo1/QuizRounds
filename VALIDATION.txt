@@ -1,4 +1,4 @@
-QuizRounds v3.24 — VALIDAÇÃO FINAL
+QuizRounds v3.25 — VALIDAÇÃO FINAL
 
 - Base funcional restaurada a partir da v3.22 estável.
 - Grid do lobby preservado.
@@ -7,7 +7,7 @@ QuizRounds v3.24 — VALIDAÇÃO FINAL
 - JavaScript ativo: node --check OK.
 - CSS: chaves balanceadas e referências válidas.
 
-QuizRounds v3.24 — VALIDAÇÃO FINAL
+QuizRounds v3.25 — VALIDAÇÃO FINAL
 
 TELÃO / LOBBY
 - display-body e display-stage limitados a 100vh/100dvh.
@@ -18,10 +18,10 @@ TELÃO / LOBBY
 - Alternativas 2x2 em desktop; 1 coluna em telas estreitas.
 
 CSS
-- app-v3.24.css: 0 erros de parse; 0 seletores exatos duplicados no mesmo contexto.
-- avatars-v3.24.css: 0 erros de parse; 0 seletores exatos duplicados no mesmo contexto.
-- player-v3.24.css: 0 erros de parse; 0 seletores exatos duplicados no mesmo contexto.
-- app-v3.24.css e avatars-v3.24.css não compartilham seletores funcionais do telão; somente :root é compartilhado.
+- app-v3.25.css: 0 erros de parse; 0 seletores exatos duplicados no mesmo contexto.
+- avatars-v3.25.css: 0 erros de parse; 0 seletores exatos duplicados no mesmo contexto.
+- player-v3.25.css: 0 erros de parse; 0 seletores exatos duplicados no mesmo contexto.
+- app-v3.25.css e avatars-v3.25.css não compartilham seletores funcionais do telão; somente :root é compartilhado.
 - .avatar-city possui uma única definição canônica e sua altura vem do grid do telão.
 
 JAVASCRIPT / HTML

@@ -1,4 +1,4 @@
-QuizRounds v3.24
-Correção da regressão visual da v3.23.
-Base restaurada integralmente para a arquitetura estável v3.22.
-QR Code principal ampliado de forma isolada e limitada pelo espaço disponível, sem alterar o grid do lobby.
+QuizRounds v3.25
+Lobby do telão reorganizado para aproveitar melhor o espaço sem elementos apertados.
+PIN, QR, rounds, URL, contadores e mensagem final ficaram mais espaçados e legíveis.
+Base funcional da v3.24 preservada.
