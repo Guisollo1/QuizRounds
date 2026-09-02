@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Quiz Rounds v3.25 — Cidade Viva dos Jogadores</title>
-  <link rel="stylesheet" href="assets/css/app-v3.25.css">
-  <link rel="stylesheet" href="assets/css/avatars-v3.25.css">
+  <title>Quiz Rounds v3.26 — Cidade Viva dos Jogadores</title>
+  <link rel="stylesheet" href="assets/css/app-v3.26.css">
+  <link rel="stylesheet" href="assets/css/avatars-v3.26.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.min.js"></script>
   <script src="assets/vendor/qr-bundle.js"></script>
 </head>
@@ -45,25 +45,28 @@
     <div class="display-stage-layout">
       <div class="display-main-area">
         <div id="displayLobby" class="display-center-panel display-lobby-panel">
-          <div class="display-kicker">ENTRE PELO CELULAR</div>
+          <div class="display-kicker display-lobby-kicker">ENTRE PELO CELULAR</div>
           <div class="display-lobby-grid">
             <div class="display-lobby-pin">
-              <div class="display-lobby-label">PIN DA SALA</div>
+              <div class="display-pin-head">
+                <div class="display-lobby-label">PIN DA SALA</div>
+                <p id="displayLobbyRounds" class="display-rounds-badge">0 rounds preparados</p>
+              </div>
               <div id="displayLobbyCode" class="display-big-code">------</div>
-              <p id="displayLobbyRounds">0 rounds preparados</p>
+              <div class="display-pin-helper">Digite este código no celular para entrar</div>
             </div>
             <div class="display-qr-card">
-              <div class="display-qr-label">QR CODE PARA ENTRAR NA SALA</div>
+              <div class="display-qr-label">QR PARA ENTRAR</div>
               <div id="displayQr" class="display-qr" aria-label="QR Code da sala"></div>
-              <strong>Escaneie para entrar</strong>
+              <strong>Escaneie pelo celular</strong>
               <span id="displayJoinUrl">Abra pelo celular</span>
             </div>
           </div>
-          <div class="display-lobby-stats">
-            <div><strong id="displayLobbyConnected">0</strong><span>conectados agora</span></div>
-            <div><strong id="displayLobbyRegistered">0</strong><span>participantes cadastrados</span></div>
+          <div class="display-lobby-footer">
+            <div class="display-lobby-stat"><strong id="displayLobbyConnected">0</strong><span>conectados agora</span></div>
+            <div class="display-lobby-stat"><strong id="displayLobbyRegistered">0</strong><span>participantes cadastrados</span></div>
+            <div class="display-lobby-waiting"><span class="display-waiting-dot" aria-hidden="true"></span><strong>Aguardando o administrador começar</strong></div>
           </div>
-          <h1>Aguardando o administrador começar</h1>
         </div>
 
         <div id="displayPreparing" class="hidden display-center-panel display-preparing-panel"><div class="display-kicker">PRÓXIMO ROUND</div><div id="displayCountdown" class="display-countdown">3</div><h1>Prepare-se!</h1><p id="displayPreparingLabel">A pergunta será liberada em instantes.</p></div>
@@ -130,6 +133,6 @@
     </div>
   </section>
 </main>
-<script type="module" src="assets/js/display-v3.25.js"></script>
+<script type="module" src="assets/js/display-v3.26.js"></script>
 </body>
 </html>

@@ -1,3 +1,24 @@
+# QuizRounds v3.26 — Lobby de Telão em 3 Faixas
+
+## O que mudou na v3.26
+
+- Lobby reorganizado em **3 faixas reais dentro do 100vh**.
+- A área central agora usa `minmax(0,1fr)` e distribui **PIN ~60% / QR ~40%**.
+- Removido o limitador principal de altura do bloco PIN/QR: os cards aproveitam a altura disponível.
+- **Rounds** virou badge junto de `PIN DA SALA`.
+- A URL permanece disponível, mas em **uma linha discreta com ellipsis**.
+- **Conectados, participantes e “Aguardando…”** agora ficam na mesma barra inferior.
+- A mensagem de espera deixou de competir visualmente com o PIN.
+- Mantido o QR grande, o 100vh e a Cidade Viva.
+
+## Validação v3.26
+
+- Referências ativas atualizadas para `v3.26`.
+- JavaScript ativo validado com `node --check`.
+- Estrutura HTML do lobby e CSS responsivo revisados sem alterar a lógica de sala/quiz.
+
+---
+
 # QuizRounds v3.25 — Lobby do Telão Reorganizado
 
 ## O que mudou na v3.25

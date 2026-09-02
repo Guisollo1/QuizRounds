@@ -1,4 +1,21 @@
-QuizRounds v3.25 — VALIDAÇÃO FINAL
+QuizRounds v3.26 — VALIDAÇÃO FINAL
+
+Lobby / telão
+- Estrutura canônica em 3 faixas: chamada + área PIN/QR + barra inferior.
+- Área PIN/QR: grid 60/40 com minmax(0,1fr), sem max-height principal.
+- Rounds em badge junto ao PIN.
+- URL do QR em linha única com ellipsis.
+- Conectados, participantes e mensagem de espera consolidados na mesma barra inferior.
+- Breakpoints preservados para largura estreita e projetores 720p/768p.
+
+Validação estática
+- HTML: 0 IDs duplicados nos 4 arquivos principais.
+- Referências DOM: display 0 não resolvidas; admin 0 não resolvidas; player somente IDs dinâmicos esperados (numAnswer/numSend).
+- CSS: 0 erros de parse nos CSS ativos.
+- JavaScript: todos os módulos ativos v3.26 passam em node --check.
+- HTML ativo referencia somente assets v3.26 (simulador mantém dependência estável própria quando aplicável).
+
+---
 
 - Base funcional restaurada a partir da v3.22 estável.
 - Grid do lobby preservado.
@@ -7,7 +24,7 @@ QuizRounds v3.25 — VALIDAÇÃO FINAL
 - JavaScript ativo: node --check OK.
 - CSS: chaves balanceadas e referências válidas.
 
-QuizRounds v3.25 — VALIDAÇÃO FINAL
+QuizRounds v3.26 — VALIDAÇÃO FINAL
 
 TELÃO / LOBBY
 - display-body e display-stage limitados a 100vh/100dvh.
@@ -18,10 +35,10 @@ TELÃO / LOBBY
 - Alternativas 2x2 em desktop; 1 coluna em telas estreitas.
 
 CSS
-- app-v3.25.css: 0 erros de parse; 0 seletores exatos duplicados no mesmo contexto.
-- avatars-v3.25.css: 0 erros de parse; 0 seletores exatos duplicados no mesmo contexto.
-- player-v3.25.css: 0 erros de parse; 0 seletores exatos duplicados no mesmo contexto.
-- app-v3.25.css e avatars-v3.25.css não compartilham seletores funcionais do telão; somente :root é compartilhado.
+- app-v3.26.css: 0 erros de parse; 0 seletores exatos duplicados no mesmo contexto.
+- avatars-v3.26.css: 0 erros de parse; 0 seletores exatos duplicados no mesmo contexto.
+- player-v3.26.css: 0 erros de parse; 0 seletores exatos duplicados no mesmo contexto.
+- app-v3.26.css e avatars-v3.26.css não compartilham seletores funcionais do telão; somente :root é compartilhado.
 - .avatar-city possui uma única definição canônica e sua altura vem do grid do telão.
 
 JAVASCRIPT / HTML
