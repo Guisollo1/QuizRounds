@@ -1,3 +1,66 @@
+# QuizRounds v3.22 — Refatoração Canônica do Telão 100vh
+
+## Refatoração aplicada
+
+- Removidas as camadas antigas e concorrentes do CSS do telão (`v1.x`, `v3.19` e `v3.21`) que ainda redefiniam os mesmos componentes.
+- Criada **uma única camada canônica** para conexão, header, lobby, perguntas, resultados e ranking.
+- Lobby preso a **100vh / 100dvh**, sem rolagem do documento no telão.
+- **PIN e QR Code permanecem lado a lado até 620 px de largura**; abaixo disso o empilhamento é compacto e continua dentro da viewport.
+- Header do lobby foi reduzido e informações redundantes do lado direito ficam ocultas durante o lobby, pois os mesmos dados já aparecem no conteúdo principal.
+- QR, PIN, contadores e textos agora respondem também à **altura da tela**, com ajustes específicos para projetores 720p/768p.
+- A faixa dos avatares passou a ter sua altura determinada exclusivamente pelo grid do telão, eliminando o antigo conflito entre `position:absolute` e `position:relative`.
+- A Cidade Viva também foi consolidada em uma única camada CSS, preservando **praia, cidade, fazenda e montanha**.
+- Durante perguntas de múltipla escolha, as quatro alternativas passam a usar **grade 2 × 2 no desktop**, reduzindo o comprimento vertical e evitando sobreposição com a faixa dos avatares.
+- O resultado usa duas colunas em telas largas e reorganização responsiva em telas menores.
+- Nenhuma lógica de sala, pergunta, resposta, ranking, Supabase ou sincronização foi removida.
+
+## Validação v3.22
+
+- `app-v3.22.css`, `avatars-v3.22.css` e `player-v3.22.css`: **0 erros de parse**.
+- **0 seletores exatos duplicados no mesmo contexto** nos três CSS ativos.
+- Entre `app-v3.22.css` e `avatars-v3.22.css`, não há sobreposição de seletores funcionais do telão; apenas `:root` é compartilhado.
+- Todos os módulos JavaScript ativos passam em `node --check`.
+- HTML validado para IDs únicos e referências locais existentes.
+
+---
+
+# QuizRounds v3.21 — Lobby 100vh Compacto
+
+## O que mudou na v3.21
+
+- Lobby do telão dimensionado para **100vh / 100dvh** em desktop, sem depender de zoom reduzido do navegador.
+- Header do telão, PIN, QR Code, cards de contagem, mensagem de espera e faixa dos avatares foram compactados verticalmente.
+- PIN e QR permanecem **lado a lado** em desktop e widescreen.
+- Regra especial para telas baixas (até 760 px de altura) reduz ainda mais QR, PIN e faixa de avatares.
+- Em telas estreitas, o layout continua responsivo e pode empilhar os blocos para preservar legibilidade.
+- Arquivos ativos antigos v3.18, v3.19 e v3.20 foram removidos do pacote final para eliminar código morto e risco de referência conflitante.
+
+## Validação v3.21
+
+- HTML, CSS e referências locais verificados.
+- JavaScript ativo validado com `node --check`.
+- Estrutura do lobby preserva sala, QR, PIN, jogadores, cenários e animações existentes.
+
+---
+
+# QuizRounds v3.20 — Grid do Lobby Corrigido
+
+## O que mudou na v3.20
+
+- **PIN da sala e QR Code agora ficam lado a lado** no lobby do telão em desktop.
+- O grid do lobby foi refeito para **caber em 100% de zoom**, sem precisar reduzir o zoom do Chrome para 50%.
+- O card do PIN foi compactado e o QR Code foi redimensionado para melhor equilíbrio visual.
+- A quebra responsiva agora acontece apenas quando a largura realmente exigir, mantendo o layout lado a lado em telas de apresentação comuns.
+- Mantidas as melhorias da v3.19 e o catálogo ampliado de avatares da v3.18.
+
+## Validação v3.20
+
+- Referências dos arquivos atualizadas para `v3.20`.
+- JavaScript ativo validado com `node --check`.
+- Ajuste feito sem alterar a lógica do quiz, salas, ranking e sincronização.
+
+---
+
 # QuizRounds v3.19 — Telão Reorganizado + Cenários dos Avatares
 
 ## O que mudou na v3.19

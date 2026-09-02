@@ -1,47 +1,29 @@
-QuizRounds v3.19 — VALIDAÇÃO FINAL
+QuizRounds v3.22 — VALIDAÇÃO FINAL
 
-BASE / REGRESSÃO
-- Base v3.17 preservada: sala única, fila persistente, início com >=1 pergunta e cidade viva.
-- Fluxos existentes de ADM, jogador, telão, ranking, simulador e reconexão mantidos.
-
-AVATARES
-- 48 chaves únicas em 6 categorias.
-- Animais: 16.
-- Pessoas masculinas: 8.
-- Pessoas femininas: 8.
-- Anime genérico masculino: 4.
-- Anime genérico feminino: 4.
-- Fantasia/clássicos: 8.
-- 12 chaves antigas preservadas para compatibilidade.
-- Seletor por categoria validado; estado da categoria e avatar persistem no localStorage.
-- Cidade, ranking e ADM usam o mesmo módulo de avatar.
-
-SUPABASE
-- Migration 015_avatar_catalog_expanded.sql incluída.
-- Catálogo frontend e migration contêm exatamente as mesmas 48 chaves.
-- Função private.normalize_avatar_key atualizada no projeto QuizRounds.
-- Smoke SQL validou animal, pessoas masc./fem., anime masc./fem., fantasia e fallback inválido -> robot.
-
-HTML / DEPENDÊNCIAS
-- admin.html: IDs únicos; referências locais válidas.
-- display.html: IDs únicos; referências locais válidas.
-- index.html: IDs únicos; referências locais válidas.
-- simulator.html: IDs únicos; referências locais válidas.
-- Nenhuma importação JS local quebrada.
-- Nenhuma referência ativa a assets v3.16/v3.17.
+TELÃO / LOBBY
+- display-body e display-stage limitados a 100vh/100dvh.
+- display-stage-layout usa duas faixas: conteúdo flexível + faixa fixa/fluida dos avatares.
+- PIN + QR Code lado a lado até 620 px de largura.
+- Header do lobby compactado; bloco redundante de mini-QR/estatísticas do header oculto somente no lobby.
+- Breakpoints por altura para 760 px e 640 px.
+- Alternativas 2x2 em desktop; 1 coluna em telas estreitas.
 
 CSS
-- app-v3.19.css: parse_errors=0; seletores exatos duplicados por contexto=0.
-- avatars-v3.19.css: parse_errors=0; seletores exatos duplicados por contexto=0.
-- player-v3.19.css: parse_errors=0; seletores exatos duplicados por contexto=0.
-- simulator-v3.14.css: parse_errors=0; seletores exatos duplicados por contexto=0.
-- Breakpoints do seletor preservam desktop/tablet/celular e rolagem compacta.
+- app-v3.22.css: 0 erros de parse; 0 seletores exatos duplicados no mesmo contexto.
+- avatars-v3.22.css: 0 erros de parse; 0 seletores exatos duplicados no mesmo contexto.
+- player-v3.22.css: 0 erros de parse; 0 seletores exatos duplicados no mesmo contexto.
+- app-v3.22.css e avatars-v3.22.css não compartilham seletores funcionais do telão; somente :root é compartilhado.
+- .avatar-city possui uma única definição canônica e sua altura vem do grid do telão.
 
-JAVASCRIPT
-- Todos os arquivos assets/js/*.js passaram em node --check.
-- Smoke do módulo de avatares validou 48 avatares, 6 categorias, normalização e geração do seletor.
+JAVASCRIPT / HTML
+- common-v3.22.js, avatars-v3.22.js, city-v3.22.js, player-v3.22.js, admin-v3.22.js e display-v3.22.js validados com node --check.
+- HTML principal com IDs únicos.
+- Referências locais de CSS/JS verificadas.
+- Seletores de IDs do display e admin conferidos contra o HTML.
+- numAnswer/numSend do jogador permanecem válidos por serem criados dinamicamente durante perguntas numéricas.
 
-FINALCHECK
-- Projeto completo versionado como QuizRounds_v3_19.
-- Migration 015 incluída.
-- Nenhum arquivo parcial ou referência local quebrada detectada.
+REGRESSÃO
+- Nenhuma migration Supabase alterada nesta versão.
+- Lógica de sala, fila, início, respostas, ranking e sincronização preservada.
+- Catálogo de 48 avatares preservado.
+- Cenários praia/cidade/fazenda/montanha preservados.
