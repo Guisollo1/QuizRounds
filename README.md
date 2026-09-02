@@ -1,3 +1,40 @@
+# QuizRounds v3.16 — Cidade Viva + Start Guard
+
+## Correções e melhorias v3.16
+
+- Corrigida a causa raiz do caso em que **Iniciar quiz** parecia não funcionar: participantes e perguntas podiam terminar em salas diferentes após criar outra sala.
+- O botão de início agora verifica **Sala / Participantes / Perguntas** e explica o bloqueio em vez de simplesmente ficar inativo.
+- Se a sala atual tiver jogadores e nenhuma pergunta, o ADM pode recuperar, com confirmação, uma fila completa de uma sala anterior compatível.
+- Criar outra sala agora exige confirmação quando a sala atual já possui participantes, fila ou rounds, deixando claro que jogadores/perguntas não são transferidos automaticamente.
+- O ADM lembra a sala atual no navegador e tenta retomá-la pelo ID antes de abrir outra sala recente.
+- A função estável `admin_start_quiz` foi preservada; a correção adiciona uma camada de preflight/recuperação ao redor dela.
+- Teste transacional real executado no Supabase: recuperação da fila + `admin_start_quiz` retornou preparação do Round 1; tudo foi revertido com ROLLBACK após o teste.
+
+## Cidade Viva v3.16
+
+- Os avatares agora alternam comportamentos: **andar, parar, pular, acenar/conversar, brincar, dançar e virar de direção**.
+- No lobby, personagens podem se aproximar em pares para **conversar ou brincar juntos**.
+- Interações usam um controlador de estados temporizado, sem loop por frame, preservando desempenho com muitos participantes.
+- O DOM da população não é reconstruído a cada ação; cada personagem mantém sua instância, evitando piscar.
+- Até 120 avatares continuam suportados no telão.
+- `prefers-reduced-motion` mantém a cidade estática para acessibilidade.
+
+## Refatoração / CSS / estabilidade
+
+- `avatars-v3.16.css` reconstruído de forma limpa para os novos estados, sem empilhar overrides da v3.15.
+- CSS principal e do jogador continuam baseados na arquitetura limpa da v3.14.
+- Auditoria final: **0 erros de parse CSS**, **0 seletores exatos duplicados no mesmo contexto** nos CSS ativos refatorados.
+- HTML sem IDs duplicados e sem referências locais quebradas.
+- Todos os módulos JavaScript ativos passaram em validação de sintaxe.
+
+## Supabase v3.16
+
+Migration nova: `supabase/migrations/013_admin_room_recovery_start_guard.sql`.
+
+No projeto Supabase atual usado durante o desenvolvimento, esta migration já foi aplicada como `admin_room_recovery_start_guard_v316`. Em uma instalação nova, rode as migrations em ordem até `013`.
+
+---
+
 # QuizRounds v3.15 — Avatares + Cidade dos Jogadores
 
 ## Novidades v3.15

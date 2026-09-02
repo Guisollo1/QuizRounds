@@ -1,37 +1,55 @@
-QuizRounds v3.15 — VALIDAÇÃO FINAL
+QuizRounds v3.16 — VALIDAÇÃO FINAL
 
 Base estável
-- Origem: QuizRounds v3.14.
-- Fluxos preservados: login ADM, Supabase, criação de sala, lobby, perguntas, respostas, ranking, reconexão e telão.
+- Base funcional preservada: v3.14 para arquitetura visual/CSS e v3.15 para avatares persistidos.
+- Fluxos preservados: login ADM, Supabase, perguntas, fila, lobby, respostas, ranking, reconexão, telão e simulador.
 
-Avatares
-- 12 avatares únicos: fox, robot, cat, astro, ninja, panda, alien, lion, frog, unicorn, shark, owl.
-- Seleção persistida no navegador por quizAvatar.
-- Backend persiste avatar_key em public.quiz_participants.
-- join_quiz_room(text,text) antigo mantido; frontend novo usa join_quiz_room_v2.
-- Ranking do jogador/telão recebe avatar sem perder assinatura anti-flicker.
-- Lista de participantes ADM exibe avatar.
+Root cause — Iniciar Quiz
+- O comando estável admin_start_quiz não foi substituído.
+- O estado real do banco mostrou salas separadas: uma sala continha participantes e fila vazia; a sala imediatamente anterior continha a fila completa e nenhum participante.
+- Criar outra sala não transfere participantes nem fila; na v3.15 isso podia acontecer sem aviso forte.
+- v3.16 adiciona confirmação antes de criar outra sala quando a sala atual já possui trabalho.
+- O botão de início agora faz preflight explícito de Sala / Participantes / Perguntas e permanece acionável no lobby para explicar o que falta.
+- Quando existem jogadores e a fila da sala está vazia, o ADM pode recuperar explicitamente uma fila completa de uma sala anterior compatível antes de iniciar.
+- Sala atual é lembrada no navegador e recuperada por ID antes do fallback para a sala mais recente.
 
-Cidade do telão
-- Cidade maior no lobby e compacta durante pergunta/resultado.
-- Movimento via CSS transform; sem requestAnimationFrame.
-- DOM só é recriado quando roster/avatar/pontos/conectividade mudam.
-- Até 120 personagens visíveis na cidade.
-- Top 3 ganha coroa/prata/bronze quando há pontuação.
-- Participante desconectado fica dessaturado.
-- prefers-reduced-motion desativa movimentos.
+Teste real de regressão do início
+- Foi reproduzido o cenário histórico em transação com ROLLBACK, sem alterar os dados do projeto.
+- Recuperação da fila foi executada e, em seguida, a função estável admin_start_quiz retornou prepared=true, next_round=1, opens_after=3.
+- Após ROLLBACK, a sala de teste permaneceu em lobby, com 0 perguntas e 0 rounds, confirmando que o teste não persistiu alterações.
 
-Supabase
-- Migration incluída: 012_player_avatars_city.sql.
-- Migration aplicada no projeto atual: player_avatars_city_v315.
-- Novas RPCs: join_quiz_room_v2, player_set_avatar, get_public_avatar_roster.
-- Novas RPCs sem EXECUTE para anon; authenticated permitido conforme fluxo existente.
+Cidade Viva
+- 12 avatares preservados e persistidos no participante.
+- Cidade usa controlador de estados em city-v3.16.js, sem requestAnimationFrame.
+- Ações autônomas: andar, parar/observar, pular, acenar/conversar, brincar com objetos, dançar e virar para esquerda/direita.
+- No lobby dois personagens podem aproximar-se para conversar ou brincar juntos.
+- Estados alteram somente os atores necessários; roster não é recriado continuamente, evitando flicker.
+- Até 120 avatares visíveis; desconectados ficam inativos/dessaturados; Top 3 continua destacado.
+- prefers-reduced-motion mantém os personagens parados e remove movimentos/interações animadas.
 
-Validação estática
+CSS / cleanup / dependências
+- app-v3.16.css: parse_errors=0; seletores exatos duplicados no mesmo contexto=0; !important=9.
+- avatars-v3.16.css: parse_errors=0; seletores exatos duplicados no mesmo contexto=0; !important=0.
+- player-v3.16.css: parse_errors=0; seletores exatos duplicados no mesmo contexto=0; !important=5.
+- simulator-v3.14.css preservado como dependência estável do simulador.
+- CSS de avatares/cidade v3.16 foi reconstruído sem empilhar a camada v3.15.
+- Assets frontend antigos substituídos foram removidos do pacote.
+
+HTML / JavaScript
 - index.html: 40 IDs; duplicados=nenhum; referências locais ausentes=nenhuma.
-- admin.html: 169 IDs; duplicados=nenhum; referências locais ausentes=nenhuma.
+- admin.html: 173 IDs; duplicados=nenhum; referências locais ausentes=nenhuma.
 - display.html: 51 IDs; duplicados=nenhum; referências locais ausentes=nenhuma.
 - simulator.html: 162 IDs; duplicados=nenhum; referências locais ausentes=nenhuma.
-- avatars-v3.15.css: chaves CSS 141 abertas / 141 fechadas.
-- JavaScript: node --check OK em 5 módulos novos/alterados.
-- Arquivos JS legados substituídos (player/display/admin/common antigos) removidos do pacote para evitar código morto/confusão.
+- Todos os JavaScripts ativos passaram em node --check.
+- Imports relativos JavaScript: nenhum arquivo ausente.
+
+Supabase
+- Migration nova: 013_admin_room_recovery_start_guard.sql.
+- Migration aplicada ao projeto atual como admin_room_recovery_start_guard_v316.
+- RPCs novas: admin_get_room_by_id e admin_recover_queue_for_room.
+- Ambas verificadas com EXECUTE bloqueado para anon e permitido para authenticated; a própria função exige ADM.
+- Migration 012 de avatares continua aplicada e preservada.
+
+Limitação da validação visual automática
+- O ambiente de Chromium disponível bloqueou a navegação local por política administrativa.
+- Portanto não é afirmado teste visual por screenshot. A regressão foi validada por HTML/CSS/JS estático e pelo teste transacional real do backend.

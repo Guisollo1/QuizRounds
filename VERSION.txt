@@ -1,2 +1,2 @@
-QuizRounds v3.15
-Avatares animados + Cidade dos Jogadores no telão
+QuizRounds v3.16
+Cidade Viva + proteção de início/recuperação de sala + CSS cleanup

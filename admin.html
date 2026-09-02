@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#5d28c7">
-  <title>Quiz Rounds v3.15 — Administração</title>
-  <link rel="stylesheet" href="assets/css/app-v3.14.css">
-  <link rel="stylesheet" href="assets/css/avatars-v3.15.css">
+  <title>Quiz Rounds v3.16 — Administração</title>
+  <link rel="stylesheet" href="assets/css/app-v3.16.css">
+  <link rel="stylesheet" href="assets/css/avatars-v3.16.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.min.js"></script>
   <script src="assets/vendor/qr-bundle.js"></script>
 </head>
@@ -217,6 +217,7 @@
           <label class="random-order-toggle"><input id="randomizeQueueToggle" type="checkbox"><span><b>Ordem aleatória</b><small>Embaralha as perguntas automaticamente ao começar a partida.</small></span></label>
           <button id="createRoomBtn" class="primary jumbo">Criar sala</button>
           <div id="roomInfo" class="room-code"></div><div id="roomProgress" class="progress-summary hidden"></div>
+          <div class="start-room-guard">Proteção de sala: ao criar outra sala, jogadores e perguntas não são transferidos automaticamente. O painel pedirá confirmação se a sala atual já tiver conteúdo.</div>
           <p class="muted compact">Depois do início, a quantidade de rounds e a fila ficam bloqueadas para preservar o resultado.</p>
           <details class="advanced-config" open>
             <summary>Competição, entrada e experiência</summary>
@@ -277,6 +278,8 @@
           </div>
           <div class="response-meter"><i id="adminResponseBar"></i></div>
           <div class="actions wrap presentation-actions"><button id="displayBtn" class="ghost" disabled>Abrir telão / projetor</button><button id="fullscreenDisplayBtn" class="ghost" disabled>Abrir telão em nova janela</button><button id="forceSyncBtn" class="ghost" data-admin-action>Sincronizar</button><button id="connectionTestBtn" class="ghost" data-admin-action>Testar conexões</button><button id="restartQuizBtn" class="restart-game" disabled>Recomeçar partida</button><button id="startQuizBtn" class="primary start-game" disabled>Começar Quiz</button></div>
+          <div class="start-readiness" aria-label="Verificação antes de iniciar"><div id="startRoomCheck" class="start-check warn">Crie uma sala</div><div id="startPeopleCheck" class="start-check warn">Falta participante</div><div id="startQueueCheck" class="start-check warn">Faltam perguntas</div></div>
+          <div id="startRoomGuard" class="start-room-guard hidden" role="status" aria-live="polite"></div>
         </article>
 
         <article class="card round-control-card">
@@ -299,6 +302,6 @@
     </section>
   </section>
 </main>
-<script type="module" src="assets/js/admin-v3.15.js"></script>
+<script type="module" src="assets/js/admin-v3.16.js"></script>
 </body>
 </html>
