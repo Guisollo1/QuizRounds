@@ -1,17 +1,17 @@
-# QuizRounds v3.23 — QR Code Principal Ampliado
+# QuizRounds v3.24 — Correção da regressão do QR
 
-## O que mudou na v3.23
+## Correção
 
-- **QR Code principal do telão ampliado para cerca do dobro** do tamanho visual usado na v3.22.
-- O grid do lobby foi reajustado para dar **mais espaço à coluna do QR Code** sem quebrar o card do PIN.
-- Em telas menores e em breakpoints de altura, o QR também foi aumentado proporcionalmente.
-- Mantidas as melhorias de layout 100vh e a arquitetura canônica do telão da v3.22.
+- A v3.23 foi descartada como base por ter alterado agressivamente o grid do lobby.
+- A v3.24 parte novamente da **v3.22 estável**.
+- O QR principal foi aumentado somente pelo seu próprio dimensionamento, preservando grid, PIN, 100vh, Cidade Viva e demais telas.
+- Breakpoints de largura e altura receberam limites próprios para o QR não ultrapassar a área disponível.
 
-## Validação v3.23
+## Validação
 
-- Referências atualizadas para `v3.23`.
 - JavaScript ativo validado com `node --check`.
-- Alteração concentrada no layout visual do telão, sem mudar a lógica do quiz.
+- Estrutura do grid da v3.22 preservada.
+- Sem alterações de lógica do quiz ou Supabase.
 
 ---
 

@@ -1,4 +1,4 @@
-QuizRounds v3.23
-QR Code principal do telão ampliado para aproximadamente o dobro do tamanho visual da v3.22.
-Grid do lobby reajustado para dar mais espaço à coluna do QR sem quebrar o PIN.
-Mantidas as demais melhorias do telão 100vh e da refatoração canônica.
+QuizRounds v3.24
+Correção da regressão visual da v3.23.
+Base restaurada integralmente para a arquitetura estável v3.22.
+QR Code principal ampliado de forma isolada e limitada pelo espaço disponível, sem alterar o grid do lobby.
