@@ -1,6 +1,4 @@
-QuizRounds v3.22
-Refatoração estrutural do telão e do lobby 100vh.
-CSS do telão consolidado em uma única camada canônica, sem overrides antigos concorrentes.
-Lobby com PIN + QR lado a lado até 620 px, header compacto e faixa dos avatares controlada pelo grid.
-Perguntas em grade 2x2 no desktop para preservar altura útil durante a partida.
-Cidade Viva consolidada em uma única camada CSS, mantendo praia, cidade, fazenda e montanha.
+QuizRounds v3.23
+QR Code principal do telão ampliado para aproximadamente o dobro do tamanho visual da v3.22.
+Grid do lobby reajustado para dar mais espaço à coluna do QR sem quebrar o PIN.
+Mantidas as demais melhorias do telão 100vh e da refatoração canônica.

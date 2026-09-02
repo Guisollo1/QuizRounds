@@ -1,4 +1,4 @@
-QuizRounds v3.22 — VALIDAÇÃO FINAL
+QuizRounds v3.23 — VALIDAÇÃO FINAL
 
 TELÃO / LOBBY
 - display-body e display-stage limitados a 100vh/100dvh.
@@ -9,10 +9,10 @@ TELÃO / LOBBY
 - Alternativas 2x2 em desktop; 1 coluna em telas estreitas.
 
 CSS
-- app-v3.22.css: 0 erros de parse; 0 seletores exatos duplicados no mesmo contexto.
-- avatars-v3.22.css: 0 erros de parse; 0 seletores exatos duplicados no mesmo contexto.
-- player-v3.22.css: 0 erros de parse; 0 seletores exatos duplicados no mesmo contexto.
-- app-v3.22.css e avatars-v3.22.css não compartilham seletores funcionais do telão; somente :root é compartilhado.
+- app-v3.23.css: 0 erros de parse; 0 seletores exatos duplicados no mesmo contexto.
+- avatars-v3.23.css: 0 erros de parse; 0 seletores exatos duplicados no mesmo contexto.
+- player-v3.23.css: 0 erros de parse; 0 seletores exatos duplicados no mesmo contexto.
+- app-v3.23.css e avatars-v3.23.css não compartilham seletores funcionais do telão; somente :root é compartilhado.
 - .avatar-city possui uma única definição canônica e sua altura vem do grid do telão.
 
 JAVASCRIPT / HTML

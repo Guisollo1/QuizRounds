@@ -1,3 +1,20 @@
+# QuizRounds v3.23 — QR Code Principal Ampliado
+
+## O que mudou na v3.23
+
+- **QR Code principal do telão ampliado para cerca do dobro** do tamanho visual usado na v3.22.
+- O grid do lobby foi reajustado para dar **mais espaço à coluna do QR Code** sem quebrar o card do PIN.
+- Em telas menores e em breakpoints de altura, o QR também foi aumentado proporcionalmente.
+- Mantidas as melhorias de layout 100vh e a arquitetura canônica do telão da v3.22.
+
+## Validação v3.23
+
+- Referências atualizadas para `v3.23`.
+- JavaScript ativo validado com `node --check`.
+- Alteração concentrada no layout visual do telão, sem mudar a lógica do quiz.
+
+---
+
 # QuizRounds v3.22 — Refatoração Canônica do Telão 100vh
 
 ## Refatoração aplicada
