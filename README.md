@@ -1,49 +1,64 @@
-# QuizRounds v3.17 — Sala Única + Fila Persistente + Cidade Viva Interativa
+# QuizRounds v3.19 — Telão Reorganizado + Cenários dos Avatares
 
-## O que mudou na v3.17
+## O que mudou na v3.19
 
-- **Criar outra sala** agora encerra as salas anteriores do mesmo administrador antes de abrir a nova sala.
-- A criação normal usa `admin_create_room_v4` e **carrega a seleção de perguntas da sala anterior**, mantendo a mesma ordem na nova apresentação.
-- **Começar Quiz** exige somente: sala em lobby + **pelo menos 1 pergunta**. Participantes podem entrar antes ou depois do início conforme a política de entrada da sala.
-- No momento do início, `planned_rounds` é sincronizado com a quantidade real de perguntas que estiver na fila. Assim, uma configuração planejada maior não bloqueia a partida.
-- A fila do ADM agora deixa explícito quando já é possível iniciar mesmo sem atingir a quantidade inicialmente planejada.
-- A apresentação mostra a prontidão de Sala / Participantes / Perguntas sem tratar “0 participantes” como erro de início.
-- A lógica de recuperação da v3.16 continua preservada como compatibilidade, mas a criação normal já transfere a fila diretamente.
+- **Telão / projetor reorganizado** para evitar elementos um por cima do outro quando o quiz começa.
+- O conteúdo principal do telão agora fica em uma **área própria** e a faixa dos avatares fica separada na base, sem cobrir lobby, pergunta, resultado ou ranking.
+- A Cidade Viva ganhou **4 cenários de fundo** para os avatares: **praia, cidade, fazenda e montanha**.
+- O cenário é aplicado automaticamente no telão e exibe um **selo visual do cenário atual**.
+- O bloco **Abrir telão / projetor** no ADM foi refeito e separado do restante dos comandos.
+- **Abrir telão / projetor** reutiliza a janela do telão quando ela já estiver aberta.
+- **Abrir telão em nova janela** agora abre uma janela dedicada, centralizada e maior para uso com projetor/TV.
+- O catálogo ampliado de avatares da v3.18 foi mantido: animais, pessoas masculinas/femininas, anime masculino/feminino e fantasia.
 
-## Cidade viva
+## Compatibilidade funcional preservada
 
-- Avatares mantêm caminhada e pausa autônomas.
-- Novas ações laterais: pequenos deslocamentos para esquerda/direita.
-- Interações individuais: pular, acenar, conversar, brincar com objetos e dançar.
-- Interações em dupla no lobby: conversa, brincadeira e “high-five”.
-- Em resultado/final, os avatares podem comemorar, pular e dançar.
-- O controlador continua por estados temporizados, sem loop de renderização por frame e sem reconstruir continuamente o roster.
-- `prefers-reduced-motion` continua desativando movimentos para acessibilidade.
+- Fluxo de sala, lobby, rounds, ranking e sincronização Supabase mantidos.
+- Caminhada, conversa, brincadeira, pulo, dança e comemoração dos avatares continuam preservados.
+- `prefers-reduced-motion` continua respeitado.
 
-## CSS / UX / responsividade
+## Validação v3.19
 
-- Mantida a arquitetura limpa da base profissional v3.14/v3.16: CSS Grid para estrutura macro e Flexbox para ações/alinhamentos.
-- A camada de “start readiness” foi integrada ao bloco estrutural da Apresentação; não ficou como override solto no fim do arquivo.
-- Nenhum seletor exato duplicado no mesmo contexto nos CSS ativos.
-- Sem erros de parse CSS; os `100vh` + `100dvh` duplicados em propriedades específicas são fallbacks intencionais de compatibilidade, não conflitos.
-- Breakpoints de desktop/notebook/tablet/celular preservados; `min-width:0`, `minmax(0,...)` e contratos anti-overflow mantidos.
-- Pares críticos de contraste verificados com WCAG AA para texto normal: texto principal, muted, botão primário, ghost, warning e estados de prontidão.
-- Hover, active, focus-visible, cards, bordas, sombras e `prefers-reduced-motion` preservados.
+- HTML principal revisado com nova estrutura do telão.
+- CSS ativo validado sem referências quebradas entre `admin`, `player` e `display`.
+- JavaScript ativo validado com `node --check`.
+- Referências locais atualizadas para os arquivos `v3.19`.
+
+---
+
+# QuizRounds v3.18 — Catálogo Ampliado de Avatares + Cidade Viva
+
+## O que mudou na v3.18
+
+- **48 avatares** organizados por categorias para não sobrecarregar a tela do jogador.
+- **Animais (16):** inclui raposa, gato, panda, leão, cachorro, coelho, tigre, urso, coala, macaco, pinguim, lobo e outros.
+- **Pessoas masculinas (8)** e **pessoas femininas (8)** com variações de aparência, cabelo e acessórios.
+- **Anime genérico masculino (4)** e **anime genérico feminino (4)**, sem depender de personagens licenciados.
+- **Fantasia/clássicos (8):** robô, astronauta, ninja, alien, mago, fada, pirata e detetive.
+- O seletor ganhou **filtros por categoria**, rolagem compacta e mantém boa utilização em celular, tablet e desktop.
+- Todos os 12 avatares já existentes continuam válidos para sessões/salas antigas.
+- A cidade viva, ranking e painel ADM utilizam automaticamente o novo catálogo.
+
+## Compatibilidade funcional preservada
+
+- A lógica v3.17 de **sala única**, **fila de perguntas persistente** e **início com pelo menos 1 pergunta** foi mantida sem alteração.
+- Caminhada, conversa, brincadeira, pulo, dança, deslocamento lateral e comemoração dos avatares continuam preservados.
+- `prefers-reduced-motion` continua respeitado.
 
 ## Supabase
 
-Migration nova: `supabase/migrations/014_single_active_room_queue_carry_start_questions.sql`.
+Migration nova: `supabase/migrations/015_avatar_catalog_expanded.sql`.
 
-Ela atualiza `admin_create_room_v3`, adiciona `admin_create_room_v4` e atualiza `admin_start_quiz`. No projeto Supabase **QuizRounds** usado neste pacote, as funções equivalentes da migration 014 já foram aplicadas e testadas transacionalmente.
+Ela amplia `private.normalize_avatar_key(text)` para aceitar exatamente o mesmo catálogo do frontend. Em uma instalação nova, execute as migrations em ordem de `001` até `015`.
 
-Em instalação nova, execute as migrations em ordem de `001` até `014`.
+## Validação v3.18
 
-## Validação v3.17
-
-- Todos os JavaScripts ativos: `node --check` OK.
-- HTML: IDs únicos e referências locais válidas.
-- CSS ativo: 0 erros de parse e 0 seletores exatos duplicados no mesmo contexto.
-- Teste Supabase com ROLLBACK confirmou: sala anterior encerra; todas as perguntas são carregadas; partida com perguntas inicia sem participante; sala vazia não inicia.
+- JavaScript ativo validado com `node --check`.
+- Catálogo JS: 48 chaves únicas em 6 categorias.
+- Migration 015 e catálogo frontend verificados para conter as mesmas 48 chaves.
+- HTML com IDs únicos e referências locais válidas.
+- CSS ativo parseado sem erro.
+- Compatibilidade das chaves antigas conferida.
 
 ---
 
@@ -406,3 +421,11 @@ As migrations e o bootstrap administrativo não são publicados no Pages.
 - O botão de importação não falha silenciosamente: quando há erro, mostra a quantidade e direciona para o primeiro bloco inválido.
 - Arquivos TXT válidos são analisados automaticamente ao selecionar o arquivo.
 - Inclui `20_Perguntas_Teste.txt`, validado para importação direta.
+
+
+## v3.18 — Avatares ampliados
+- 48 avatares organizados por 6 categorias.
+- Animais, pessoas masculinas/femininas, anime genérico masculino/feminino e fantasia.
+- Filtro por categoria no celular e desktop.
+- Chaves antigas preservadas para salas e sessões existentes.
+- Migration `015_avatar_catalog_expanded.sql` amplia a normalização no Supabase.

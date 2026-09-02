@@ -1,73 +1,47 @@
-QuizRounds v3.17 — VALIDAÇÃO FINAL
+QuizRounds v3.19 — VALIDAÇÃO FINAL
 
-BASE ESTÁVEL
-- Projeto derivado de QuizRounds_v3_16_Cidade_Viva_Start_Fix_Refatorado.
-- Arquitetura visual estável v3.14/v3.16 preservada.
-- Fluxos preservados: autenticação ADM, banco de perguntas, importação TXT, fila, lobby, QR/PIN, jogador, respostas, ranking, telão, simulador, reconexão e auditoria.
+BASE / REGRESSÃO
+- Base v3.17 preservada: sala única, fila persistente, início com >=1 pergunta e cidade viva.
+- Fluxos existentes de ADM, jogador, telão, ranking, simulador e reconexão mantidos.
 
-ROOT CAUSE / START
-- A causa estrutural era a existência simultânea de várias salas ativas do mesmo ADM e a criação de sala nova sem carregar a fila anterior.
-- admin_start_quiz ainda exigia participante e quantidade de perguntas exatamente igual a planned_rounds.
-- Na v3.17, admin_start_quiz exige pelo menos 1 pergunta e sincroniza planned_rounds com a fila real no início.
-- Participantes não são requisito para iniciar; eles podem entrar depois conforme late_join_policy.
+AVATARES
+- 48 chaves únicas em 6 categorias.
+- Animais: 16.
+- Pessoas masculinas: 8.
+- Pessoas femininas: 8.
+- Anime genérico masculino: 4.
+- Anime genérico feminino: 4.
+- Fantasia/clássicos: 8.
+- 12 chaves antigas preservadas para compatibilidade.
+- Seletor por categoria validado; estado da categoria e avatar persistem no localStorage.
+- Cidade, ranking e ADM usam o mesmo módulo de avatar.
 
-SALA ÚNICA / FILA PERSISTENTE
-- admin_create_room_v3 agora encerra as salas anteriores do mesmo ADM antes de criar uma nova.
-- admin_create_room_v4 captura a sala anterior, cria a nova e copia as perguntas válidas mantendo a ordem.
-- O frontend normal usa admin_create_room_v4.
-- A fila copiada aparece imediatamente na Configuração e na Apresentação da nova sala.
-- O aviso da fila considera qualquer quantidade >=1 como apta a iniciar, mesmo que menor que a quantidade planejada.
-
-CIDADE VIVA
-- 12 avatares persistidos preservados.
-- Ações: walk, idle, jump, wave/chat, play, dance, sidestep e cheer.
-- Interações em dupla: chat, play e high-five.
-- Resultado/final prioriza comemoração, pulo e dança.
-- Sem requestAnimationFrame; estados temporizados e DOM dos atores reutilizado.
-- prefers-reduced-motion preservado.
-
-CSS / CLEANUP / RESPONSIVIDADE
-- app-v3.17.css: parse_errors=0; seletores exatos duplicados por contexto=0.
-- avatars-v3.17.css: parse_errors=0; seletores exatos duplicados por contexto=0.
-- player-v3.17.css: parse_errors=0; seletores exatos duplicados por contexto=0.
-- simulator-v3.14.css: parse_errors=0; dependência estável preservada.
-- O bloco start-readiness foi integrado à seção da Apresentação em vez de permanecer como camada aditiva no fim do CSS.
-- 100vh + 100dvh preservados como fallback de compatibilidade; não são tratados como conflito.
-- Breakpoints existentes preservados; sem overflow estrutural novo identificado pela auditoria estática.
-- Contraste verificado: root 16.90:1; muted 4.93:1; primary 6.74:1; ghost 6.75:1; warning 4.57:1; queue warning 5.56:1; start ready 7.35:1; start warn 6.69:1.
+SUPABASE
+- Migration 015_avatar_catalog_expanded.sql incluída.
+- Catálogo frontend e migration contêm exatamente as mesmas 48 chaves.
+- Função private.normalize_avatar_key atualizada no projeto QuizRounds.
+- Smoke SQL validou animal, pessoas masc./fem., anime masc./fem., fantasia e fallback inválido -> robot.
 
 HTML / DEPENDÊNCIAS
 - admin.html: IDs únicos; referências locais válidas.
 - display.html: IDs únicos; referências locais válidas.
 - index.html: IDs únicos; referências locais válidas.
 - simulator.html: IDs únicos; referências locais válidas.
-- Assets v3.17 referenciados existem; nenhum HTML ativo referencia assets v3.16.
-- Estrutura de pastas preservada.
+- Nenhuma importação JS local quebrada.
+- Nenhuma referência ativa a assets v3.16/v3.17.
+
+CSS
+- app-v3.19.css: parse_errors=0; seletores exatos duplicados por contexto=0.
+- avatars-v3.19.css: parse_errors=0; seletores exatos duplicados por contexto=0.
+- player-v3.19.css: parse_errors=0; seletores exatos duplicados por contexto=0.
+- simulator-v3.14.css: parse_errors=0; seletores exatos duplicados por contexto=0.
+- Breakpoints do seletor preservam desktop/tablet/celular e rolagem compacta.
 
 JAVASCRIPT
-- admin-v3.17.js: sintaxe OK.
-- avatars-v3.17.js: sintaxe OK.
-- city-v3.17.js: sintaxe OK.
-- common-v3.17.js: sintaxe OK.
-- display-v3.17.js: sintaxe OK.
-- player-v3.17.js: sintaxe OK.
-- simulator-v3.11.js e config.js: sintaxe OK.
-
-SUPABASE / TESTE DE REGRESSÃO
-- Projeto validado: QuizRounds / kmfqbvindzwqvxbpqicl.
-- Migration de pacote: 014_single_active_room_queue_carry_start_questions.sql.
-- Permissões das RPCs tocadas: anon EXECUTE=false; authenticated EXECUTE=true; as funções validam ADM internamente.
-- Teste transacional com ROLLBACK executado após a aplicação:
-  1) criar nova sala com planned_rounds=1 a partir de sala com fila maior;
-  2) confirmar cópia de todas as perguntas da sala fonte;
-  3) confirmar encerramento da sala anterior;
-  4) confirmar apenas 1 sala ativa dentro do cenário de teste;
-  5) confirmar start com 0 participantes e perguntas presentes;
-  6) criar sala vazia e confirmar rejeição do start.
-- Resultado: OK. Nenhuma sala de teste foi persistida por causa do ROLLBACK.
+- Todos os arquivos assets/js/*.js passaram em node --check.
+- Smoke do módulo de avatares validou 48 avatares, 6 categorias, normalização e geração do seletor.
 
 FINALCHECK
-- Nenhum código parcial entregue.
-- Nenhuma referência local quebrada detectada.
-- Nenhum asset ativo v3.16 ficou referenciado pelos HTMLs.
-- Pacote final deve conter a pasta completa QuizRounds_v3_17 e migration 014.
+- Projeto completo versionado como QuizRounds_v3_19.
+- Migration 015 incluída.
+- Nenhum arquivo parcial ou referência local quebrada detectada.

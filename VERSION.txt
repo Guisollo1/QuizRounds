@@ -1,2 +1,5 @@
-QuizRounds v3.17
-Cidade Viva Interativa + sala única + fila persistente + start por perguntas + CSS audit
+QuizRounds v3.19
+Telão/projetor reorganizado para evitar sobreposição no início do quiz.
+Cidade Viva agora alterna cenários de praia, cidade, fazenda e montanha no fundo dos avatares.
+Painel ADM com abertura do telão separada em reutilizar janela ou abrir nova janela dedicada.
+Catálogo ampliado de avatares da v3.18 preservado.
