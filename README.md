@@ -1,3 +1,54 @@
+# QuizRounds v3.17 — Sala Única + Fila Persistente + Cidade Viva Interativa
+
+## O que mudou na v3.17
+
+- **Criar outra sala** agora encerra as salas anteriores do mesmo administrador antes de abrir a nova sala.
+- A criação normal usa `admin_create_room_v4` e **carrega a seleção de perguntas da sala anterior**, mantendo a mesma ordem na nova apresentação.
+- **Começar Quiz** exige somente: sala em lobby + **pelo menos 1 pergunta**. Participantes podem entrar antes ou depois do início conforme a política de entrada da sala.
+- No momento do início, `planned_rounds` é sincronizado com a quantidade real de perguntas que estiver na fila. Assim, uma configuração planejada maior não bloqueia a partida.
+- A fila do ADM agora deixa explícito quando já é possível iniciar mesmo sem atingir a quantidade inicialmente planejada.
+- A apresentação mostra a prontidão de Sala / Participantes / Perguntas sem tratar “0 participantes” como erro de início.
+- A lógica de recuperação da v3.16 continua preservada como compatibilidade, mas a criação normal já transfere a fila diretamente.
+
+## Cidade viva
+
+- Avatares mantêm caminhada e pausa autônomas.
+- Novas ações laterais: pequenos deslocamentos para esquerda/direita.
+- Interações individuais: pular, acenar, conversar, brincar com objetos e dançar.
+- Interações em dupla no lobby: conversa, brincadeira e “high-five”.
+- Em resultado/final, os avatares podem comemorar, pular e dançar.
+- O controlador continua por estados temporizados, sem loop de renderização por frame e sem reconstruir continuamente o roster.
+- `prefers-reduced-motion` continua desativando movimentos para acessibilidade.
+
+## CSS / UX / responsividade
+
+- Mantida a arquitetura limpa da base profissional v3.14/v3.16: CSS Grid para estrutura macro e Flexbox para ações/alinhamentos.
+- A camada de “start readiness” foi integrada ao bloco estrutural da Apresentação; não ficou como override solto no fim do arquivo.
+- Nenhum seletor exato duplicado no mesmo contexto nos CSS ativos.
+- Sem erros de parse CSS; os `100vh` + `100dvh` duplicados em propriedades específicas são fallbacks intencionais de compatibilidade, não conflitos.
+- Breakpoints de desktop/notebook/tablet/celular preservados; `min-width:0`, `minmax(0,...)` e contratos anti-overflow mantidos.
+- Pares críticos de contraste verificados com WCAG AA para texto normal: texto principal, muted, botão primário, ghost, warning e estados de prontidão.
+- Hover, active, focus-visible, cards, bordas, sombras e `prefers-reduced-motion` preservados.
+
+## Supabase
+
+Migration nova: `supabase/migrations/014_single_active_room_queue_carry_start_questions.sql`.
+
+Ela atualiza `admin_create_room_v3`, adiciona `admin_create_room_v4` e atualiza `admin_start_quiz`. No projeto Supabase **QuizRounds** usado neste pacote, as funções equivalentes da migration 014 já foram aplicadas e testadas transacionalmente.
+
+Em instalação nova, execute as migrations em ordem de `001` até `014`.
+
+## Validação v3.17
+
+- Todos os JavaScripts ativos: `node --check` OK.
+- HTML: IDs únicos e referências locais válidas.
+- CSS ativo: 0 erros de parse e 0 seletores exatos duplicados no mesmo contexto.
+- Teste Supabase com ROLLBACK confirmou: sala anterior encerra; todas as perguntas são carregadas; partida com perguntas inicia sem participante; sala vazia não inicia.
+
+---
+
+# Histórico preservado — v3.16 e anteriores
+
 # QuizRounds v3.16 — Cidade Viva + Start Guard
 
 ## Correções e melhorias v3.16

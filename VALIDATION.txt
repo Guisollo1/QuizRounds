@@ -1,55 +1,73 @@
-QuizRounds v3.16 — VALIDAÇÃO FINAL
+QuizRounds v3.17 — VALIDAÇÃO FINAL
 
-Base estável
-- Base funcional preservada: v3.14 para arquitetura visual/CSS e v3.15 para avatares persistidos.
-- Fluxos preservados: login ADM, Supabase, perguntas, fila, lobby, respostas, ranking, reconexão, telão e simulador.
+BASE ESTÁVEL
+- Projeto derivado de QuizRounds_v3_16_Cidade_Viva_Start_Fix_Refatorado.
+- Arquitetura visual estável v3.14/v3.16 preservada.
+- Fluxos preservados: autenticação ADM, banco de perguntas, importação TXT, fila, lobby, QR/PIN, jogador, respostas, ranking, telão, simulador, reconexão e auditoria.
 
-Root cause — Iniciar Quiz
-- O comando estável admin_start_quiz não foi substituído.
-- O estado real do banco mostrou salas separadas: uma sala continha participantes e fila vazia; a sala imediatamente anterior continha a fila completa e nenhum participante.
-- Criar outra sala não transfere participantes nem fila; na v3.15 isso podia acontecer sem aviso forte.
-- v3.16 adiciona confirmação antes de criar outra sala quando a sala atual já possui trabalho.
-- O botão de início agora faz preflight explícito de Sala / Participantes / Perguntas e permanece acionável no lobby para explicar o que falta.
-- Quando existem jogadores e a fila da sala está vazia, o ADM pode recuperar explicitamente uma fila completa de uma sala anterior compatível antes de iniciar.
-- Sala atual é lembrada no navegador e recuperada por ID antes do fallback para a sala mais recente.
+ROOT CAUSE / START
+- A causa estrutural era a existência simultânea de várias salas ativas do mesmo ADM e a criação de sala nova sem carregar a fila anterior.
+- admin_start_quiz ainda exigia participante e quantidade de perguntas exatamente igual a planned_rounds.
+- Na v3.17, admin_start_quiz exige pelo menos 1 pergunta e sincroniza planned_rounds com a fila real no início.
+- Participantes não são requisito para iniciar; eles podem entrar depois conforme late_join_policy.
 
-Teste real de regressão do início
-- Foi reproduzido o cenário histórico em transação com ROLLBACK, sem alterar os dados do projeto.
-- Recuperação da fila foi executada e, em seguida, a função estável admin_start_quiz retornou prepared=true, next_round=1, opens_after=3.
-- Após ROLLBACK, a sala de teste permaneceu em lobby, com 0 perguntas e 0 rounds, confirmando que o teste não persistiu alterações.
+SALA ÚNICA / FILA PERSISTENTE
+- admin_create_room_v3 agora encerra as salas anteriores do mesmo ADM antes de criar uma nova.
+- admin_create_room_v4 captura a sala anterior, cria a nova e copia as perguntas válidas mantendo a ordem.
+- O frontend normal usa admin_create_room_v4.
+- A fila copiada aparece imediatamente na Configuração e na Apresentação da nova sala.
+- O aviso da fila considera qualquer quantidade >=1 como apta a iniciar, mesmo que menor que a quantidade planejada.
 
-Cidade Viva
-- 12 avatares preservados e persistidos no participante.
-- Cidade usa controlador de estados em city-v3.16.js, sem requestAnimationFrame.
-- Ações autônomas: andar, parar/observar, pular, acenar/conversar, brincar com objetos, dançar e virar para esquerda/direita.
-- No lobby dois personagens podem aproximar-se para conversar ou brincar juntos.
-- Estados alteram somente os atores necessários; roster não é recriado continuamente, evitando flicker.
-- Até 120 avatares visíveis; desconectados ficam inativos/dessaturados; Top 3 continua destacado.
-- prefers-reduced-motion mantém os personagens parados e remove movimentos/interações animadas.
+CIDADE VIVA
+- 12 avatares persistidos preservados.
+- Ações: walk, idle, jump, wave/chat, play, dance, sidestep e cheer.
+- Interações em dupla: chat, play e high-five.
+- Resultado/final prioriza comemoração, pulo e dança.
+- Sem requestAnimationFrame; estados temporizados e DOM dos atores reutilizado.
+- prefers-reduced-motion preservado.
 
-CSS / cleanup / dependências
-- app-v3.16.css: parse_errors=0; seletores exatos duplicados no mesmo contexto=0; !important=9.
-- avatars-v3.16.css: parse_errors=0; seletores exatos duplicados no mesmo contexto=0; !important=0.
-- player-v3.16.css: parse_errors=0; seletores exatos duplicados no mesmo contexto=0; !important=5.
-- simulator-v3.14.css preservado como dependência estável do simulador.
-- CSS de avatares/cidade v3.16 foi reconstruído sem empilhar a camada v3.15.
-- Assets frontend antigos substituídos foram removidos do pacote.
+CSS / CLEANUP / RESPONSIVIDADE
+- app-v3.17.css: parse_errors=0; seletores exatos duplicados por contexto=0.
+- avatars-v3.17.css: parse_errors=0; seletores exatos duplicados por contexto=0.
+- player-v3.17.css: parse_errors=0; seletores exatos duplicados por contexto=0.
+- simulator-v3.14.css: parse_errors=0; dependência estável preservada.
+- O bloco start-readiness foi integrado à seção da Apresentação em vez de permanecer como camada aditiva no fim do CSS.
+- 100vh + 100dvh preservados como fallback de compatibilidade; não são tratados como conflito.
+- Breakpoints existentes preservados; sem overflow estrutural novo identificado pela auditoria estática.
+- Contraste verificado: root 16.90:1; muted 4.93:1; primary 6.74:1; ghost 6.75:1; warning 4.57:1; queue warning 5.56:1; start ready 7.35:1; start warn 6.69:1.
 
-HTML / JavaScript
-- index.html: 40 IDs; duplicados=nenhum; referências locais ausentes=nenhuma.
-- admin.html: 173 IDs; duplicados=nenhum; referências locais ausentes=nenhuma.
-- display.html: 51 IDs; duplicados=nenhum; referências locais ausentes=nenhuma.
-- simulator.html: 162 IDs; duplicados=nenhum; referências locais ausentes=nenhuma.
-- Todos os JavaScripts ativos passaram em node --check.
-- Imports relativos JavaScript: nenhum arquivo ausente.
+HTML / DEPENDÊNCIAS
+- admin.html: IDs únicos; referências locais válidas.
+- display.html: IDs únicos; referências locais válidas.
+- index.html: IDs únicos; referências locais válidas.
+- simulator.html: IDs únicos; referências locais válidas.
+- Assets v3.17 referenciados existem; nenhum HTML ativo referencia assets v3.16.
+- Estrutura de pastas preservada.
 
-Supabase
-- Migration nova: 013_admin_room_recovery_start_guard.sql.
-- Migration aplicada ao projeto atual como admin_room_recovery_start_guard_v316.
-- RPCs novas: admin_get_room_by_id e admin_recover_queue_for_room.
-- Ambas verificadas com EXECUTE bloqueado para anon e permitido para authenticated; a própria função exige ADM.
-- Migration 012 de avatares continua aplicada e preservada.
+JAVASCRIPT
+- admin-v3.17.js: sintaxe OK.
+- avatars-v3.17.js: sintaxe OK.
+- city-v3.17.js: sintaxe OK.
+- common-v3.17.js: sintaxe OK.
+- display-v3.17.js: sintaxe OK.
+- player-v3.17.js: sintaxe OK.
+- simulator-v3.11.js e config.js: sintaxe OK.
 
-Limitação da validação visual automática
-- O ambiente de Chromium disponível bloqueou a navegação local por política administrativa.
-- Portanto não é afirmado teste visual por screenshot. A regressão foi validada por HTML/CSS/JS estático e pelo teste transacional real do backend.
+SUPABASE / TESTE DE REGRESSÃO
+- Projeto validado: QuizRounds / kmfqbvindzwqvxbpqicl.
+- Migration de pacote: 014_single_active_room_queue_carry_start_questions.sql.
+- Permissões das RPCs tocadas: anon EXECUTE=false; authenticated EXECUTE=true; as funções validam ADM internamente.
+- Teste transacional com ROLLBACK executado após a aplicação:
+  1) criar nova sala com planned_rounds=1 a partir de sala com fila maior;
+  2) confirmar cópia de todas as perguntas da sala fonte;
+  3) confirmar encerramento da sala anterior;
+  4) confirmar apenas 1 sala ativa dentro do cenário de teste;
+  5) confirmar start com 0 participantes e perguntas presentes;
+  6) criar sala vazia e confirmar rejeição do start.
+- Resultado: OK. Nenhuma sala de teste foi persistida por causa do ROLLBACK.
+
+FINALCHECK
+- Nenhum código parcial entregue.
+- Nenhuma referência local quebrada detectada.
+- Nenhum asset ativo v3.16 ficou referenciado pelos HTMLs.
+- Pacote final deve conter a pasta completa QuizRounds_v3_17 e migration 014.

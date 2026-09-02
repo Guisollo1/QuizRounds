@@ -1,2 +1,2 @@
-QuizRounds v3.16
-Cidade Viva + proteção de início/recuperação de sala + CSS cleanup
+QuizRounds v3.17
+Cidade Viva Interativa + sala única + fila persistente + start por perguntas + CSS audit
