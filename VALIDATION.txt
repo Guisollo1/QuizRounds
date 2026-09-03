@@ -1,32 +1,12 @@
-QuizRounds v3.31 — VALIDAÇÃO FINAL
+QuizRounds v3.32 — VALIDAÇÃO FINAL
 
-Frontend
-- JavaScript ativo: node --check OK em common, avatars, city, player, admin, display e simulator.
-- CSS: tinycss2 sem erros de parse em app-v3.31.css, avatars-v3.31.css, player-v3.31.css e simulator-v3.14.css.
-- HTML: index/admin/display/simulator sem IDs duplicados.
-- Referências locais src/href: nenhuma ausente.
-- Imports ES modules locais: arquivos existentes.
-- Seletores por ID do ADM e telão: referências estáticas resolvidas; campos numéricos do jogador são criados dinamicamente.
-- Assets ativos anteriores v3.30 removidos do pacote; simulador estável v3.11/v3.14 preservado.
-
-Contratos v3.31
-- botão contextual por fase;
-- pré-teste antes do início;
-- saúde operacional;
-- Modo Evento;
-- controle principal por lease e takeover confirmado;
-- parada durante pergunta aberta com retomada;
-- sequência rígida de revelação;
-- confirmação pós-resposta;
-- ranking com movimentos;
-- Top 5 final + classificação completa opcional;
-- simulador local 20/50;
-- A–E preservado, E opcional.
-
-Supabase
-- migrations event_control_hardening_v331, result_reveal_state_machine_v331 e strict_reveal_transitions_v331 aplicadas.
-- RPCs novos/tocados são SECURITY DEFINER com search_path fixado nas migrações.
-- anon EXECUTE = false e authenticated EXECUTE = true para controller RPCs, admin_pause_quiz, admin_get_room_state e admin_set_reveal_stage.
-- quiz_admin_control_leases com RLS habilitado e sem SELECT direto para anon/authenticated.
-- quiz_rooms contém paused_at e paused_remaining_ms.
-- trigger trg_quiz_hold_result_before_finish existente e ativo.
+[OK] JavaScript: node --check em common, avatars, city, player, admin, display e simulator v3.32.
+[OK] HTML: admin, display, index e simulator sem IDs duplicados.
+[OK] Referências locais src/href verificadas.
+[OK] Imports relativos dos módulos JavaScript verificados.
+[OK] CSS: tinycss2 sem erros de parse em app-v3.32.css, avatars-v3.32.css, player-v3.32.css e simulator-v3.14.css.
+[OK] Supabase: migração 022_event_insights_v332 aplicada e função privada testada com sala existente.
+[OK] Permissões dos novos RPCs: anon=false, authenticated=true.
+[OK] Compatibilidade A–E preservada; E continua opcional.
+[OK] Nenhuma alteração estrutural ampla do lobby/telão/jogador.
+[OK] Estatísticas mais acertada/mais errada integradas ao ADM, telão final e CSV.

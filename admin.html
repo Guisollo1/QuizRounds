@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#5d28c7">
-  <title>Quiz Rounds v3.31 — Administração</title>
-  <link rel="stylesheet" href="assets/css/app-v3.31.css">
-  <link rel="stylesheet" href="assets/css/avatars-v3.31.css">
+  <title>Quiz Rounds v3.32 — Administração</title>
+  <link rel="stylesheet" href="assets/css/app-v3.32.css">
+  <link rel="stylesheet" href="assets/css/avatars-v3.32.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.min.js"></script>
   <script src="assets/vendor/qr-bundle.js"></script>
 </head>
@@ -20,7 +20,7 @@
       <div><div class="eyebrow light">QUIZ ROUNDS</div><h1>Painel do Administrador</h1><p>Prepare, apresente e controle o quiz em tempo real.</p></div>
     </div>
     <div class="top-actions" aria-label="Ações do administrador">
-      <span id="adminConnection" class="connection-pill connecting" role="status" aria-live="polite">Conectando…</span>
+      <span id="appVersionBadge" class="badge version-badge">v3.32</span><span id="adminConnection" class="connection-pill connecting" role="status" aria-live="polite">Conectando…</span>
       <a class="ghost glass" href="simulator.html">Simulador</a>
       <a class="ghost glass" href="index.html">Modo jogador</a>
       <button id="remoteModeBtn" class="ghost glass hidden" type="button">Controle remoto</button>
@@ -51,6 +51,7 @@
       <button id="adminTabPresentation" class="admin-tab" type="button" role="tab" data-tab="presentation" aria-selected="false" aria-controls="adminPanelPresentation"><span>3</span><b><span class="tab-label-desktop">Apresentação</span><span class="tab-label-mobile">Ao vivo</span></b><small>Lobby e rounds</small></button>
     </nav>
 
+    <div id="adminReconnectBanner" class="system-reconnect-banner hidden" role="status" aria-live="polite">Reconectando e reconstruindo o estado oficial da sala…</div>
     <div id="controllerConflictBanner" class="controller-conflict-banner hidden" role="alert" aria-live="polite">
       <div><strong>Outro painel ADM está como controlador principal</strong><span id="controllerConflictText">Este painel ficou em modo de acompanhamento para evitar comandos duplicados.</span></div>
       <button id="takeOverControllerBtn" class="warn" type="button">Assumir controle neste aparelho</button>
@@ -243,7 +244,8 @@
               <label class="span2">Cortes progressivos por round<input id="qualificationSchedule" placeholder="Ex.: 5:30, 10:15, 15:5, 20:1"><small>Opcional. Formato round:Top. O corte muda automaticamente após cada marco.</small></label>
               <label>Entrada tardia<select id="lateJoinPolicy"><option value="allow_zero">Permitir com zero nos anteriores</option><option value="until_round">Permitir somente até o round...</option><option value="deny">Bloquear depois de começar</option></select></label>
               <label>Último round para entrada<input id="lateJoinUntil" type="number" min="1" max="200" value="3"></label>
-              <label class="switch-line"><input id="autoCloseAll" type="checkbox"><span><b>Encerrar quando todos responderem</b><small>O ADM fecha automaticamente ao receber todas as respostas.</small></span></label>
+              <label class="switch-line"><input id="autoCloseAll" type="checkbox"><span><b>Encerrar quando todos responderem</b><small>Opcional. Fecha o round quando 100% responderem.</small></span></label>
+              <label class="switch-line"><input id="autoCloseTime" type="checkbox"><span><b>Encerrar ao acabar o tempo</b><small>Opcional. Pontua automaticamente quando o cronômetro chegar a zero.</small></span></label>
               <label class="switch-line"><input id="streakEnabled" type="checkbox" checked><span><b>Mostrar sequência de acertos</b><small>Feedback 🔥 para sequência.</small></span></label>
               <label class="switch-line"><input id="speedBonusEnabled" type="checkbox" checked><span><b>Bônus de velocidade</b><small>Usa o percentual definido em cada pergunta.</small></span></label>
               <label>Bônus fixo por sequência<input id="streakBonus" type="number" min="0" max="100000" value="0"></label>
@@ -284,7 +286,7 @@
 
       <div class="presentation-grid">
         <article class="card span2 event-health-card">
-          <div class="event-health-head"><div><div class="eyebrow">PRÉ-TESTE E SAÚDE</div><h2>Pronto para o evento</h2><p class="muted">Verificação contínua do Supabase, Realtime, telão, perguntas e controlador principal.</p></div><div class="actions wrap"><button id="runPreflightBtn" class="ghost" type="button">Executar pré-teste</button><button id="loadTest20Btn" class="ghost" type="button">Simular 20 jogadores</button><button id="loadTest50Btn" class="ghost" type="button">Simular 50 jogadores</button></div></div>
+          <div class="event-health-head"><div><div class="eyebrow">PRÉ-TESTE E SAÚDE</div><h2>Pronto para o evento</h2><p class="muted">Verificação contínua do Supabase, Realtime, telão, perguntas e controlador principal.</p></div><div class="actions wrap"><button id="runPreflightBtn" class="ghost" type="button">Executar pré-teste</button><button id="loadTest20Btn" class="ghost" type="button">Simular 20 jogadores</button><button id="loadTest50Btn" class="ghost" type="button">Simular 50 jogadores</button><button id="loadTest100Btn" class="ghost" type="button">Simular 100 jogadores</button><button id="fullAutoTestBtn" class="ghost" type="button">Teste completo automático</button></div></div>
           <div class="event-health-grid">
             <div id="healthSupabase" class="health-tile checking"><span>SUPABASE</span><strong>Verificando…</strong><small>Banco e RPCs</small></div>
             <div id="healthRealtime" class="health-tile checking"><span>REALTIME</span><strong>Verificando…</strong><small>Sincronização ao vivo</small></div>
@@ -292,6 +294,8 @@
             <div id="healthPlayers" class="health-tile checking"><span>JOGADORES</span><strong>0 conectados</strong><small>Presença ativa</small></div>
             <div id="healthQuestions" class="health-tile checking"><span>PERGUNTAS</span><strong>0 prontas</strong><small>Fila da partida</small></div>
             <div id="healthController" class="health-tile checking"><span>CONTROLE</span><strong>Verificando…</strong><small>Painel principal</small></div>
+            <div id="healthRemote" class="health-tile checking"><span>REMOTO</span><strong>Verificando…</strong><small>Celular autorizado</small></div>
+            <div id="healthVersions" class="health-tile checking"><span>VERSÕES</span><strong>v3.32</strong><small>ADM, telão e jogadores</small></div>
           </div>
           <div id="preflightSummary" class="preflight-summary neutral">Execute o pré-teste antes de começar o evento.</div>
         </article>
@@ -336,10 +340,11 @@
           <p id="roundHint" class="muted compact">O primeiro round começa com uma contagem 3…2…1 sincronizada.</p>
         </article>
 
+        <article id="eventInsightsCard" class="card span2 event-insights-card hidden"><div class="row wrap"><div><div class="eyebrow">DESEMPENHO DAS PERGUNTAS</div><h2>Mais acertada e mais errada</h2><p class="muted">Calculado com as respostas registradas no servidor.</p></div><button id="refreshInsightsBtn" class="ghost small" type="button">Atualizar</button></div><div class="event-insights-grid"><div class="insight-card success"><span>MAIS ACERTADA</span><strong id="mostCorrectQuestion">—</strong><b id="mostCorrectMetric">—</b><small id="mostCorrectDetail">Aguardando rounds encerrados</small></div><div class="insight-card danger"><span>MAIS ERRADA</span><strong id="mostWrongQuestion">—</strong><b id="mostWrongMetric">—</b><small id="mostWrongDetail">Aguardando rounds encerrados</small></div></div></article>
         <article class="card live-ranking-card"><div class="row wrap"><div><h2>Ranking ao vivo</h2><p class="muted">Atualizado após cada round pontuado.</p></div><span id="qualificationBadge" class="badge neutral">Sem corte</span></div><ol id="adminRanking" class="admin-ranking"></ol><div id="rankingMovers" class="ranking-movers"></div></article>
         <article class="card participants-live-card"><div class="row wrap"><div><h2>Participantes</h2><p class="muted">Conexão, prontidão e controle de acesso.</p></div><div class="actions wrap"><span id="connectionTestResult" class="badge neutral">Teste não executado</span><button id="refreshParticipantsBtn" class="ghost small">Atualizar</button></div></div><div id="participantAdminList" class="participant-admin-list"></div></article>
-        <article class="card span2"><div class="row wrap"><div><h2>Histórico e evolução</h2><p class="muted">Respostas, pontos, rounds perdidos e evolução da classificação.</p></div><div class="actions"><button id="loadHistoryBtn" class="ghost small">Atualizar histórico</button><button id="showEvolutionBtn" class="ghost small">Evolução de posição</button></div></div><div id="historySummary" class="history-summary"></div><div id="evolutionChart" class="evolution-chart hidden"></div></article>
-        <article class="card span2"><div class="row wrap"><div><h2>Auditoria da sala</h2><p class="muted">Ações e transições registradas no Supabase.</p></div><span id="latencyBadge" class="badge neutral">Latência —</span></div><div id="auditList" class="audit-list"></div></article>
+        <article class="card span2 event-secondary-card"><div class="row wrap"><div><h2>Histórico e evolução</h2><p class="muted">Respostas, pontos, rounds perdidos e evolução da classificação.</p></div><div class="actions"><button id="loadHistoryBtn" class="ghost small">Atualizar histórico</button><button id="showEvolutionBtn" class="ghost small">Evolução de posição</button></div></div><div id="historySummary" class="history-summary"></div><div id="evolutionChart" class="evolution-chart hidden"></div></article>
+        <article class="card span2 diagnostic-card"><div class="row wrap"><div><h2>Diagnóstico do evento</h2><p class="muted">Conexão, transições, comandos e eventos técnicos desta sessão.</p></div><div class="actions wrap"><span id="latencyBadge" class="badge neutral">Latência —</span><button id="exportDiagnosticsBtn" class="ghost small" type="button">Exportar diagnóstico</button></div></div><div id="diagnosticLog" class="diagnostic-log"></div><details><summary>Auditoria persistida no Supabase</summary><div id="auditList" class="audit-list"></div></details></article>
       </div>
     </section>
   </section>
@@ -432,6 +437,6 @@
     </div>
   </div>
 </main>
-<script type="module" src="assets/js/admin-v3.31.js"></script>
+<script type="module" src="assets/js/admin-v3.32.js"></script>
 </body>
 </html>

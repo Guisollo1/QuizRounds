@@ -3,13 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Quiz Rounds v3.31 — Cidade Viva dos Jogadores</title>
-  <link rel="stylesheet" href="assets/css/app-v3.31.css">
-  <link rel="stylesheet" href="assets/css/avatars-v3.31.css">
+  <title>Quiz Rounds v3.32 — Cidade Viva dos Jogadores</title>
+  <link rel="stylesheet" href="assets/css/app-v3.32.css">
+  <link rel="stylesheet" href="assets/css/avatars-v3.32.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.min.js"></script>
   <script src="assets/vendor/qr-bundle.js"></script>
 </head>
 <body class="display-body" data-auth-scope="display">
+<div id="displayReconnectBanner" class="display-reconnect-banner hidden" role="status" aria-live="polite">Reconectando ao servidor…</div>
 <main class="display-shell">
   <section id="displayConnect" class="display-connect">
     <div class="display-connect-card">
@@ -28,7 +29,7 @@
     <header class="display-header">
       <div>
         <div id="displayTitle" class="display-title">Quiz ao vivo</div>
-        <div id="displayRoomInfo" class="display-room-info">Sala ------</div>
+        <div id="displayRoomInfo" class="display-room-info">Sala ------</div><span class="display-version-badge">v3.32</span>
         <div class="display-header-actions"><span id="displayConnection" class="connection-pill connecting" role="status" aria-live="polite">Conectando…</span><button id="displaySoundBtn" class="display-mini-btn" type="button">Som ✓</button><button id="displayFullscreenBtn" class="display-mini-btn" type="button">Tela cheia</button></div>
       </div>
       <div class="display-header-right">
@@ -105,6 +106,7 @@
           <div class="display-result-hero">
             <div class="display-kicker">QUIZ ENCERRADO</div>
             <div id="championCelebration" class="champion-celebration"><div class="champion-crown">★</div><span>CAMPEÃO</span><h1 id="championName">Resultado final</h1><p id="championScore"></p></div>
+            <div id="displayEventInsights" class="display-event-insights hidden"><div><span>MAIS ACERTADA</span><strong id="displayMostCorrectQuestion">—</strong><b id="displayMostCorrectMetric">—</b></div><div><span>MAIS ERRADA</span><strong id="displayMostWrongQuestion">—</strong><b id="displayMostWrongMetric">—</b></div></div>
           </div>
           <div class="display-ranking-wrap final">
             <ol id="displayFinalRanking" class="display-ranking"></ol>
@@ -133,6 +135,6 @@
     </div>
   </section>
 </main>
-<script type="module" src="assets/js/display-v3.31.js"></script>
+<script type="module" src="assets/js/display-v3.32.js"></script>
 </body>
 </html>

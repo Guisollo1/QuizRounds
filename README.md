@@ -1,3 +1,34 @@
+# QuizRounds v3.32 — Evento Estável + Insights
+
+## Principais melhorias
+
+- Verificação de versão entre ADM, telão e jogadores via Realtime; aparelhos antigos são sinalizados para recarregar.
+- Pré-teste ampliado: Supabase, Realtime, telão, jogadores, perguntas, controle principal, remoto e versões.
+- Simulador com atalhos para 20, 50 e 100 jogadores e teste completo automático local.
+- Bloqueio visual contra clique duplo com estado PROCESSANDO até confirmação do servidor.
+- Diagnóstico técnico da sessão com exportação TXT.
+- Modo Evento mais enxuto, preservando os controles essenciais.
+- Banners explícitos de reconexão no ADM, jogador e telão.
+- Métricas separadas de cadastrados, conectados, respostas, pendentes e participação.
+- Encerramento automático opcional ao atingir 100% de respostas ou ao esgotar o tempo.
+- Reabertura do telão destacada quando o projetor não é detectado.
+- Vibração curta no controle remoto para confirmação e mudança de fase.
+- Exportação pós-evento ampliada com resumo por pergunta.
+- Backup automático do banco de perguntas antes da substituição preservado.
+- URL do jogador simplificada no telão; o PIN continua em destaque.
+- Visual principal congelado: nenhuma remodelagem ampla de lobby/jogador/telão nesta versão.
+- Tela final e ADM mostram a pergunta **mais acertada** e a **mais errada**, com contagem e percentual.
+
+## Estatística de acerto
+
+Para múltipla escolha, acerto significa resposta igual ao gabarito. Para perguntas numéricas, acerto estatístico considera correspondência exata com o valor correto. Rounds anulados são ignorados.
+
+## Banco de dados
+
+A migração `022_event_insights_v332.sql` adiciona os RPCs `admin_get_event_insights` e `get_public_event_insights`, com acesso anônimo bloqueado e execução apenas para sessões autenticadas autorizadas.
+
+---
+
 # QuizRounds v3.31 — Evento Estável / Controle Total
 
 A v3.31 consolida a operação do quiz para uso em evento, mantendo o telão, o controle remoto pelo celular, o ADM responsivo e as alternativas A–E da versão anterior.
