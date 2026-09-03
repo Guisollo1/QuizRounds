@@ -3,9 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Quiz Rounds v3.32 — Cidade Viva dos Jogadores</title>
-  <link rel="stylesheet" href="assets/css/app-v3.32.css">
-  <link rel="stylesheet" href="assets/css/avatars-v3.32.css">
+  <title>Quiz Rounds v3.33 — Cidade Viva dos Jogadores</title>
+  <link rel="stylesheet" href="assets/css/core-v3.33.css">
+  <link rel="stylesheet" href="assets/css/display-v3.33.css">
+  <link rel="stylesheet" href="assets/css/avatars-v3.33.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.min.js"></script>
   <script src="assets/vendor/qr-bundle.js"></script>
 </head>
@@ -29,7 +30,7 @@
     <header class="display-header">
       <div>
         <div id="displayTitle" class="display-title">Quiz ao vivo</div>
-        <div id="displayRoomInfo" class="display-room-info">Sala ------</div><span class="display-version-badge">v3.32</span>
+        <div id="displayRoomInfo" class="display-room-info">Sala ------</div><span class="display-version-badge">v3.33</span>
         <div class="display-header-actions"><span id="displayConnection" class="connection-pill connecting" role="status" aria-live="polite">Conectando…</span><button id="displaySoundBtn" class="display-mini-btn" type="button">Som ✓</button><button id="displayFullscreenBtn" class="display-mini-btn" type="button">Tela cheia</button></div>
       </div>
       <div class="display-header-right">
@@ -71,7 +72,7 @@
         </div>
 
         <div id="displayPreparing" class="hidden display-center-panel display-preparing-panel"><div class="display-kicker">PRÓXIMO ROUND</div><div id="displayCountdown" class="display-countdown">3</div><h1>Prepare-se!</h1><p id="displayPreparingLabel">A pergunta será liberada em instantes.</p></div>
-        <div id="displayPaused" class="hidden display-center-panel"><div class="display-kicker">INTERVALO</div><h1>Partida pausada</h1><p>O administrador retomará quando estiver pronto.</p></div>
+        <div id="displayPaused" class="hidden display-center-panel display-paused-panel"><div class="display-kicker">INTERVALO</div><h1>Partida pausada</h1><p>O administrador retomará quando estiver pronto.</p></div>
         <div id="displayQuestion" class="hidden display-question-panel">
           <div class="display-round-line">
             <div id="displayRoundLabel" class="display-round-label">ROUND 1 DE 10</div>
@@ -135,6 +136,6 @@
     </div>
   </section>
 </main>
-<script type="module" src="assets/js/display-v3.32.js"></script>
+<script type="module" src="assets/js/display-v3.33.js"></script>
 </body>
 </html>

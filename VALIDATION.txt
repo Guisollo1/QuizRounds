@@ -1,12 +1,39 @@
-QuizRounds v3.32 — VALIDAÇÃO FINAL
+QuizRounds v3.33 — VALIDAÇÃO FINAL
 
-[OK] JavaScript: node --check em common, avatars, city, player, admin, display e simulator v3.32.
-[OK] HTML: admin, display, index e simulator sem IDs duplicados.
-[OK] Referências locais src/href verificadas.
-[OK] Imports relativos dos módulos JavaScript verificados.
-[OK] CSS: tinycss2 sem erros de parse em app-v3.32.css, avatars-v3.32.css, player-v3.32.css e simulator-v3.14.css.
-[OK] Supabase: migração 022_event_insights_v332 aplicada e função privada testada com sala existente.
-[OK] Permissões dos novos RPCs: anon=false, authenticated=true.
-[OK] Compatibilidade A–E preservada; E continua opcional.
-[OK] Nenhuma alteração estrutural ampla do lobby/telão/jogador.
-[OK] Estatísticas mais acertada/mais errada integradas ao ADM, telão final e CSV.
+RESULTADO: APROVADO
+
+Refatoração
+- Base funcional: v3.32.
+- Nenhuma migração nova de Supabase.
+- CSS monolítico removido da camada ativa.
+- CSS dividido em core / admin / display / player / avatars / simulator.
+- Escopo ADM único: admin-app.
+- Classes históricas admin-v17, admin-v329, admin-v331 e player-v38 removidas da camada ativa.
+- Tokens CSS antigos de versão removidos/substituídos por nomes semânticos.
+- Keyframes sem uso removidos.
+- Nenhuma custom property CSS sem uso permaneceu.
+- Nenhum seletor duplicado no mesmo contexto permaneceu nos arquivos CSS ativos.
+
+Responsividade
+- Saúde do evento: 4 colunas no desktop, 3 até 1180 px e 2 até 800 px.
+- Eliminado o conflito em que uma regra posterior de 1200 px anulava o breakpoint de 1180 px.
+- Ranking e Participantes usam classes semânticas no grid; removida dependência de nth-of-type para esses cards.
+- Container queries do editor e banco de perguntas preservadas.
+
+Regressão
+- 8 arquivos JavaScript: node --check aprovado.
+- Lógica JS normalizada comparada à v3.32: idêntica; somente versionamento/imports foram alterados.
+- Todos os CSS: parse aprovado com tinycss2.
+- HTML: nenhum ID duplicado.
+- IDs consultados pelo JS: presentes; numAnswer/numSend continuam elementos dinâmicos do jogador.
+- Referências locais HTML e imports JS: 0 quebrados.
+- Cobertura de classes estáticas comparada à v3.32: preservada em ADM, telão, jogador e simulador.
+- Supabase e todas as migrações: byte-a-byte preservados em relação à v3.32.
+- Alternativas A–E continuam estáticas no telão/jogador.
+
+Carga CSS de produção
+- ADM: 136.762 bytes -> 111.137 bytes (-18,7%).
+- Telão: 136.762 bytes -> 47.843 bytes (-65,0%).
+
+Observação
+- A validação foi estática/estrutural. O HTML não foi aberto ou renderizado visualmente durante esta refatoração.

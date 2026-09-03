@@ -1,3 +1,17 @@
+# QuizRounds v3.33 — Refatoração Canônica
+
+## Refatoração
+
+- CSS de produção separado em `core-v3.33.css`, `admin-v3.33.css` e `display-v3.33.css`.
+- Removidas dependências das classes históricas `admin-v17`, `admin-v329` e `admin-v331`; o ADM usa apenas `admin-app`.
+- Tokens antigos de versão foram substituídos por tokens semânticos.
+- Grade de saúde consolidada em uma única progressão responsiva: 4, 3 e 2 colunas.
+- Removidos keyframes sem uso e overrides comprovadamente redundantes.
+- Ranking do jogador recebeu o estilo que faltava para `▲`, `▼` e `—`.
+- Telão, ADM, jogador, controle remoto, simulador e Supabase mantêm o comportamento funcional da v3.32.
+
+---
+
 # QuizRounds v3.32 — Evento Estável + Insights
 
 ## Principais melhorias

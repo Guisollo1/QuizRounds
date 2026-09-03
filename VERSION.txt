@@ -1,3 +1,7 @@
-QuizRounds v3.32
-Estabilidade de evento, verificação automática de versão e análise de desempenho das perguntas.
-Supabase: migração 022_event_insights_v332 aplicada ao projeto QuizRounds.
+QuizRounds v3.33
+Refatoração estrutural sem novas funções.
+CSS monolítico separado em core, admin e display.
+ADM usa um único escopo canônico: admin-app.
+Breakpoints conflitantes da saúde do evento consolidados.
+Keyframes mortos removidos e ranking do jogador com movimentos estilizados.
+Lógica, Supabase e migrações da v3.32 preservados.
