@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#5927c7">
-  <title>Quiz Rounds v3.29 — Jogador</title>
-  <link rel="stylesheet" href="assets/css/player-v3.29.css">
-  <link rel="stylesheet" href="assets/css/avatars-v3.29.css">
+  <title>Quiz Rounds v3.31 — Jogador</title>
+  <link rel="stylesheet" href="assets/css/player-v3.31.css">
+  <link rel="stylesheet" href="assets/css/avatars-v3.31.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.min.js"></script>
 </head>
 <body class="player-body player-v38" data-auth-scope="player">
@@ -36,6 +36,7 @@
   </section>
 
   <section id="gameView" class="hidden player-game-stage">
+    <div id="playerReconnectBanner" class="player-reconnecting-banner hidden" role="status" aria-live="polite">Reconectando e recuperando o estado da partida…</div>
     <div id="tabLockBanner" class="tab-lock-banner hidden" role="alert">Esta sessão já está ativa em outra aba. Esta aba ficou em modo somente leitura.</div>
     <div id="preRoundOverlay" class="pre-round-overlay hidden" aria-live="assertive"><div class="pre-round-card"><span>PREPARE-SE</span><strong id="preRoundCount">3</strong><small id="preRoundLabel">Próximo round</small></div></div>
     <div id="resumeToast" class="resume-toast hidden" role="status"></div>
@@ -61,6 +62,6 @@
     </div>
   </section>
 </main>
-<script type="module" src="assets/js/player-v3.29.js"></script>
+<script type="module" src="assets/js/player-v3.31.js"></script>
 </body>
 </html>

@@ -1,3 +1,53 @@
+# QuizRounds v3.31 — Evento Estável / Controle Total
+
+A v3.31 consolida a operação do quiz para uso em evento, mantendo o telão, o controle remoto pelo celular, o ADM responsivo e as alternativas A–E da versão anterior.
+
+## Operação segura
+
+- **Pré-teste da sala:** verifica Supabase/RPC, Realtime, telão, fila de perguntas e controlador principal antes do início.
+- **Controlador principal:** um painel ADM completo recebe um lease temporário; outro painel entra em acompanhamento e pode assumir o controle mediante confirmação. O controle remoto autorizado continua disponível.
+- **Modo Evento:** reduz o ADM ao que é necessário para conduzir a partida.
+- **Botão de próxima ação:** conduz a sequência correta sem exigir que o operador escolha manualmente cada comando.
+- **Parada de emergência:** congela pergunta aberta e preserva o tempo restante no servidor; ao retomar, o cronômetro continua do ponto congelado.
+
+## Máquina de estados
+
+Depois que uma pergunta é encerrada, o servidor exige a sequência: **Resposta → Distribuição → Ranking → Próximo round**. No último round, depois do Ranking, a próxima etapa é **Resultado final**. A sequência é validada também no Supabase, evitando pulos acidentais por outro dispositivo.
+
+## Jogador e telão
+
+- resposta enviada fica estática e confirmada no celular;
+- reconexão informa que a sessão será retomada automaticamente;
+- telão mantém alternativas estáticas A–E;
+- ranking mostra mudança de posição;
+- final mostra campeão + Top 5 por padrão, com opção de classificação completa;
+- lobby não recebeu novos elementos, preservando a organização visual.
+
+## Diagnóstico e teste
+
+O painel de saúde mostra estado do banco, Realtime, telão, jogadores, fila e controlador. Os botões **Simular 20** e **Simular 50** abrem o simulador local em modo automático; eles não criam usuários reais nem contaminam a sala de produção.
+
+## Supabase v3.31
+
+As migrações 019–021 acompanham o pacote e já foram aplicadas ao projeto configurado nesta implementação:
+- `019_event_control_hardening.sql`
+- `020_result_reveal_state_machine.sql`
+- `021_strict_reveal_transitions.sql`
+
+---
+
+# QuizRounds v3.30 — Respostas Estáticas A–E
+
+## Alterações
+
+- Alternativas do telão agora ficam estáticas, sem animação de entrada repetida/piscar durante sincronizações.
+- Renderização das alternativas no celular foi estabilizada para não reconstruir os botões a cada atualização de estado.
+- Símbolos geométricos foram substituídos pelas letras **A, B, C, D e E**.
+- A quinta alternativa **E é opcional**; perguntas existentes com quatro alternativas permanecem válidas.
+- Editor, prévia, TXT e correção de gabarito foram preparados para A–E.
+
+---
+
 # QuizRounds v3.29 — ADM Responsivo Canônico
 
 ## Principais mudanças

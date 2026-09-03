@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#5d28c7">
-  <title>Quiz Rounds v3.29 — Administração</title>
-  <link rel="stylesheet" href="assets/css/app-v3.29.css">
-  <link rel="stylesheet" href="assets/css/avatars-v3.29.css">
+  <title>Quiz Rounds v3.31 — Administração</title>
+  <link rel="stylesheet" href="assets/css/app-v3.31.css">
+  <link rel="stylesheet" href="assets/css/avatars-v3.31.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.min.js"></script>
   <script src="assets/vendor/qr-bundle.js"></script>
 </head>
-<body class="admin-body admin-v17 admin-v329" data-auth-scope="admin">
+<body class="admin-body admin-v17 admin-v329 admin-v331" data-auth-scope="admin">
 <a class="skip-link" href="#mainContent">Pular para o conteúdo</a>
 <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div><div class="ambient ambient-c"></div>
 <main id="mainContent" class="shell wide admin-shell">
@@ -24,6 +24,7 @@
       <a class="ghost glass" href="simulator.html">Simulador</a>
       <a class="ghost glass" href="index.html">Modo jogador</a>
       <button id="remoteModeBtn" class="ghost glass hidden" type="button">Controle remoto</button>
+      <button id="eventModeBtn" class="ghost glass hidden" type="button">Modo Evento</button>
       <button id="logoutBtn" class="ghost glass hidden">Sair</button>
     </div>
   </header>
@@ -49,6 +50,11 @@
       <button id="adminTabConfig" class="admin-tab" type="button" role="tab" data-tab="config" aria-selected="false" aria-controls="adminPanelConfig"><span>2</span><b><span class="tab-label-desktop">Configuração</span><span class="tab-label-mobile">Configurar</span></b><small>Montar a partida</small></button>
       <button id="adminTabPresentation" class="admin-tab" type="button" role="tab" data-tab="presentation" aria-selected="false" aria-controls="adminPanelPresentation"><span>3</span><b><span class="tab-label-desktop">Apresentação</span><span class="tab-label-mobile">Ao vivo</span></b><small>Lobby e rounds</small></button>
     </nav>
+
+    <div id="controllerConflictBanner" class="controller-conflict-banner hidden" role="alert" aria-live="polite">
+      <div><strong>Outro painel ADM está como controlador principal</strong><span id="controllerConflictText">Este painel ficou em modo de acompanhamento para evitar comandos duplicados.</span></div>
+      <button id="takeOverControllerBtn" class="warn" type="button">Assumir controle neste aparelho</button>
+    </div>
 
     <section id="adminPanelQuestions" class="tab-panel active question-workbench-panel" role="tabpanel" aria-labelledby="adminTabQuestions" data-panel="questions" data-mobile-pane="edit">
       <div class="question-hero">
@@ -103,11 +109,12 @@
             <section class="editor-block editor-block-answers">
               <div class="editor-block-title"><span>2</span><div><b>Respostas</b><small>Defina as opções e marque o gabarito.</small></div></div>
               <div id="choiceFields" class="choice-editor-grid festive-options">
-                <label class="opt-field opt-a"><span class="option-symbol">◆</span>A<input id="optA" maxlength="500" placeholder="Alternativa A"></label>
-                <label class="opt-field opt-b"><span class="option-symbol">●</span>B<input id="optB" maxlength="500" placeholder="Alternativa B"></label>
-                <label class="opt-field opt-c"><span class="option-symbol">▲</span>C<input id="optC" maxlength="500" placeholder="Alternativa C"></label>
-                <label class="opt-field opt-d"><span class="option-symbol">■</span>D<input id="optD" maxlength="500" placeholder="Alternativa D"></label>
-                <label class="full-row answer-key-field">Resposta correta<select id="correctChoice"><option>A</option><option>B</option><option>C</option><option>D</option></select></label>
+                <label class="opt-field opt-a"><span class="option-symbol">A</span><input id="optA" maxlength="500" placeholder="Alternativa A"></label>
+                <label class="opt-field opt-b"><span class="option-symbol">B</span><input id="optB" maxlength="500" placeholder="Alternativa B"></label>
+                <label class="opt-field opt-c"><span class="option-symbol">C</span><input id="optC" maxlength="500" placeholder="Alternativa C"></label>
+                <label class="opt-field opt-d"><span class="option-symbol">D</span><input id="optD" maxlength="500" placeholder="Alternativa D"></label>
+                <label class="opt-field opt-e"><span class="option-symbol">E</span><input id="optE" maxlength="500" placeholder="Alternativa E (opcional)"></label>
+                <label class="full-row answer-key-field">Resposta correta<select id="correctChoice"><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option></select></label>
               </div>
               <div id="numericFields" class="hidden numeric-answer-box"><label>Valor correto<input id="correctNumber" type="number" step="any" inputmode="decimal" placeholder="Ex.: 42,5"></label><small>Se ninguém acertar exatamente, vence quem chegar mais perto.</small></div>
             </section>
@@ -142,10 +149,11 @@
               <div class="preview-topline"><span id="previewQuestionType">MÚLTIPLA ESCOLHA</span><strong id="previewMeta">10 pts • 30s</strong></div>
               <div id="previewQuestionText" class="preview-question-text">Sua pergunta aparecerá aqui.</div>
               <div id="previewAnswers" class="preview-answer-grid">
-                <div class="preview-answer preview-a"><span>◆ A</span><b>Alternativa A</b></div>
-                <div class="preview-answer preview-b"><span>● B</span><b>Alternativa B</b></div>
-                <div class="preview-answer preview-c"><span>▲ C</span><b>Alternativa C</b></div>
-                <div class="preview-answer preview-d"><span>■ D</span><b>Alternativa D</b></div>
+                <div class="preview-answer preview-a"><span>A</span><b>Alternativa A</b></div>
+                <div class="preview-answer preview-b"><span>B</span><b>Alternativa B</b></div>
+                <div class="preview-answer preview-c"><span>C</span><b>Alternativa C</b></div>
+                <div class="preview-answer preview-d"><span>D</span><b>Alternativa D</b></div>
+                <div class="preview-answer preview-e"><span>E</span><b>Alternativa E (opcional)</b></div>
               </div>
               <div class="preview-footer"><span id="previewCategory">Geral</span><span id="previewDifficulty">Médio</span></div>
             </div>
@@ -275,6 +283,19 @@
       <div class="presentation-stepper" aria-label="Etapas da partida"><div data-stage="lobby" class="active"><b>1</b><span>Lobby</span></div><i></i><div data-stage="question"><b>2</b><span>Perguntas</span></div><i></i><div data-stage="result"><b>3</b><span>Resultados</span></div></div>
 
       <div class="presentation-grid">
+        <article class="card span2 event-health-card">
+          <div class="event-health-head"><div><div class="eyebrow">PRÉ-TESTE E SAÚDE</div><h2>Pronto para o evento</h2><p class="muted">Verificação contínua do Supabase, Realtime, telão, perguntas e controlador principal.</p></div><div class="actions wrap"><button id="runPreflightBtn" class="ghost" type="button">Executar pré-teste</button><button id="loadTest20Btn" class="ghost" type="button">Simular 20 jogadores</button><button id="loadTest50Btn" class="ghost" type="button">Simular 50 jogadores</button></div></div>
+          <div class="event-health-grid">
+            <div id="healthSupabase" class="health-tile checking"><span>SUPABASE</span><strong>Verificando…</strong><small>Banco e RPCs</small></div>
+            <div id="healthRealtime" class="health-tile checking"><span>REALTIME</span><strong>Verificando…</strong><small>Sincronização ao vivo</small></div>
+            <div id="healthDisplay" class="health-tile checking"><span>TELÃO</span><strong>Verificando…</strong><small>Presença do projetor</small></div>
+            <div id="healthPlayers" class="health-tile checking"><span>JOGADORES</span><strong>0 conectados</strong><small>Presença ativa</small></div>
+            <div id="healthQuestions" class="health-tile checking"><span>PERGUNTAS</span><strong>0 prontas</strong><small>Fila da partida</small></div>
+            <div id="healthController" class="health-tile checking"><span>CONTROLE</span><strong>Verificando…</strong><small>Painel principal</small></div>
+          </div>
+          <div id="preflightSummary" class="preflight-summary neutral">Execute o pré-teste antes de começar o evento.</div>
+        </article>
+
         <article class="card presentation-lobby-card">
           <div class="lobby-admin-top"><div><div class="eyebrow">ENTRADA DOS JOGADORES</div><h2 id="presentationStageTitle">Lobby aberto</h2><p id="presentationStageHint" class="muted">Peça para todos escanearem o QR Code ou digitarem o PIN.</p></div><span id="stateVersionAdmin" class="badge neutral">v0</span></div>
           <div class="admin-lobby-grid">
@@ -302,14 +323,21 @@
           <div id="currentQuestionAdmin" class="current-question muted">Nenhuma pergunta em execução.</div>
           <div id="presenterPrivate" class="presenter-private hidden"><div><b>Gabarito/nota do apresentador</b><span id="presenterAnswer"></span><p id="presenterNotes"></p></div></div>
           <div id="nextPreview" class="next-preview hidden"><div class="eyebrow">PRÓXIMA PERGUNTA</div><strong id="nextPreviewPrompt"></strong><div id="nextPreviewMeta" class="question-meta"></div></div>
-          <div class="actions round-actions multi"><button id="prepareRoundBtn" disabled>Preparar próximo round</button><button id="openRoundBtn" disabled>Liberar agora</button><button id="closeRoundBtn" class="warn" disabled>Encerrar e pontuar</button></div>
-          <div class="actions wrap secondary-live-actions"><button id="pauseQuizBtn" class="ghost" disabled>Pausar</button><button id="extend5Btn" class="ghost" disabled>+5 s</button><button id="extend10Btn" class="ghost" disabled>+10 s</button><button id="annulRoundBtn" class="ghost danger-soft" disabled>Anular pergunta</button><button id="regradeRoundBtn" class="ghost" disabled>Corrigir gabarito</button></div>
-          <div class="reveal-controls"><span>Revelação:</span><button data-reveal="answer" class="ghost small">Resposta</button><button data-reveal="distribution" class="ghost small">Distribuição</button><button data-reveal="ranking" class="ghost small">Ranking</button></div>
+          <button id="contextPrimaryBtn" class="context-primary-btn" type="button" data-admin-action disabled>Próxima ação</button>
+          <div id="contextActionHint" class="context-action-hint">O sistema mostrará aqui a ação correta para cada etapa.</div>
+          <div class="actions wrap emergency-action-row"><button id="emergencyStopBtn" class="emergency-stop-btn" type="button" data-admin-action disabled>PARADA / CONGELAR</button><button id="extend5Btn" class="ghost" disabled>+5 s</button><button id="extend10Btn" class="ghost" disabled>+10 s</button></div>
+          <details class="manual-controls">
+            <summary>Controles manuais e recuperação</summary>
+            <div class="actions round-actions multi"><button id="prepareRoundBtn" disabled>Preparar próximo round</button><button id="openRoundBtn" disabled>Liberar agora</button><button id="closeRoundBtn" class="warn" disabled>Encerrar e pontuar</button></div>
+            <div class="actions wrap secondary-live-actions"><button id="pauseQuizBtn" class="ghost" disabled>Pausar entre rounds</button><button id="annulRoundBtn" class="ghost danger-soft" disabled>Anular pergunta</button><button id="regradeRoundBtn" class="ghost" disabled>Corrigir gabarito</button></div>
+            <div class="reveal-controls"><span>Revelação:</span><button data-reveal="answer" class="ghost small">Resposta</button><button data-reveal="distribution" class="ghost small">Distribuição</button><button data-reveal="ranking" class="ghost small">Ranking</button></div>
+          </details>
+          <div id="finishedGameActions" class="finished-game-actions hidden"><button id="toggleFullRankingBtn" class="ghost" type="button">Mostrar classificação completa</button><button id="samePlayersNewGameBtn" class="primary" type="button">Nova partida com os mesmos jogadores</button><button id="newRoomAfterGameBtn" class="ghost" type="button">Criar nova sala</button></div>
           <p id="roundHint" class="muted compact">O primeiro round começa com uma contagem 3…2…1 sincronizada.</p>
         </article>
 
-        <article class="card"><div class="row wrap"><div><h2>Ranking ao vivo</h2><p class="muted">Atualizado após cada round pontuado.</p></div><span id="qualificationBadge" class="badge neutral">Sem corte</span></div><ol id="adminRanking" class="admin-ranking"></ol><div id="rankingMovers" class="ranking-movers"></div></article>
-        <article class="card"><div class="row wrap"><div><h2>Participantes</h2><p class="muted">Conexão, prontidão e controle de acesso.</p></div><div class="actions wrap"><span id="connectionTestResult" class="badge neutral">Teste não executado</span><button id="refreshParticipantsBtn" class="ghost small">Atualizar</button></div></div><div id="participantAdminList" class="participant-admin-list"></div></article>
+        <article class="card live-ranking-card"><div class="row wrap"><div><h2>Ranking ao vivo</h2><p class="muted">Atualizado após cada round pontuado.</p></div><span id="qualificationBadge" class="badge neutral">Sem corte</span></div><ol id="adminRanking" class="admin-ranking"></ol><div id="rankingMovers" class="ranking-movers"></div></article>
+        <article class="card participants-live-card"><div class="row wrap"><div><h2>Participantes</h2><p class="muted">Conexão, prontidão e controle de acesso.</p></div><div class="actions wrap"><span id="connectionTestResult" class="badge neutral">Teste não executado</span><button id="refreshParticipantsBtn" class="ghost small">Atualizar</button></div></div><div id="participantAdminList" class="participant-admin-list"></div></article>
         <article class="card span2"><div class="row wrap"><div><h2>Histórico e evolução</h2><p class="muted">Respostas, pontos, rounds perdidos e evolução da classificação.</p></div><div class="actions"><button id="loadHistoryBtn" class="ghost small">Atualizar histórico</button><button id="showEvolutionBtn" class="ghost small">Evolução de posição</button></div></div><div id="historySummary" class="history-summary"></div><div id="evolutionChart" class="evolution-chart hidden"></div></article>
         <article class="card span2"><div class="row wrap"><div><h2>Auditoria da sala</h2><p class="muted">Ações e transições registradas no Supabase.</p></div><span id="latencyBadge" class="badge neutral">Latência —</span></div><div id="auditList" class="audit-list"></div></article>
       </div>
@@ -404,6 +432,6 @@
     </div>
   </div>
 </main>
-<script type="module" src="assets/js/admin-v3.29.js"></script>
+<script type="module" src="assets/js/admin-v3.31.js"></script>
 </body>
 </html>

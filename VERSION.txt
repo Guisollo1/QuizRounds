@@ -1,4 +1,19 @@
-QuizRounds v3.29
-ADM responsivo canônico.
-Subnavegação mobile Editar/Banco/Importar, participantes com menu de ações, safe-area, container queries e breakpoints consolidados.
-Sem alteração de banco de dados ou lógica do quiz.
+QuizRounds v3.31
+
+Evento Estável / Controle Total
+
+Principais mudanças:
+- pré-teste operacional da sala antes do início;
+- saúde de Supabase, Realtime, telão, jogadores, fila e controlador;
+- máquina de estados rígida: pergunta -> resposta -> distribuição -> ranking -> próximo/final;
+- botão contextual que libera somente a próxima ação correta;
+- parada de emergência durante pergunta aberta, preservando o tempo restante no servidor;
+- proteção contra dois painéis ADM completos comandando simultaneamente;
+- Modo Evento para operação limpa durante a apresentação;
+- confirmação forte e estática da resposta do jogador;
+- reconexão e recuperação visual de sessão;
+- ranking com indicação de subida/queda;
+- final com campeão + Top 5 e opção de classificação completa;
+- nova partida com os mesmos jogadores ou criação de nova sala;
+- simulador local automático para 20 ou 50 jogadores;
+- suporte A-E preservado, com E opcional.
