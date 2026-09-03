@@ -1,5 +1,4 @@
-QuizRounds v3.26
-Lobby do telão refatorado em 3 faixas: chamada, área central PIN/QR e barra inferior de status.
-PIN e QR usam a altura livre do 100vh, rounds viraram badge e URL ficou discreta/truncada.
-Contadores e mensagem de espera foram consolidados em uma única barra horizontal.
-Base funcional da v3.25 preservada.
+QuizRounds v3.29
+ADM responsivo canônico.
+Subnavegação mobile Editar/Banco/Importar, participantes com menu de ações, safe-area, container queries e breakpoints consolidados.
+Sem alteração de banco de dados ou lógica do quiz.

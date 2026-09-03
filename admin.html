@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#5d28c7">
-  <title>Quiz Rounds v3.26 — Administração</title>
-  <link rel="stylesheet" href="assets/css/app-v3.26.css">
-  <link rel="stylesheet" href="assets/css/avatars-v3.26.css">
+  <title>Quiz Rounds v3.29 — Administração</title>
+  <link rel="stylesheet" href="assets/css/app-v3.29.css">
+  <link rel="stylesheet" href="assets/css/avatars-v3.29.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.min.js"></script>
   <script src="assets/vendor/qr-bundle.js"></script>
 </head>
-<body class="admin-body admin-v17" data-auth-scope="admin">
+<body class="admin-body admin-v17 admin-v329" data-auth-scope="admin">
 <a class="skip-link" href="#mainContent">Pular para o conteúdo</a>
 <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div><div class="ambient ambient-c"></div>
 <main id="mainContent" class="shell wide admin-shell">
@@ -23,6 +23,7 @@
       <span id="adminConnection" class="connection-pill connecting" role="status" aria-live="polite">Conectando…</span>
       <a class="ghost glass" href="simulator.html">Simulador</a>
       <a class="ghost glass" href="index.html">Modo jogador</a>
+      <button id="remoteModeBtn" class="ghost glass hidden" type="button">Controle remoto</button>
       <button id="logoutBtn" class="ghost glass hidden">Sair</button>
     </div>
   </header>
@@ -44,12 +45,12 @@
 
   <section id="adminView" class="hidden admin-workspace">
     <nav id="adminTabs" class="admin-tabs" role="tablist" aria-label="Áreas do painel">
-      <button id="adminTabQuestions" class="admin-tab active" type="button" role="tab" data-tab="questions" aria-selected="true" aria-controls="adminPanelQuestions"><span>1</span><b>Editar perguntas</b><small>Criar e organizar</small></button>
-      <button id="adminTabConfig" class="admin-tab" type="button" role="tab" data-tab="config" aria-selected="false" aria-controls="adminPanelConfig"><span>2</span><b>Configuração</b><small>Montar a partida</small></button>
-      <button id="adminTabPresentation" class="admin-tab" type="button" role="tab" data-tab="presentation" aria-selected="false" aria-controls="adminPanelPresentation"><span>3</span><b>Apresentação</b><small>Lobby e rounds</small></button>
+      <button id="adminTabQuestions" class="admin-tab active" type="button" role="tab" data-tab="questions" aria-selected="true" aria-controls="adminPanelQuestions"><span>1</span><b><span class="tab-label-desktop">Editar perguntas</span><span class="tab-label-mobile">Perguntas</span></b><small>Criar e organizar</small></button>
+      <button id="adminTabConfig" class="admin-tab" type="button" role="tab" data-tab="config" aria-selected="false" aria-controls="adminPanelConfig"><span>2</span><b><span class="tab-label-desktop">Configuração</span><span class="tab-label-mobile">Configurar</span></b><small>Montar a partida</small></button>
+      <button id="adminTabPresentation" class="admin-tab" type="button" role="tab" data-tab="presentation" aria-selected="false" aria-controls="adminPanelPresentation"><span>3</span><b><span class="tab-label-desktop">Apresentação</span><span class="tab-label-mobile">Ao vivo</span></b><small>Lobby e rounds</small></button>
     </nav>
 
-    <section id="adminPanelQuestions" class="tab-panel active question-workbench-panel" role="tabpanel" aria-labelledby="adminTabQuestions" data-panel="questions">
+    <section id="adminPanelQuestions" class="tab-panel active question-workbench-panel" role="tabpanel" aria-labelledby="adminTabQuestions" data-panel="questions" data-mobile-pane="edit">
       <div class="question-hero">
         <div class="question-hero-copy">
           <div class="eyebrow">CENTRAL DE CONTEÚDO</div>
@@ -76,8 +77,14 @@
         </div>
       </div>
 
+      <nav class="question-mobile-nav" aria-label="Ferramentas de perguntas">
+        <button type="button" class="active" data-question-mobile-pane="edit" aria-pressed="true">Editar</button>
+        <button type="button" data-question-mobile-pane="bank" aria-pressed="false">Banco</button>
+        <button type="button" data-question-mobile-pane="import" aria-pressed="false">Importar</button>
+      </nav>
+
       <div class="question-studio-grid">
-        <article class="card question-editor-card question-studio-card">
+        <article class="card question-editor-card question-studio-card" data-question-mobile-content="edit">
           <div class="studio-card-head editor-head">
             <div><div class="studio-kicker">CRIADOR</div><h3 id="editorTitle">Nova pergunta</h3><p>Monte a pergunta por etapas e acompanhe a prévia ao lado.</p></div>
             <span class="studio-icon" aria-hidden="true">✦</span>
@@ -129,7 +136,7 @@
         </article>
 
         <div class="question-middle-stack">
-          <article class="card question-preview-card">
+          <article class="card question-preview-card" data-question-mobile-content="edit">
             <div class="studio-card-head preview-head"><div><div class="studio-kicker">PRÉVIA</div><h3>Como o jogador verá</h3><p>Atualização automática enquanto você digita.</p></div><span class="preview-live"><i></i> AO VIVO</span></div>
             <div class="player-question-preview">
               <div class="preview-topline"><span id="previewQuestionType">MÚLTIPLA ESCOLHA</span><strong id="previewMeta">10 pts • 30s</strong></div>
@@ -145,7 +152,7 @@
             <div class="creator-tips"><b>Dica de criação</b><span id="creatorTip">Use enunciados curtos e alternativas com tamanho parecido para o jogo ficar mais rápido.</span></div>
           </article>
 
-          <article class="card bulk-question-card bulk-bank-card question-batch-card">
+          <article class="card bulk-question-card bulk-bank-card question-batch-card" data-question-mobile-content="import">
             <div class="studio-card-head batch-head"><div><div class="studio-kicker">LOTE</div><h3>Importar / exportar</h3><p>Adicione muitas perguntas sem cadastrar uma por uma.</p></div><span class="badge ready">TXT</span></div>
             <div class="filter-actions bulk-file-actions">
               <label class="file-button ghost">Selecionar .txt<input id="txtImportFile" type="file" accept=".txt,text/plain" hidden></label>
@@ -165,7 +172,7 @@
           </article>
         </div>
 
-        <article class="card bank-card question-bank-workspace">
+        <article class="card bank-card question-bank-workspace" data-question-mobile-content="bank">
           <div class="studio-card-head bank-head"><div><div class="studio-kicker">ORGANIZADOR + BANCO</div><h3>Biblioteca de perguntas</h3><p>Pesquise, ordene, selecione várias e reutilize com rapidez.</p></div><span id="bankResultBadge" class="badge neutral">0 ITENS</span></div>
 
           <div class="bank-quick-filters" aria-label="Filtros rápidos">
@@ -177,6 +184,7 @@
             <button type="button" data-bank-quick="unscored">Sem pontos</button>
             <button type="button" data-bank-quick="final">Final</button>
           </div>
+          <div class="mobile-filter-hint" aria-hidden="true">Deslize para ver mais filtros →</div>
 
           <div class="bank-filters bank-filters-v311">
             <input id="questionSearch" class="bank-search" placeholder="Pesquisar por pergunta ou categoria...">
@@ -280,7 +288,7 @@
           <div class="presentation-command-stack">
             <div class="presentation-display-launch">
               <div class="presentation-display-copy"><small>APRESENTAÇÃO</small><strong>Abra o telão sem sobreposição</strong><span>Use a mesma tela reutilizando a janela do telão, ou abra uma nova janela dedicada para o projetor.</span></div>
-              <div class="presentation-display-actions"><button id="displayBtn" class="ghost" disabled>Abrir telão / projetor</button><button id="fullscreenDisplayBtn" class="ghost" disabled>Abrir telão em nova janela</button></div>
+              <div class="presentation-display-actions"><button id="displayBtn" class="ghost" disabled>Abrir telão / projetor</button><button id="fullscreenDisplayBtn" class="ghost" disabled>Abrir telão em nova janela</button><button id="pairRemoteBtn" class="ghost remote-pair-action" type="button" disabled>Autorizar celular</button><button id="revokeRemoteBtn" class="ghost danger-soft remote-pair-action" type="button">Revogar celulares</button></div>
             </div>
             <div class="actions wrap presentation-actions presentation-actions-core"><button id="forceSyncBtn" class="ghost" data-admin-action>Sincronizar</button><button id="connectionTestBtn" class="ghost" data-admin-action>Testar conexões</button><button id="restartQuizBtn" class="restart-game" disabled>Recomeçar partida</button><button id="startQuizBtn" class="primary start-game" disabled>Começar Quiz</button></div>
           </div>
@@ -307,7 +315,95 @@
       </div>
     </section>
   </section>
+
+  <section id="remoteControlView" class="hidden remote-control-view" aria-label="Controle remoto do quiz">
+    <header class="remote-control-header">
+      <div>
+        <div class="remote-eyebrow">CONTROLE REMOTO</div>
+        <strong id="remoteRoomTitle">Quiz ao vivo</strong>
+        <span id="remoteRoomCode">Sala ------</span>
+      </div>
+      <button id="remoteExitBtn" class="remote-icon-btn" type="button" aria-label="Voltar ao painel completo">×</button>
+    </header>
+
+    <div class="remote-status-grid">
+      <div id="remoteConnectionStatus" class="remote-status-card"><span>Internet</span><strong>Conectando…</strong></div>
+      <div id="remoteDisplayStatus" class="remote-status-card"><span>Telão</span><strong>Verificando…</strong></div>
+      <div class="remote-status-card"><span>Participantes</span><strong id="remoteParticipantCount">0</strong></div>
+    </div>
+
+    <article class="remote-round-card">
+      <div class="remote-round-top">
+        <span id="remotePhaseBadge" class="remote-phase-badge">LOBBY</span>
+        <strong id="remoteRoundLabel">Round 0 de 0</strong>
+        <div id="remoteTimer" class="remote-timer">—</div>
+      </div>
+      <div id="remoteQuestion" class="remote-question">Aguardando uma pergunta.</div>
+      <div class="remote-answer-row">
+        <span><b id="remoteAnswerCount">0</b> / <b id="remoteAnswerTotal">0</b> responderam</span>
+        <strong id="remoteResponseRate">0%</strong>
+      </div>
+      <div class="remote-response-meter"><i id="remoteResponseBar"></i></div>
+    </article>
+
+    <div class="remote-main-actions">
+      <button id="remotePrimaryBtn" class="remote-primary-btn" type="button" data-remote-action>Próxima ação</button>
+      <button id="remotePauseBtn" class="remote-secondary-btn" type="button" data-remote-action>Pausar partida</button>
+    </div>
+
+    <div class="remote-time-actions">
+      <button id="remoteExtend5Btn" type="button" data-remote-action>+5 s</button>
+      <button id="remoteExtend10Btn" type="button" data-remote-action>+10 s</button>
+    </div>
+
+    <section class="remote-reveal-card" aria-label="Revelação do resultado">
+      <span>Mostrar no telão</span>
+      <div class="remote-reveal-actions">
+        <button id="remoteRevealAnswerBtn" type="button" data-remote-action>Resposta</button>
+        <button id="remoteRevealDistributionBtn" type="button" data-remote-action>Distribuição</button>
+        <button id="remoteRevealRankingBtn" type="button" data-remote-action>Ranking</button>
+      </div>
+    </section>
+
+    <details class="remote-danger-zone">
+      <summary>Controles avançados</summary>
+      <p>Para evitar toque acidental, mantenha o botão pressionado por 1 segundo.</p>
+      <div class="remote-danger-actions">
+        <button id="remoteAnnulBtn" class="remote-hold-btn" type="button" data-remote-action>Anular último round</button>
+        <button id="remoteRestartBtn" class="remote-hold-btn" type="button" data-remote-action>Recomeçar partida</button>
+      </div>
+    </details>
+
+    <footer class="remote-control-footer">
+      <span id="remoteDeviceLabel">Celular autorizado</span>
+      <button id="remoteRefreshBtn" type="button">Sincronizar agora</button>
+    </footer>
+  </section>
+
+  <div id="remotePairModal" class="hidden remote-pair-modal" role="dialog" aria-modal="true" aria-labelledby="remotePairTitle">
+    <div class="remote-pair-dialog">
+      <button id="remotePairCloseBtn" class="remote-pair-close" type="button" aria-label="Fechar">×</button>
+      <section id="remotePairCreateView">
+        <div class="eyebrow">PAREAR CELULAR</div>
+        <h2 id="remotePairTitle">Autorizar controle remoto</h2>
+        <p>Escaneie este QR com o seu celular. O código expira em 5 minutos e só funciona com a mesma conta ADM.</p>
+        <div id="remotePairQr" class="remote-pair-qr" aria-label="QR de pareamento do controle remoto"></div>
+        <div class="remote-pair-code-line"><span>Código</span><strong id="remotePairCode">------</strong></div>
+        <p id="remotePairExpires" class="muted compact"></p>
+        <div class="actions wrap"><button id="remotePairCopyBtn" class="ghost" type="button">Copiar link</button><button id="remotePairRegenerateBtn" class="ghost" type="button">Gerar outro código</button></div>
+      </section>
+      <section id="remoteClaimView" class="hidden">
+        <div class="eyebrow">NOVO CONTROLE</div>
+        <h2>Autorizar este celular?</h2>
+        <p>Este navegador poderá controlar a sua partida enquanto estiver autenticado como administrador.</p>
+        <div class="remote-claim-code"><span>Código de pareamento</span><strong id="remoteClaimCode">------</strong></div>
+        <label>Nome deste aparelho<input id="remoteDeviceName" maxlength="60" value="Meu celular" placeholder="Ex.: Celular do apresentador"></label>
+        <button id="remoteClaimBtn" class="primary jumbo" type="button">Autorizar este celular</button>
+        <p id="remoteClaimStatus" class="muted"></p>
+      </section>
+    </div>
+  </div>
 </main>
-<script type="module" src="assets/js/admin-v3.26.js"></script>
+<script type="module" src="assets/js/admin-v3.29.js"></script>
 </body>
 </html>

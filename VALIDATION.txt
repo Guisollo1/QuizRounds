@@ -1,55 +1,14 @@
-QuizRounds v3.26 — VALIDAÇÃO FINAL
+QuizRounds v3.29 — VALIDAÇÃO FINAL
 
-Lobby / telão
-- Estrutura canônica em 3 faixas: chamada + área PIN/QR + barra inferior.
-- Área PIN/QR: grid 60/40 com minmax(0,1fr), sem max-height principal.
-- Rounds em badge junto ao PIN.
-- URL do QR em linha única com ellipsis.
-- Conectados, participantes e mensagem de espera consolidados na mesma barra inferior.
-- Breakpoints preservados para largura estreita e projetores 720p/768p.
-
-Validação estática
-- HTML: 0 IDs duplicados nos 4 arquivos principais.
-- Referências DOM: display 0 não resolvidas; admin 0 não resolvidas; player somente IDs dinâmicos esperados (numAnswer/numSend).
-- CSS: 0 erros de parse nos CSS ativos.
-- JavaScript: todos os módulos ativos v3.26 passam em node --check.
-- HTML ativo referencia somente assets v3.26 (simulador mantém dependência estável própria quando aplicável).
-
----
-
-- Base funcional restaurada a partir da v3.22 estável.
-- Grid do lobby preservado.
-- QR ampliado somente por dimensionamento próprio, com limites responsivos.
-- HTML: IDs únicos e referências locais válidas.
-- JavaScript ativo: node --check OK.
-- CSS: chaves balanceadas e referências válidas.
-
-QuizRounds v3.26 — VALIDAÇÃO FINAL
-
-TELÃO / LOBBY
-- display-body e display-stage limitados a 100vh/100dvh.
-- display-stage-layout usa duas faixas: conteúdo flexível + faixa fixa/fluida dos avatares.
-- PIN + QR Code lado a lado até 620 px de largura.
-- Header do lobby compactado; bloco redundante de mini-QR/estatísticas do header oculto somente no lobby.
-- Breakpoints por altura para 760 px e 640 px.
-- Alternativas 2x2 em desktop; 1 coluna em telas estreitas.
-
-CSS
-- app-v3.26.css: 0 erros de parse; 0 seletores exatos duplicados no mesmo contexto.
-- avatars-v3.26.css: 0 erros de parse; 0 seletores exatos duplicados no mesmo contexto.
-- player-v3.26.css: 0 erros de parse; 0 seletores exatos duplicados no mesmo contexto.
-- app-v3.26.css e avatars-v3.26.css não compartilham seletores funcionais do telão; somente :root é compartilhado.
-- .avatar-city possui uma única definição canônica e sua altura vem do grid do telão.
-
-JAVASCRIPT / HTML
-- common-v3.24.js, avatars-v3.24.js, city-v3.24.js, player-v3.24.js, admin-v3.24.js e display-v3.24.js validados com node --check.
-- HTML principal com IDs únicos.
-- Referências locais de CSS/JS verificadas.
-- Seletores de IDs do display e admin conferidos contra o HTML.
-- numAnswer/numSend do jogador permanecem válidos por serem criados dinamicamente durante perguntas numéricas.
-
-REGRESSÃO
-- Nenhuma migration Supabase alterada nesta versão.
-- Lógica de sala, fila, início, respostas, ranking e sincronização preservada.
-- Catálogo de 48 avatares preservado.
-- Cenários praia/cidade/fazenda/montanha preservados.
+- JavaScript ativo validado com node --check.
+- HTML: IDs duplicados e referências locais verificados.
+- CSS ativo validado com parser estrutural.
+- Media queries legadas do ADM substituídas foram removidas da camada ativa.
+- ADM não depende de overflow-x:hidden para mascarar excesso de largura.
+- Subnavegação mobile Editar/Banco/Importar integrada e persistente no navegador.
+- Participantes: card mobile com menu ⋯ integrado aos mesmos handlers Detalhes/Remover.
+- Container queries ativas no Editor e no Banco de perguntas.
+- Safe-area aplicada ao ADM e ao modal de pareamento.
+- Validação de largura executada em Perguntas, Configuração e Apresentação nas resoluções 360x800, 390x844, 412x915, 768x1024, 820x1180 e 1366x768: 18 combinações sem overflow horizontal.
+- Em 820 px a apresentação permanece em grade de duas colunas quando o conteúdo permite; o empilhamento principal entra abaixo dessa faixa.
+- Banco de dados: nenhuma alteração necessária nesta versão.

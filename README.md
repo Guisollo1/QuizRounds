@@ -1,3 +1,90 @@
+# QuizRounds v3.29 — ADM Responsivo Canônico
+
+## Principais mudanças
+
+- Responsividade do ADM consolidada em uma única camada canônica.
+- Removidas media queries legadas do ADM que já estavam substituídas.
+- O painel não depende mais de `overflow-x:hidden` para esconder erros de largura.
+- No celular, Perguntas ganhou subnavegação **Editar | Banco | Importar**.
+- Header e abas principais ficaram menores e sticky no celular.
+- Participantes agora usam card mobile com menu **⋯** para ações secundárias.
+- Ações primárias e secundárias usam layouts distintos, evitando botões longos espremidos.
+- Filtros horizontais ganharam indicação de deslizamento.
+- Tablets entre aproximadamente 820 e 900 px preservam duas colunas quando há espaço.
+- Container queries ajustam Editor e Banco ao espaço real do componente.
+- Login mobile ficou mais compacto.
+- Modal de pareamento e ADM respeitam safe-area de celulares com notch/barra inferior.
+- Controle remoto e lógica da v3.28 foram preservados.
+
+---
+
+# QuizRounds v3.28 — ADM Responsivo
+
+## O que mudou na v3.28
+
+- O **painel ADM completo** agora se adapta a desktop, notebook, tablet e celular.
+- Header e ações do administrador reorganizam automaticamente sem gerar scroll horizontal.
+- As três abas continuam acessíveis e compactas no celular.
+- O estúdio de perguntas muda de 3 colunas para 2 e depois 1 coluna conforme a largura.
+- Editor, prévia, importação, banco, filtros e ações em lote passam a usar grids responsivos.
+- Configuração, apresentação, QR do ADM, ranking, participantes, histórico e auditoria ocupam toda a largura disponível em telas menores.
+- Inputs usam tamanho adequado no celular para evitar zoom automático em navegadores móveis.
+- Modais e pareamento do controle remoto respeitam `100dvh` e safe areas.
+- O **modo controle remoto da v3.27 foi preservado** sem alteração funcional.
+
+## Validação v3.28
+
+- JavaScript ativo validado com `node --check`.
+- HTML verificado para IDs únicos e referências locais válidas.
+- CSS revisado para evitar overflow horizontal do ADM.
+- Supabase não precisou de nova migration nesta versão.
+
+---
+
+# QuizRounds v3.27 — Controle Remoto pelo Celular
+
+## Controle remoto do administrador
+
+- O administrador pode autorizar **um celular como controle remoto do telão** sem criar um aplicativo separado.
+- No painel **Apresentação**, o botão **Autorizar celular** gera um QR Code e um código temporário de pareamento com validade de 5 minutos.
+- O celular abre o mesmo `admin.html`, autentica com a **mesma conta ADM** e confirma o aparelho.
+- Depois de autorizado, aparece o botão **Controle remoto**. O navegador autorizado permanece reconhecido naquele dispositivo até ser revogado.
+- O painel possui **Revogar celulares** para invalidar todos os controles remotos autorizados.
+
+## Modo remoto 100dvh
+
+O modo compacto foi desenhado para uso com uma mão no celular e mostra somente o que é necessário durante a apresentação:
+
+- sala e fase atual;
+- round atual e cronômetro;
+- pergunta atual;
+- respostas recebidas e percentual de participação;
+- status da internet;
+- status **Telão conectado / Telão não detectado** via Presence do Realtime;
+- botão contextual principal: começar, liberar, encerrar/pontuar, preparar próximo round ou retomar;
+- **Pausar / Retomar** entre rounds;
+- **+5 s / +10 s** durante pergunta aberta;
+- revelação de **Resposta / Distribuição / Ranking**;
+- controles avançados para **Anular round** e **Recomeçar partida**, protegidos por pressionar por 1 segundo e pelas confirmações já existentes.
+
+## Segurança do pareamento
+
+Migration nova: `supabase/migrations/016_admin_mobile_remote_control.sql`.
+
+- Códigos de pareamento expiram em 5 minutos.
+- O código só pode ser reivindicado pela mesma conta autorizada em `quiz_admins`.
+- O token do navegador é armazenado no banco apenas como hash SHA-256.
+- Tabelas de pareamento/dispositivos não possuem acesso direto por `anon` ou `authenticated`; o fluxo usa RPCs `SECURITY DEFINER` com verificação de administrador.
+- RPCs do controle remoto foram explicitamente negados a `anon` e concedidos somente a `authenticated`.
+
+## Compatibilidade preservada
+
+- A lógica da v3.26 de lobby em 3 faixas foi mantida.
+- Sala única, fila persistente, início com pelo menos uma pergunta, ranking, avatares e Cidade Viva continuam preservados.
+- O telão passou a publicar Presence como `kind: display`, permitindo ao celular indicar se o telão está realmente conectado.
+
+---
+
 # QuizRounds v3.26 — Lobby de Telão em 3 Faixas
 
 ## O que mudou na v3.26
