@@ -1,4 +1,4 @@
-QuizRounds v3.47 — validação estrutural
+QuizRounds v3.49 — validação estrutural
 
 - Base atualizada a partir do QuizRounds v3.46.
 - APP_VERSION = 3.47 em ADM, jogador e telão.
@@ -13,3 +13,20 @@ QuizRounds v3.47 — validação estrutural
 - Migration 031_rpgmaker_professional_avatars_v346.sql preservada para compatibilidade de instalações existentes.
 - Referências HTML/CSS/JS locais verificadas.
 - Sintaxe dos JavaScript verificada com Node.js.
+
+Validação v3.49:
+- index.html atualizado para assets v3.49
+- display.html atualizado para assets v3.49
+- seletor de avatar com preview frontal explícito
+- lobby do telão reorganizado em grade PIN/QR/Mapa
+
+VALIDAÇÃO v3.49 — CSS CRÍTICO
+- CSS ativo: admin/core/player/display/avatars/simulator v3.49
+- CSS parse: OK
+- Seletores top-level duplicados nas folhas ativas: 0
+- Propriedades duplicadas dentro da mesma regra: 0
+- Assets legados v3.47/v3.48 ativos: removidos
+- Referências locais quebradas: 0
+- JavaScript v3.49: node --check OK
+- Mapas: 1448x1086, proporção 4:3; lobby respeita essa proporção
+- Sprites: grade RPG Maker 3x4 com 4 direções preservadas
