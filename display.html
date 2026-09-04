@@ -4,10 +4,10 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<title>Quiz Rounds v3.36 — Cidade Viva dos Jogadores</title>
-<link href="assets/css/core-v3.36.css" rel="stylesheet"/>
-<link href="assets/css/display-v3.36.css" rel="stylesheet"/>
-<link href="assets/css/avatars-v3.36.css" rel="stylesheet"/>
+<title>Quiz Rounds v3.38 — Cidade Viva dos Jogadores</title>
+<link href="assets/css/core-v3.38.css" rel="stylesheet"/>
+<link href="assets/css/display-v3.38.css" rel="stylesheet"/>
+<link href="assets/css/avatars-v3.38.css" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.min.js"></script>
 <script src="assets/vendor/qr-bundle.js"></script>
 </head>
@@ -30,7 +30,7 @@
 <header class="display-header">
 <div>
 <div class="display-title" id="displayTitle">Quiz ao vivo</div>
-<div class="display-room-info" id="displayRoomInfo">Sala ------</div><span class="display-version-badge">v3.36</span>
+<div class="display-room-info" id="displayRoomInfo">Sala ------</div><span class="display-version-badge">v3.38</span>
 <div class="display-header-actions"><span aria-live="polite" class="connection-pill connecting" id="displayConnection" role="status">Conectando…</span><button class="display-mini-btn" id="displaySoundBtn" type="button">Som ✓</button><button class="display-mini-btn" id="displayFullscreenBtn" type="button">Tela cheia</button></div>
 </div>
 <div class="display-header-right">
@@ -46,7 +46,7 @@
 <div class="display-stage-layout">
 <div class="display-main-area">
 <div class="display-center-panel display-lobby-panel" id="displayLobby">
-<div class="display-kicker display-lobby-kicker">ENTRE PELO CELULAR</div>
+<div class="display-lobby-intro"><div class="display-kicker display-lobby-kicker">ENTRE PELO CELULAR</div><div class="display-lobby-message" id="displayLobbyMessage">Escaneie o QR Code ou digite o PIN.</div><div class="display-lobby-start hidden" id="displayLobbyStart"></div></div>
 <div class="display-lobby-grid">
 <div class="display-lobby-pin">
 <div class="display-pin-head">
@@ -66,10 +66,11 @@
 <div class="display-lobby-footer">
 <div class="display-lobby-stat"><strong id="displayLobbyConnected">0</strong><span>conectados agora</span></div>
 <div class="display-lobby-stat"><strong id="displayLobbyRegistered">0</strong><span>participantes cadastrados</span></div>
-<div class="display-lobby-waiting"><span aria-hidden="true" class="display-waiting-dot"></span><strong>Aguardando o administrador começar</strong></div>
+<div class="display-lobby-stat display-lobby-ready-stat"><strong id="displayLobbyReady">0</strong><span>jogadores prontos</span></div>
+<div class="display-lobby-waiting" id="displayLobbyWaiting"><span aria-hidden="true" class="display-waiting-dot"></span><strong id="displayLobbyStatus">Aguardando os jogadores</strong></div>
 </div>
 </div>
-<div class="hidden display-center-panel display-preparing-panel" id="displayPreparing"><div class="display-kicker">PRÓXIMO ROUND</div><div class="display-countdown" id="displayCountdown">3</div><h1>Prepare-se!</h1><p id="displayPreparingLabel">A pergunta será liberada em instantes.</p></div>
+<div class="hidden display-center-panel display-preparing-panel" id="displayPreparing"><div class="display-kicker">PRÓXIMO ROUND</div><div class="display-countdown" id="displayCountdown">3</div><h1>Prepare-se!</h1><p id="displayPreparingLabel">A pergunta será liberada em instantes.</p></div><div class="display-go-overlay hidden" id="displayGoOverlay" aria-live="assertive">VAMOS!</div>
 <div class="hidden display-center-panel display-paused-panel" id="displayPaused"><div class="display-kicker">INTERVALO</div><h1>Partida pausada</h1><p>O administrador retomará quando estiver pronto.</p></div>
 <div class="hidden display-question-panel" id="displayQuestion">
 <div class="display-round-line">
@@ -113,6 +114,7 @@
 <div class="champion-celebration" id="championCelebration"><div class="champion-crown">★</div><span>CAMPEÃO</span><div class="champion-avatar" id="championAvatar"></div><h1 id="championName">Resultado final</h1><p id="championScore"></p></div><div class="display-podium" id="displayPodium"></div><div class="champion-question-recap"><div><span>✅ MAIS ACERTADA</span><strong id="championMostCorrect">—</strong><b id="championMostCorrectMetric">—</b></div><div><span>❌ MAIS ERRADA</span><strong id="championMostWrong">—</strong><b id="championMostWrongMetric">—</b></div></div>
 </section>
 </div>
+</div>
 <section aria-label="Cenário animado dos participantes" class="avatar-city" data-scene="city" id="avatarCity">
 <div class="city-sun"></div><div class="city-cloud c1"></div><div class="city-cloud c2"></div>
 <div aria-hidden="true" class="scene-mountains"></div>
@@ -125,15 +127,15 @@
 <div aria-hidden="true" class="city-skyline">
 <i class="city-building" style="--bh:58%"></i><i class="city-building" style="--bh:86%"></i><i class="city-building" style="--bh:68%"></i><i class="city-building" style="--bh:95%"></i><i class="city-building" style="--bh:62%"></i><i class="city-building" style="--bh:80%"></i><i class="city-building" style="--bh:52%"></i><i class="city-building" style="--bh:90%"></i><i class="city-building" style="--bh:66%"></i><i class="city-building" style="--bh:76%"></i>
 </div>
-<div aria-hidden="true" class="city-park"></div><i aria-hidden="true" class="city-tree t1"></i><i aria-hidden="true" class="city-tree t2"></i>
+<div aria-hidden="true" class="city-park"></div><i aria-hidden="true" class="city-tree t1"></i><i aria-hidden="true" class="city-tree t2"></i><div aria-hidden="true" class="scene-lab"></div><div aria-hidden="true" class="scene-platform"></div>
 <div aria-hidden="true" class="city-sidewalk"></div><div aria-hidden="true" class="city-road"></div>
 <div class="avatar-scene-badge" id="avatarCitySceneLabel">Cidade</div>
-<div class="city-walkers" id="avatarCityWalkers"></div>
+<div class="city-walkers" id="avatarCityWalkers"></div><div class="city-join-feed" id="avatarCityJoinFeed" aria-live="polite"></div>
 <div class="city-population-badge" id="avatarCityPopulation">0 moradores</div>
 </section>
 </div>
 </section>
 </main>
-<script src="assets/js/display-v3.36.js" type="module"></script>
+<script src="assets/js/display-v3.38.js" type="module"></script>
 </body>
 </html>

@@ -1,7 +1,13 @@
-QuizRounds v3.36
-Cerimônia final sincronizada: Ranking final → Estatísticas → Destaques → Campeão.
-Estatísticas: jogadores, respostas, taxa geral de acerto, tempo médio, pergunta mais acertada/errada, mais rápida/demorada e mais equilibrada.
-Destaques: melhor precisão individual, maior sequência, maior subida no ranking e resposta correta mais rápida.
-Resumo divertido automático e pódio final com campeão em destaque.
-ADM, controle remoto e telão compartilham a etapa final oficial via Supabase; atualização/reconexão reconstrói a tela correta.
-Migrações novas: 025_final_showcase_v336.sql e 026_final_showcase_precision_v336.sql.
+QuizRounds v3.38
+
+Lobbys unificados e refinados:
+- Telão 100vh com header compacto, PIN/QR lado a lado e Cidade Viva estruturalmente separada da área principal.
+- Modo mapa em destaque manual ou automático por prontidão/conexão.
+- QR adaptativo e contadores que animam apenas quando mudam.
+- Avatares com profundidade, nomes adaptativos e modo de desempenho para 40/80+ jogadores.
+- Novos cenários Laboratório e Plataforma, além de Cidade, Praia, Fazenda e Montanha.
+- Entrada de jogador com feedback localizado no mapa.
+- Jogador com lobby dedicado e botão explícito “Estou pronto”.
+- ADM com prontidão, filtros de participantes, mensagem/horário do lobby, cenário, layout e música ambiente.
+- Contagem 3–2–1 + VAMOS!, feedback tátil e transição mapa → pergunta.
+- Supabase sincronizado com prontidão explícita e preservação do estado após reconexão/F5.

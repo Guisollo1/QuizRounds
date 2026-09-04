@@ -5,10 +5,10 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#5d28c7" name="theme-color"/>
-<title>Quiz Rounds v3.36 — Administração</title>
-<link href="assets/css/core-v3.36.css" rel="stylesheet"/>
-<link href="assets/css/admin-v3.36.css" rel="stylesheet"/>
-<link href="assets/css/avatars-v3.36.css" rel="stylesheet"/>
+<title>Quiz Rounds v3.38 — Administração</title>
+<link href="assets/css/core-v3.38.css" rel="stylesheet"/>
+<link href="assets/css/admin-v3.38.css" rel="stylesheet"/>
+<link href="assets/css/avatars-v3.38.css" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.min.js"></script>
 <script src="assets/vendor/qr-bundle.js"></script>
 </head>
@@ -22,7 +22,7 @@
 <div><div class="eyebrow light">QUIZ ROUNDS</div><h1>Painel do Administrador</h1><p>Prepare, apresente e controle o quiz em tempo real.</p></div>
 </div>
 <div aria-label="Ações do administrador" class="top-actions">
-<span class="badge version-badge" id="appVersionBadge">v3.36</span><span aria-live="polite" class="connection-pill connecting" id="adminConnection" role="status">Conectando…</span>
+<span class="badge version-badge" id="appVersionBadge">v3.38</span><span aria-live="polite" class="connection-pill connecting" id="adminConnection" role="status">Conectando…</span>
 <a class="ghost glass" href="simulator.html">Simulador</a>
 <a class="ghost glass" href="index.html">Modo jogador</a>
 <button class="ghost glass hidden" id="remoteModeBtn" type="button">Controle remoto</button>
@@ -221,6 +221,7 @@ TEMPO: 30
 <label>Nome da sala<input id="roomTitle" maxlength="60" value="Quiz ao vivo"/></label>
 <label>Quantidade inicial de perguntas<input id="plannedRounds" max="200" min="1" type="number" value="10"/><small>A playlist aumenta esse total automaticamente conforme você adiciona perguntas.</small></label><label>Jogadores esperados (estimativa)<input id="expectedPlayers" max="500" min="1" type="number" value="50"/><small>Usado apenas para planejamento e revisão.</small></label>
 <label>Tema<select id="themePreset"><option value="violet">Violeta</option><option value="ocean">Oceano</option><option value="emerald">Esmeralda</option><option value="sunset">Pôr do sol</option><option value="midnight">Midnight</option></select></label><label>Logo (URL opcional)<input id="logoUrl" maxlength="500" placeholder="https://..." type="url"/></label><label class="random-order-toggle"><input id="randomizeQueueToggle" type="checkbox"/><span><b>Ordem aleatória</b><small>Embaralha as perguntas automaticamente ao começar a partida.</small></span></label>
+<div class="lobby-config-grid span2"><label class="span2">Mensagem do lobby<input id="lobbyMessage" maxlength="120" placeholder="Ex.: Pegue seu celular e escaneie o QR Code"/></label><label>Horário previsto para começar<input id="lobbyStartTime" type="datetime-local"/></label><label>Cenário do lobby<select id="avatarScene"><option value="auto">Automático</option><option value="city">Cidade</option><option value="beach">Praia</option><option value="farm">Fazenda</option><option value="mountain">Montanha</option><option value="laboratory">Laboratório</option><option value="platform">Plataforma</option></select></label><label>Layout do telão no lobby<select id="lobbyMapMode"><option value="auto">Automático</option><option value="standard">PIN + QR em destaque</option><option value="map">Mapa em destaque</option></select></label><label>Prontidão para destacar mapa (%)<input id="lobbyReadyThreshold" type="number" min="50" max="100" value="80"/></label><label class="switch-line"><input id="lobbyMusicEnabled" type="checkbox"/><span><b>Música ambiente no lobby</b><small>Trilha sintetizada leve; desaparece ao iniciar o quiz.</small></span></label></div>
 <button class="primary jumbo" id="createRoomBtn">Criar sala</button><button class="ghost flow-next-btn" id="roomNextQuestionsBtn" type="button">Continuar: escolher perguntas →</button>
 <div class="room-code" id="roomInfo"></div><div class="progress-summary hidden" id="roomProgress"></div>
 <div class="start-room-guard">Proteção de sala: ao criar outra sala, jogadores e perguntas não são transferidos automaticamente. O painel pedirá confirmação se a sala atual já tiver conteúdo.</div>
@@ -271,7 +272,7 @@ TEMPO: 30
 <div class="health-tile checking" id="healthQuestions"><span>PERGUNTAS</span><strong>0 prontas</strong><small>Fila da partida</small></div>
 <div class="health-tile checking" id="healthController"><span>CONTROLE</span><strong>Verificando…</strong><small>Painel principal</small></div>
 <div class="health-tile checking" id="healthRemote"><span>REMOTO</span><strong>Verificando…</strong><small>Celular autorizado</small></div>
-<div class="health-tile checking" id="healthVersions"><span>VERSÕES</span><strong>v3.36</strong><small>ADM, telão e jogadores</small></div>
+<div class="health-tile checking" id="healthVersions"><span>VERSÕES</span><strong>v3.38</strong><small>ADM, telão e jogadores</small></div>
 </div>
 <div class="preflight-summary neutral" id="preflightSummary">Execute o pré-teste antes de começar o evento.</div>
 </article>
@@ -282,17 +283,17 @@ TEMPO: 30
 <div class="admin-qr-block"><div aria-label="QR Code da sala" class="admin-qr" id="adminQr"></div><b>Escaneie para entrar</b><span id="adminJoinUrl">Crie uma sala para gerar o link</span></div>
 </div>
 <div class="room-stats admin-live-stats">
-<span><strong id="participantCount">0</strong> cadastrados</span><span><strong id="activeCount">0</strong> conectados</span><span><strong id="answerCount">0</strong> respostas</span><span><strong id="pendingCount">0</strong> sem resposta</span><span><strong id="responseRate">0%</strong> participação</span>
+<span><strong id="participantCount">0</strong> cadastrados</span><span><strong id="activeCount">0</strong> conectados</span><span><strong id="readyCount">0</strong> prontos</span><span><strong id="answerCount">0</strong> respostas</span><span><strong id="pendingCount">0</strong> sem resposta</span><span><strong id="responseRate">0%</strong> participação</span>
 </div>
 <div class="response-meter"><i id="adminResponseBar"></i></div>
 <div class="presentation-command-stack">
 <div class="presentation-display-launch">
 <div class="presentation-display-copy"><small>APRESENTAÇÃO</small><strong>Abra o telão sem sobreposição</strong><span>Use a mesma tela reutilizando a janela do telão, ou abra uma nova janela dedicada para o projetor.</span></div>
-<div class="presentation-display-actions"><button class="ghost" disabled="" id="displayBtn">Abrir telão / projetor</button><button class="ghost" disabled="" id="fullscreenDisplayBtn">Abrir telão em nova janela</button><button class="ghost remote-pair-action" disabled="" id="pairRemoteBtn" type="button">Autorizar celular</button><button class="ghost danger-soft remote-pair-action" id="revokeRemoteBtn" type="button">Revogar celulares</button></div>
+<div class="presentation-display-actions"><button class="ghost" disabled="" id="displayBtn">Abrir telão / projetor</button><button class="ghost" disabled="" id="fullscreenDisplayBtn">Abrir telão em nova janela</button><button class="ghost remote-pair-action" disabled="" id="pairRemoteBtn" type="button">Autorizar celular</button><button class="ghost danger-soft remote-pair-action" id="revokeRemoteBtn" type="button">Revogar celulares</button></div><div class="lobby-layout-controls" id="lobbyLayoutControls"><span>Lobby do telão:</span><button class="ghost small" data-lobby-layout="standard" type="button">Completo</button><button class="ghost small" data-lobby-layout="map" type="button">Mapa em destaque</button><button class="ghost small" data-lobby-layout="auto" type="button">Automático</button><span class="badge neutral" id="lobbyReadinessAdmin">0 prontos</span></div>
 </div>
 <div class="actions wrap presentation-actions presentation-actions-core"><button class="ghost" data-admin-action="" id="forceSyncBtn">Sincronizar</button><button class="ghost" data-admin-action="" id="connectionTestBtn">Testar conexões</button><button class="restart-game" disabled="" id="restartQuizBtn">Recomeçar partida</button><button class="primary start-game" disabled="" id="startQuizBtn">Começar Quiz</button></div>
 </div>
-<div aria-label="Verificação antes de iniciar" class="start-readiness"><div class="start-check warn" id="startRoomCheck">Crie uma sala</div><div class="start-check ready" id="startPeopleCheck">Participantes podem entrar depois</div><div class="start-check warn" id="startQueueCheck">Nenhuma pergunta selecionada</div></div>
+<div aria-label="Verificação antes de iniciar" class="start-readiness"><div class="start-check warn" id="startRoomCheck">Crie uma sala</div><div class="start-check ready" id="startPeopleCheck">Participantes podem entrar depois</div><div class="start-check neutral" id="startReadyCheck">0 jogadores prontos</div><div class="start-check warn" id="startQueueCheck">Nenhuma pergunta selecionada</div></div>
 <div aria-live="polite" class="start-room-guard hidden" id="startRoomGuard" role="status"></div>
 </article>
 <article class="card round-control-card">
@@ -315,7 +316,7 @@ TEMPO: 30
 </article>
 <article class="card span2 next-question-card hidden" id="nextQuestionPreviewCard"><div class="row wrap"><div><div class="eyebrow">PRÓXIMA PERGUNTA</div><h2 id="nextQuestionTitle">—</h2><p class="muted" id="nextQuestionMeta">Aguardando fila.</p></div><span class="badge neutral" id="nextQuestionBadge">PRÉVIA ADM</span></div><div class="next-question-note" id="nextQuestionNote">Só o administrador vê esta prévia.</div></article><article class="card span2 event-insights-card hidden" id="eventInsightsCard"><div class="row wrap"><div><div class="eyebrow">RESUMO DA PARTIDA</div><h2>Estatísticas e destaques finais</h2><p class="muted">Calculado no servidor com todos os rounds válidos e respostas registradas.</p></div><button class="ghost small" id="refreshInsightsBtn" type="button">Atualizar</button></div><div class="event-insights-grid"><div class="insight-card success"><span>MAIS ACERTADA</span><strong id="mostCorrectQuestion">—</strong><b id="mostCorrectMetric">—</b><small id="mostCorrectDetail">Aguardando rounds encerrados</small></div><div class="insight-card danger"><span>MAIS ERRADA</span><strong id="mostWrongQuestion">—</strong><b id="mostWrongMetric">—</b><small id="mostWrongDetail">Aguardando rounds encerrados</small></div><div class="insight-card info"><span>MAIS RÁPIDA</span><strong id="fastestQuestion">—</strong><b id="fastestMetric">—</b><small>Média das respostas</small></div><div class="insight-card warning"><span>MAIS DEMORADA</span><strong id="slowestQuestion">—</strong><b id="slowestMetric">—</b><small>Média das respostas</small></div></div><div class="event-summary-metrics"><div><span>JOGADORES</span><strong id="insightPlayers">0</strong></div><div><span>RESPOSTAS</span><strong id="insightAnswers">0</strong></div><div><span>ACERTOS</span><strong id="insightAccuracy">0%</strong></div><div><span>TEMPO MÉDIO</span><strong id="insightAvgTime">—</strong></div></div><div class="event-highlights-grid"><div class="highlight-card"><span>🎯 MELHOR PRECISÃO</span><strong id="bestAccuracyPlayer">—</strong><b id="bestAccuracyMetric">—</b></div><div class="highlight-card"><span>🔥 MAIOR SEQUÊNCIA</span><strong id="bestStreakPlayer">—</strong><b id="bestStreakMetric">—</b></div><div class="highlight-card"><span>🚀 MAIOR SUBIDA</span><strong id="biggestClimbPlayer">—</strong><b id="biggestClimbMetric">—</b></div><div class="highlight-card"><span>💨 RESPOSTA RELÂMPAGO</span><strong id="fastestCorrectPlayer">—</strong><b id="fastestCorrectMetric">—</b></div><div class="highlight-card"><span>⚖️ MAIS EQUILIBRADA</span><strong id="mostBalancedQuestion">—</strong><b id="mostBalancedMetric">—</b></div></div><div class="fun-summary" id="eventFunFacts"></div></article>
 <article class="card live-ranking-card"><div class="row wrap"><div><h2>Ranking ao vivo</h2><p class="muted">Atualizado após cada round pontuado.</p></div><span class="badge neutral" id="qualificationBadge">Sem corte</span></div><ol class="admin-ranking" id="adminRanking"></ol><div class="ranking-movers" id="rankingMovers"></div></article>
-<article class="card participants-live-card"><div class="row wrap"><div><h2>Participantes</h2><p class="muted">Conexão, prontidão e controle de acesso.</p></div><div class="actions wrap"><span class="badge neutral" id="connectionTestResult">Teste não executado</span><button class="ghost small" id="refreshParticipantsBtn">Atualizar</button></div></div><div class="participant-admin-list" id="participantAdminList"></div></article>
+<article class="card participants-live-card"><div class="row wrap"><div><h2>Participantes</h2><p class="muted">Conexão, prontidão e controle de acesso.</p></div><div class="actions wrap"><span class="badge neutral" id="connectionTestResult">Teste não executado</span><button class="ghost small" id="refreshParticipantsBtn">Atualizar</button></div></div><div class="participant-filter-bar" role="group" aria-label="Filtrar participantes"><button class="active" data-participant-filter="all" type="button">Todos</button><button data-participant-filter="online" type="button">Online</button><button data-participant-filter="offline" type="button">Offline</button><button data-participant-filter="ready" type="button">Prontos</button><button data-participant-filter="issues" type="button">Problemas</button><span id="participantFilterCount">0</span></div><div class="participant-admin-list" id="participantAdminList"></div></article>
 <article class="card span2 event-secondary-card"><div class="row wrap"><div><h2>Histórico e evolução</h2><p class="muted">Respostas, pontos, rounds perdidos e evolução da classificação.</p></div><div class="actions"><button class="ghost small" id="loadHistoryBtn">Atualizar histórico</button><button class="ghost small" id="showEvolutionBtn">Evolução de posição</button></div></div><div class="history-summary" id="historySummary"></div><div class="evolution-chart hidden" id="evolutionChart"></div></article>
 <article class="card span2 diagnostic-card"><div class="row wrap"><div><h2>Diagnóstico do evento</h2><p class="muted">Conexão, transições, comandos e eventos técnicos desta sessão.</p></div><div class="actions wrap"><span class="badge neutral" id="latencyBadge">Latência —</span><button class="ghost small" id="exportDiagnosticsBtn" type="button">Exportar diagnóstico</button></div></div><div class="diagnostic-log" id="diagnosticLog"></div><details><summary>Auditoria persistida no Supabase</summary><div class="audit-list" id="auditList"></div></details></article>
 </div>
@@ -401,6 +402,6 @@ TEMPO: 30
 </div>
 </div>
 </main>
-<script src="assets/js/admin-v3.36.js" type="module"></script>
+<script src="assets/js/admin-v3.38.js" type="module"></script>
 </body>
 </html>

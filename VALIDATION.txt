@@ -1,37 +1,34 @@
-QuizRounds v3.36 — VALIDAÇÃO FINAL
+QuizRounds v3.38 — validação final
 
-RESULTADO: APROVADO
+ESTRUTURA
+- display.html: Cidade Viva corrigida para ser irmã da área principal dentro de .display-stage-layout; não fica mais aninhada em .display-main-area.
+- PIN e QR permanecem lado a lado no telão desktop.
+- Telão continua estritamente em 100vh/100dvh sem overflow horizontal.
+- Assets ativos consolidados apenas em v3.38.
 
-Escopo validado
-- Fluxo v3.35 preservado: Central → Sala → Perguntas → Regras → Revisão → Lobby → Jogo → Resultado.
-- Cerimônia final sincronizada: Ranking → Estatísticas → Destaques → Campeão.
-- ADM possui controles explícitos para as quatro etapas finais e botão contextual de próxima ação.
-- Controle remoto segue a mesma sequência e mantém feedback tátil em dispositivos compatíveis.
-- Telão lê `settings.final_show_stage` do estado oficial da sala e reconstrói a etapa após sincronização/F5.
-- Estatísticas finais: jogadores, respostas, acertos/erros, taxa geral de acerto e tempo médio ponderado por resposta.
-- Pergunta mais acertada/errada é escolhida por percentual de acerto, com desempates determinísticos.
-- Pergunta mais rápida, mais demorada e mais equilibrada.
-- Melhor precisão individual, maior sequência, maior subida no ranking e resposta correta mais rápida.
-- Resumo divertido automático e pódio Top 3 com campeão em destaque.
-- Exportação CSV inclui os destaques novos.
-- Alternativas A–E permanecem estáticas durante leitura e resposta.
+JAVASCRIPT
+- node --check aprovado: common, avatars, city, player, admin, display e simulator v3.38.
+- Todos os IDs literais usados no ADM e telão existem no HTML correspondente.
+- IDs player numAnswer/numSend são elementos dinâmicos do formulário numérico.
 
-Regressão
-- Todas as referências locais dos HTMLs apontam para arquivos existentes.
-- Nenhum ID duplicado nos HTMLs de produção.
-- Nenhuma referência ativa a assets v3.35.
-- Migrations 025 e 026 incluídas no pacote.
+HTML/CSS
+- Sem IDs duplicados em index.html, admin.html, display.html e simulator.html.
+- Todas as referências locais de script/stylesheet existem.
+- CSS v3.38 analisado com tinycss2 sem erros de parse.
 
-Sintaxe
-- node --check aprovado para todos os JavaScript ativos.
-- tinycss2: 0 erros de parse em todos os CSS ativos.
+RESPONSIVIDADE / LAYOUT (Chromium headless via page.set_content)
+- Telão validado em 1920x1080, 1366x768, 1280x720, 1024x768 e 760x900.
+- scrollWidth = viewport em todos os testes.
+- Header do lobby: ~41–43 px nos viewports desktop testados.
+- Modo mapa: Cidade Viva ocupa ~475 px em 1920x1080, ~338 px em 1366x768, ~317 px em 1280x720 e ~338 px em 1024x768.
+- Pergunta com cinco alternativas A–E validada sem overflow em 1920x1080, 1366x768, 1280x720 e 1024x768.
+- Player lobby validado em 390x844, 412x915, 768x1024 e 1366x768 sem overflow horizontal.
+- ADM validado sem overflow horizontal; Ranking e Participantes corrigidos para meia largura no desktop.
 
-Supabase
-- `025_final_showcase_v336.sql` e `026_final_showcase_precision_v336.sql` aplicadas em produção.
-- `private.quiz_event_insights(uuid)`: SECURITY DEFINER, sem EXECUTE para anon/authenticated.
-- `admin_set_final_show_stage`, `admin_set_reveal_stage`, `admin_get_event_insights` e `get_public_event_insights`: anon sem EXECUTE; authenticated com EXECUTE.
-- RPC de insights executado com sucesso após a migração.
-
-Correções adicionais da auditoria
-- Cache de insights do telão passou a considerar `state_version`, evitando estatística antiga após reclassificação/alteração do estado final.
-- Controle remoto vibra também quando a etapa final muda por outro controlador sincronizado.
+SUPABASE
+- lobby_readiness_experience_v338 aplicado em produção.
+- explicit_player_ready_v338 aplicado em produção.
+- player_set_ready, get_public_avatar_roster, get_public_display_state e join_quiz_room: SECURITY DEFINER, anon sem EXECUTE, authenticated com EXECUTE.
+- get_public_display_state retorna ready_count.
+- get_public_avatar_roster retorna ready por participante.
+- join_quiz_room não força ready=true; participante novo entra ready=false e reconexão preserva a escolha anterior.
