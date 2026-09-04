@@ -1,4 +1,13 @@
-# QuizRounds v3.42 — contraste, avatares e entrada no lobby
+# QuizRounds v3.43 — Correção de entrada pelo QR Code
+
+- Corrigido botão de entrada que ficava fora da área visível após a grade com 48 avatares.
+- O CTA agora aparece como **Entrar no quiz** e permanece acessível no celular.
+- Entrada por QR usa layout mais compacto para preservar o botão e a grade de avatares.
+- Nenhuma alteração no Supabase ou na lógica do jogo.
+
+---
+
+# QuizRounds v3.43 — contraste, avatares e entrada no lobby
 
 - Texto preto nas partidas recentes e na jornada Sala → Perguntas → Regras → Revisar → Lobby.
 - Conflito com a cor branca global dos botões removido na origem.
@@ -11,7 +20,7 @@
 
 ---
 
-# QuizRounds v3.42 — Hardening pós-auditoria
+# QuizRounds v3.43 — Hardening pós-auditoria
 
 Esta versão preserva a lógica estável da v3.40 e corrige os pontos encontrados na auditoria completa: segurança de RPCs, performance do banco, limpeza de logos, HTTPS, tema, contraste, acessibilidade, timers e documentação.
 
@@ -19,7 +28,7 @@ Esta versão preserva a lógica estável da v3.40 e corrige os pontos encontrado
 
 ---
 
-# QuizRounds v3.42 — Logo por upload ou link
+# QuizRounds v3.43 — Logo por upload ou link
 
 ## Logo do evento
 

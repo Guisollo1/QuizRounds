@@ -1,4 +1,3 @@
-QuizRounds v3.42
-Contraste e tipografia do ADM corrigidos. Partidas recentes e jornada usam texto preto em fundo claro.
-Entrada do jogador simplificada com todos os avatares sem filtros e botão Entrar no lobby restaurado.
-Base funcional e Supabase v3.41 preservados; sem nova migration.
+QuizRounds v3.43
+Correção do fluxo QR no jogador: botão Entrar no quiz sempre acessível após escolher o avatar, especialmente em celulares.
+Base v3.42 preservada.
