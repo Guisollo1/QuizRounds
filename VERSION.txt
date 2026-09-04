@@ -1,3 +1,7 @@
-QuizRounds v3.43
-Correção do fluxo QR no jogador: botão Entrar no quiz sempre acessível após escolher o avatar, especialmente em celulares.
-Base v3.42 preservada.
+QuizRounds v3.44
+Correção estrutural da entrada do jogador pelo QR Code.
+- Botão “Entrar no lobby” sempre visível após escolher o avatar.
+- Se a retomada automática falhar, a tela orienta o usuário a tocar no botão.
+- Seletor de 48 avatares sem rolagem horizontal; apenas rolagem vertical interna quando necessária.
+- Colunas adaptativas para caber na largura real do card em desktop e celular.
+- Base funcional e Supabase da v3.43 preservados.

@@ -1,4 +1,4 @@
-QuizRounds v3.43 — validação pós-auditoria
+QuizRounds v3.44 — validação pós-auditoria
 
 Frontend
 - JavaScript: node --check em todos os módulos atuais: OK.
@@ -26,4 +26,11 @@ Observação externa
 - Leaked Password Protection é configuração do Supabase Auth/GoTrue e não pode ser ativada por migration SQL do projeto. Permanece como configuração externa da conta.
 
 
-v3.43: contraste, tipografia ADM e seleção de avatares sem filtros validados.
+v3.44: contraste, tipografia ADM e seleção de avatares sem filtros validados.
+
+
+Validação v3.44:
+- CTA joinBtn presente e rotulado Entrar no lobby.
+- avatar-picker-grid com overflow-x:hidden e overflow-y:auto.
+- grade adaptativa auto-fit/minmax sem largura fixa de 6 colunas.
+- fluxo QR mantém botão visível após falha de retomada automática.

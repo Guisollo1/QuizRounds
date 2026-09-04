@@ -1,4 +1,17 @@
-# QuizRounds v3.43 — Correção de entrada pelo QR Code
+# QuizRounds v3.44 — Entrada QR e seletor de avatares corrigidos
+
+## Correções v3.44
+
+- O CTA do jogador agora é **Entrar no lobby** e permanece visível após a seleção do avatar.
+- O seletor não cria mais barra de rolagem horizontal.
+- Os 48 avatares continuam disponíveis em uma única grade, com colunas que se ajustam automaticamente à largura do card.
+- A grade usa somente rolagem vertical quando não houver altura suficiente para mostrar todos os avatares.
+- Em sessão salva com falha de retomada automática, o usuário recebe uma instrução para confirmar o avatar e tocar em **Entrar no lobby**.
+- Não houve alteração de banco de dados.
+
+---
+
+# QuizRounds v3.44 — Correção de entrada pelo QR Code
 
 - Corrigido botão de entrada que ficava fora da área visível após a grade com 48 avatares.
 - O CTA agora aparece como **Entrar no quiz** e permanece acessível no celular.
@@ -7,7 +20,7 @@
 
 ---
 
-# QuizRounds v3.43 — contraste, avatares e entrada no lobby
+# QuizRounds v3.44 — contraste, avatares e entrada no lobby
 
 - Texto preto nas partidas recentes e na jornada Sala → Perguntas → Regras → Revisar → Lobby.
 - Conflito com a cor branca global dos botões removido na origem.
@@ -20,7 +33,7 @@
 
 ---
 
-# QuizRounds v3.43 — Hardening pós-auditoria
+# QuizRounds v3.44 — Hardening pós-auditoria
 
 Esta versão preserva a lógica estável da v3.40 e corrige os pontos encontrados na auditoria completa: segurança de RPCs, performance do banco, limpeza de logos, HTTPS, tema, contraste, acessibilidade, timers e documentação.
 
@@ -28,7 +41,7 @@ Esta versão preserva a lógica estável da v3.40 e corrige os pontos encontrado
 
 ---
 
-# QuizRounds v3.43 — Logo por upload ou link
+# QuizRounds v3.44 — Logo por upload ou link
 
 ## Logo do evento
 
