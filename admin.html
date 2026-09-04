@@ -5,10 +5,10 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#5d28c7" name="theme-color"/>
-<title>Quiz Rounds v3.34 — Administração</title>
-<link href="assets/css/core-v3.34.css" rel="stylesheet"/>
-<link href="assets/css/admin-v3.34.css" rel="stylesheet"/>
-<link href="assets/css/avatars-v3.34.css" rel="stylesheet"/>
+<title>Quiz Rounds v3.36 — Administração</title>
+<link href="assets/css/core-v3.36.css" rel="stylesheet"/>
+<link href="assets/css/admin-v3.36.css" rel="stylesheet"/>
+<link href="assets/css/avatars-v3.36.css" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.min.js"></script>
 <script src="assets/vendor/qr-bundle.js"></script>
 </head>
@@ -22,7 +22,7 @@
 <div><div class="eyebrow light">QUIZ ROUNDS</div><h1>Painel do Administrador</h1><p>Prepare, apresente e controle o quiz em tempo real.</p></div>
 </div>
 <div aria-label="Ações do administrador" class="top-actions">
-<span class="badge version-badge" id="appVersionBadge">v3.34</span><span aria-live="polite" class="connection-pill connecting" id="adminConnection" role="status">Conectando…</span>
+<span class="badge version-badge" id="appVersionBadge">v3.36</span><span aria-live="polite" class="connection-pill connecting" id="adminConnection" role="status">Conectando…</span>
 <a class="ghost glass" href="simulator.html">Simulador</a>
 <a class="ghost glass" href="index.html">Modo jogador</a>
 <button class="ghost glass hidden" id="remoteModeBtn" type="button">Controle remoto</button>
@@ -45,17 +45,17 @@
 </article>
 </section>
 <section class="hidden admin-workspace" id="adminView">
-<nav aria-label="Áreas do painel" class="admin-tabs" id="adminTabs" role="tablist">
-<button aria-controls="adminPanelQuestions" aria-selected="true" class="admin-tab active" data-tab="questions" id="adminTabQuestions" role="tab" type="button"><span>1</span><b><span class="tab-label-desktop">Editar perguntas</span><span class="tab-label-mobile">Perguntas</span></b><small>Criar e organizar</small></button>
-<button aria-controls="adminPanelConfig" aria-selected="false" class="admin-tab" data-tab="config" id="adminTabConfig" role="tab" type="button"><span>2</span><b><span class="tab-label-desktop">Configuração</span><span class="tab-label-mobile">Configurar</span></b><small>Montar a partida</small></button>
-<button aria-controls="adminPanelPresentation" aria-selected="false" class="admin-tab" data-tab="presentation" id="adminTabPresentation" role="tab" type="button"><span>3</span><b><span class="tab-label-desktop">Apresentação</span><span class="tab-label-mobile">Ao vivo</span></b><small>Lobby e rounds</small></button>
+<nav aria-label="Áreas do painel" class="admin-tabs" id="adminTabs" role="tablist"><button aria-controls="adminPanelCentral" aria-selected="true" class="admin-tab active" data-tab="central" id="adminTabCentral" role="tab" type="button"><span>1</span><b><span class="tab-label-desktop">Central</span><span class="tab-label-mobile">Central</span></b><small>Fluxo da partida</small></button>
+<button aria-controls="adminPanelQuestions" aria-selected="false" class="admin-tab" data-tab="questions" id="adminTabQuestions" role="tab" type="button"><span>2</span><b><span class="tab-label-desktop">Editar perguntas</span><span class="tab-label-mobile">Perguntas</span></b><small>Criar e organizar</small></button>
+<button aria-controls="adminPanelConfig" aria-selected="false" class="admin-tab" data-tab="config" id="adminTabConfig" role="tab" type="button"><span>3</span><b><span class="tab-label-desktop">Configuração</span><span class="tab-label-mobile">Configurar</span></b><small>Montar a partida</small></button>
+<button aria-controls="adminPanelPresentation" aria-selected="false" class="admin-tab" data-tab="presentation" id="adminTabPresentation" role="tab" type="button"><span>4</span><b><span class="tab-label-desktop">Apresentação</span><span class="tab-label-mobile">Ao vivo</span></b><small>Lobby e rounds</small></button>
 </nav>
 <div aria-live="polite" class="system-reconnect-banner hidden" id="adminReconnectBanner" role="status">Reconectando e reconstruindo o estado oficial da sala…</div>
 <div aria-live="polite" class="controller-conflict-banner hidden" id="controllerConflictBanner" role="alert">
 <div><strong>Outro painel ADM está como controlador principal</strong><span id="controllerConflictText">Este painel ficou em modo de acompanhamento para evitar comandos duplicados.</span></div>
 <button class="warn" id="takeOverControllerBtn" type="button">Assumir controle neste aparelho</button>
-</div>
-<section aria-labelledby="adminTabQuestions" class="tab-panel active question-workbench-panel" data-panel="questions" data-question-pane="edit" id="adminPanelQuestions" role="tabpanel">
+</div><div aria-live="polite" class="event-build-summary hidden" id="eventBuildSummary"><div><span>PARTIDA</span><strong id="buildSummaryTitle">Nenhuma sala</strong></div><div><span>PERGUNTAS</span><strong id="buildSummaryQuestions">0</strong></div><div><span>DURAÇÃO</span><strong id="buildSummaryDuration">~0 min</strong></div><div><span>PONTOS</span><strong id="buildSummaryPoints">0</strong></div><div><span>NÍVEL</span><strong id="buildSummaryDifficulty">—</strong></div><button class="ghost small" id="buildSummaryReviewBtn" type="button">Revisar partida</button></div><div aria-live="polite" class="action-toast hidden" id="actionToast" role="status"><span id="actionToastIcon">✓</span><strong id="actionToastText">Ação confirmada</strong></div>
+<section aria-labelledby="adminTabCentral" class="tab-panel active central-panel" data-panel="central" id="adminPanelCentral" role="tabpanel"><div class="central-hero card"><div class="central-hero-copy"><div class="eyebrow">CENTRAL DE PARTIDAS</div><h2>Prepare o evento na ordem certa</h2><p>Crie a sala, escolha as perguntas, ajuste as regras, revise e só então abra o lobby.</p></div><div class="central-primary-actions"><button class="primary jumbo" id="centralNewGameBtn" type="button"><span>＋</span><b>Nova partida</b><small>Começar do zero</small></button><button class="ghost jumbo" id="centralContinueBtn" type="button"><span>▶</span><b>Continuar partida</b><small id="centralContinueHint">Nenhuma sala ativa</small></button><button class="ghost jumbo" id="centralBankBtn" type="button"><span>▦</span><b>Banco de perguntas</b><small>Editar e organizar</small></button></div></div><nav aria-label="Fluxo de preparação" class="setup-journey" id="setupJourney"><button data-journey-step="room" type="button"><b>1</b><span>Sala</span><small>Nome e visual</small></button><i></i><button data-journey-step="questions" type="button"><b>2</b><span>Perguntas</span><small>Monte a playlist</small></button><i></i><button data-journey-step="rules" type="button"><b>3</b><span>Regras</span><small>Ritmo e pontuação</small></button><i></i><button data-journey-step="review" type="button"><b>4</b><span>Revisar</span><small>Validar tudo</small></button><i></i><button data-journey-step="lobby" type="button"><b>5</b><span>Lobby</span><small>Conectar jogadores</small></button></nav><div class="central-grid"><article class="card setup-review-card" id="setupReviewCard"><div class="row wrap"><div><div class="eyebrow">REVISÃO DA PARTIDA</div><h2>Checklist antes do lobby</h2><p class="muted">O sistema verifica a fila e as configurações antes de liberar a apresentação.</p></div><span class="badge neutral" id="setupReadinessBadge">0/5</span></div><div class="setup-review-list" id="setupReviewList"></div><div class="setup-review-summary" id="setupReviewSummary">Crie uma sala para começar.</div><div class="actions wrap"><button class="ghost" id="reviewBackRulesBtn" type="button">← Voltar às regras</button><button class="primary" disabled="" id="openLobbyFromReviewBtn" type="button">ABRIR LOBBY →</button></div></article><article class="card recent-rooms-card"><div class="row wrap"><div><div class="eyebrow">HISTÓRICO RÁPIDO</div><h2>Partidas recentes</h2></div><button class="ghost small" id="refreshRecentRoomsBtn" type="button">Atualizar</button></div><div class="recent-rooms-list" id="recentRoomsList"><div class="empty">Carregando partidas…</div></div></article></div></section><section aria-labelledby="adminTabQuestions" class="tab-panel question-workbench-panel" data-panel="questions" data-question-pane="edit" id="adminPanelQuestions" role="tabpanel">
 <div class="question-hero">
 <div class="question-hero-copy">
 <div class="eyebrow">CENTRAL DE CONTEÚDO</div>
@@ -116,7 +116,7 @@
 <div class="editor-block-title"><span>3</span><div><b>Pontuação e tempo</b><small>Ajuste o ritmo e o valor competitivo.</small></div></div>
 <div class="two-cols"><label>Pontuação<input id="points" max="100000" min="1" type="number" value="10"/></label><label>Tempo para responder (s)<input id="timeLimit" max="600" min="5" type="number" value="30"/></label></div>
 <div class="preset-row"><span>Pontos rápidos</span><button data-points-preset="10" type="button">10</button><button data-points-preset="50" type="button">50</button><button data-points-preset="100" type="button">100</button><button data-points-preset="500" type="button">500</button></div>
-<div class="preset-row"><span>Tempo rápido</span><button data-time-preset="10" type="button">10s</button><button data-time-preset="20" type="button">20s</button><button data-time-preset="30" type="button">30s</button><button data-time-preset="60" type="button">60s</button></div>
+<div class="preset-row"><span>Tempo rápido</span><button data-time-preset="10" type="button">10s</button><button data-time-preset="20" type="button">20s</button><button data-time-preset="30" type="button">30s</button><button data-time-preset="60" type="button">60s</button></div><div class="preset-row special-round-presets"><span>Round especial</span><button data-special-preset="normal" type="button">Normal</button><button data-special-preset="double" type="button">2× pontos</button><button data-special-preset="tiebreaker" type="button">Desempate</button><button data-special-preset="final" type="button">Final</button></div>
 <div class="two-cols"><label>Bônus máximo por velocidade (%)<input id="qSpeedBonus" max="100" min="0" type="number" value="0"/></label><label class="switch-line"><input id="qTiebreaker" type="checkbox"/><span><b>Pergunta de desempate</b><small>Usada também como critério de desempate.</small></span></label></div>
 <label class="switch-line"><input checked="" id="qScoreEnabled" type="checkbox"/><span><b>Vale pontos</b><small>Desative para perguntas de diversão ou ensaio.</small></span></label>
 </section>
@@ -187,15 +187,15 @@ TEMPO: 30
 <button data-bank-quick="tiebreaker" type="button">Desempate</button>
 <button data-bank-quick="unscored" type="button">Sem pontos</button>
 <button data-bank-quick="final" type="button">Final</button>
-</div>
+<button data-bank-quick="most_correct" type="button">Mais acertadas</button><button data-bank-quick="most_wrong" type="button">Mais erradas</button></div>
 <div aria-hidden="true" class="mobile-filter-hint">Deslize para ver mais filtros →</div>
 <div class="bank-filters bank-filters-v311">
 <input class="bank-search" id="questionSearch" placeholder="Pesquisar por pergunta ou categoria..."/>
 <select id="questionCategoryFilter"><option value="">Todas categorias</option></select>
 <select id="questionDifficultyFilter"><option value="">Todas dificuldades</option><option value="facil">Fácil</option><option value="medio">Médio</option><option value="dificil">Difícil</option><option value="final">Final</option></select>
 <select id="questionUsageFilter"><option value="">Qualquer uso</option><option value="unused">Nunca usada</option><option value="recent">Usada recentemente</option></select>
-<select id="questionScope"><option value="active">Disponíveis</option><option value="archived">Arquivadas</option><option value="all">Todas</option></select>
-<select aria-label="Ordenar banco" id="questionSort"><option value="newest">Mais novas</option><option value="prompt">A–Z</option><option value="category">Categoria</option><option value="difficulty">Dificuldade</option><option value="points_desc">Mais pontos</option><option value="used_desc">Mais usadas</option></select>
+<select id="questionOptionCountFilter"><option value="">A–D / A–E / numérica</option><option value="4">Somente A–D</option><option value="5">Somente A–E</option><option value="numeric">Somente numéricas</option></select><select id="questionScope"><option value="active">Disponíveis</option><option value="archived">Arquivadas</option><option value="all">Todas</option></select>
+<select aria-label="Ordenar banco" id="questionSort"><option value="newest">Mais novas</option><option value="prompt">A–Z</option><option value="category">Categoria</option><option value="difficulty">Dificuldade</option><option value="points_desc">Mais pontos</option><option value="used_desc">Mais usadas</option><option value="accuracy_desc">Maior % de acerto</option><option value="accuracy_asc">Menor % de acerto</option><option value="speed_asc">Mais rápidas</option><option value="speed_desc">Mais demoradas</option></select>
 <button class="ghost" id="clearQuestionFiltersBtn" type="button">Limpar filtros</button>
 <button class="ghost" id="refreshQuestionsBtn" type="button">Atualizar</button>
 </div>
@@ -208,9 +208,9 @@ TEMPO: 30
 <button class="small" id="queueSelectedQuestionsBtn" type="button">＋ Adicionar à sala</button>
 <button class="ghost small" id="archiveSelectedQuestionsBtn" type="button">Arquivar</button>
 <button class="ghost small" id="restoreSelectedQuestionsBtn" type="button">Restaurar</button>
+<button class="ghost small" id="addRandom10Btn" type="button">＋ 10 aleatórias</button><button class="ghost small" id="addCategoryBtn" type="button">＋ Categoria</button><button class="ghost small" id="saveCollectionBtn" type="button">Salvar coleção</button></div>
 </div>
-</div>
-<div class="question-list question-library-list" id="questionList"></div>
+<div class="playlist-builder-grid"><div class="playlist-bank-column"><div class="question-list question-library-list" id="questionList"></div></div><aside class="playlist-queue-column"><div class="playlist-queue-head"><div><div class="studio-kicker">PLAYLIST DA PARTIDA</div><h3>Rounds selecionados</h3><p>Arraste para mudar a ordem ou use ↑/↓.</p></div><span class="badge" id="playlistQueueCount">0 / 0</span></div><div class="playlist-summary" id="playlistSummary"><span>0 perguntas</span><span>~0 min</span><span>0 pts</span></div><div class="question-list mini-round-queue" id="roundQueueMini"></div><div class="collection-tools"><label>Coleções<select id="collectionSelect"><option value="">Selecione uma coleção...</option></select></label><div class="actions wrap"><button class="ghost small" id="loadCollectionBtn" type="button">Adicionar coleção</button><button class="ghost small danger-soft" id="deleteCollectionBtn" type="button">Excluir coleção</button></div></div></aside></div>
 </article>
 </div>
 </section>
@@ -219,46 +219,47 @@ TEMPO: 30
 <div class="config-subpane" data-config-content="room"><div class="config-room-grid"><article class="card config-main-card config-room-card">
 <h2>Dados do evento</h2>
 <label>Nome da sala<input id="roomTitle" maxlength="60" value="Quiz ao vivo"/></label>
-<label>Quantidade de rounds<input id="plannedRounds" max="200" min="1" type="number" value="10"/></label>
-<label class="random-order-toggle"><input id="randomizeQueueToggle" type="checkbox"/><span><b>Ordem aleatória</b><small>Embaralha as perguntas automaticamente ao começar a partida.</small></span></label>
-<button class="primary jumbo" id="createRoomBtn">Criar sala</button>
+<label>Quantidade inicial de perguntas<input id="plannedRounds" max="200" min="1" type="number" value="10"/><small>A playlist aumenta esse total automaticamente conforme você adiciona perguntas.</small></label><label>Jogadores esperados (estimativa)<input id="expectedPlayers" max="500" min="1" type="number" value="50"/><small>Usado apenas para planejamento e revisão.</small></label>
+<label>Tema<select id="themePreset"><option value="violet">Violeta</option><option value="ocean">Oceano</option><option value="emerald">Esmeralda</option><option value="sunset">Pôr do sol</option><option value="midnight">Midnight</option></select></label><label>Logo (URL opcional)<input id="logoUrl" maxlength="500" placeholder="https://..." type="url"/></label><label class="random-order-toggle"><input id="randomizeQueueToggle" type="checkbox"/><span><b>Ordem aleatória</b><small>Embaralha as perguntas automaticamente ao começar a partida.</small></span></label>
+<button class="primary jumbo" id="createRoomBtn">Criar sala</button><button class="ghost flow-next-btn" id="roomNextQuestionsBtn" type="button">Continuar: escolher perguntas →</button>
 <div class="room-code" id="roomInfo"></div><div class="progress-summary hidden" id="roomProgress"></div>
 <div class="start-room-guard">Proteção de sala: ao criar outra sala, jogadores e perguntas não são transferidos automaticamente. O painel pedirá confirmação se a sala atual já tiver conteúdo.</div>
 <p class="muted compact">Depois do início, a quantidade de rounds e a fila ficam bloqueadas para preservar o resultado.</p>
 </article><article class="card setup-guide-card">
 <div class="eyebrow">CHECKLIST</div><h2>Pronto para jogar?</h2>
 <div class="flow-list animated-flow">
-<div><strong>1</strong><span>Crie a sala e confirme a quantidade de rounds.</span></div>
-<div><strong>2</strong><span>Adicione as perguntas da partida. Com pelo menos 1 pergunta selecionada, o quiz já pode começar.</span></div>
-<div><strong>3</strong><span>Vá para Apresentação, abra o lobby e espere todos entrarem.</span></div>
-<div><strong>4</strong><span>Quando estiver pronto, clique em Começar Quiz.</span></div>
+<div><strong>1</strong><span>Crie a sala com nome, tema e estimativa de público.</span></div>
+<div><strong>2</strong><span>Monte a playlist no banco; o total de rounds cresce automaticamente.</span></div>
+<div><strong>3</strong><span>Ajuste regras simples ou avançadas e revise o checklist.</span></div>
+<div><strong>4</strong><span>Abra o lobby, faça o pré-teste e conecte jogadores/telão.</span></div>
+<div><strong>5</strong><span>Inicie e use uma ação principal por etapa até o resultado final.</span></div>
 </div>
-</article></div><article class="card config-tools-card"><h2>Modelos e ferramentas da sala</h2><p class="muted compact">Reutilize uma configuração, duplique a sala ou exporte o relatório sem ocupar espaço nas regras.</p><div class="template-tools"><label>Modelos salvos<select id="templateSelect"><option value="">Selecione um modelo...</option></select></label><div class="actions wrap"><button class="ghost" id="loadTemplateBtn" type="button">Criar sala deste modelo</button><button class="ghost" id="duplicateRoomBtn" type="button">Duplicar sala atual</button></div></div><div class="actions wrap config-tool-actions"><button class="ghost" id="saveTemplateBtn" type="button">Salvar como modelo</button><button class="ghost" id="exportReportBtn" type="button">Exportar relatório CSV</button></div></article></div><div class="config-subpane" data-config-content="rules"><article class="card config-rules-card"><div class="config-pane-heading"><div><div class="eyebrow">REGRAS DA PARTIDA</div><h2>Competição, entrada e experiência</h2><p class="muted">Ajuste as regras usando toda a largura disponível. As alterações são as mesmas configurações já usadas pela sala.</p></div></div><div class="config-option-grid">
-<label class="switch-line"><input id="classificationEnabled" type="checkbox"/><span><b>Modo classificação</b><small>Destaca quem está dentro/fora da zona de corte.</small></span></label>
-<label>Classificam até a posição<input id="qualifyTop" max="200" min="1" type="number" value="5"/></label>
-<label class="span2">Cortes progressivos por round<input id="qualificationSchedule" placeholder="Ex.: 5:30, 10:15, 15:5, 20:1"/><small>Opcional. Formato round:Top. O corte muda automaticamente após cada marco.</small></label>
-<label>Entrada tardia<select id="lateJoinPolicy"><option value="allow_zero">Permitir com zero nos anteriores</option><option value="until_round">Permitir somente até o round...</option><option value="deny">Bloquear depois de começar</option></select></label>
-<label>Último round para entrada<input id="lateJoinUntil" max="200" min="1" type="number" value="3"/></label>
+</article></div><article class="card config-tools-card"><h2>Modelos e ferramentas da sala</h2><p class="muted compact">Reutilize uma configuração, duplique a sala ou exporte o relatório sem ocupar espaço nas regras.</p><div class="template-tools"><label>Modelos salvos<select id="templateSelect"><option value="">Selecione um modelo...</option></select></label><div class="actions wrap"><button class="ghost" id="loadTemplateBtn" type="button">Criar sala deste modelo</button><button class="ghost" id="duplicateRoomBtn" type="button">Duplicar sala atual</button></div></div><div class="actions wrap config-tool-actions"><button class="ghost" id="saveTemplateBtn" type="button">Salvar como modelo</button><button class="ghost" id="exportReportBtn" type="button">Exportar relatório CSV</button></div></article></div><div class="config-subpane" data-config-content="rules"><article class="card config-rules-card"><div class="config-pane-heading"><div><div class="eyebrow">REGRAS DA PARTIDA</div><h2>Competição, entrada e experiência</h2><p class="muted">Ajuste as regras usando toda a largura disponível. As alterações são as mesmas configurações já usadas pela sala.</p></div></div><div aria-label="Nível de configuração" class="rules-mode-switch" role="tablist"><button class="active" data-rules-mode="simple" type="button">Simples</button><button data-rules-mode="advanced" type="button">Avançado</button><span id="rulesModeHint">Somente as regras mais usadas.</span></div><div class="config-option-grid"><label>Tempo padrão para novas perguntas (s)<input id="defaultTime" max="600" min="5" type="number" value="30"/></label><label>Pontos padrão para novas perguntas<input id="defaultPoints" max="100000" min="1" type="number" value="100"/></label><label class="switch-line"><input id="shuffleAnswersToggle" type="checkbox"/><span><b>Embaralhar posição das alternativas</b><small>A ordem muda no round, mantendo as letras A–E vinculadas ao texto.</small></span></label><label>Intervalo a cada N perguntas<input id="breakEvery" max="100" min="0" type="number" value="0"/><small>0 desativa o intervalo guiado.</small></label>
+<label class="switch-line advanced-rule"><input id="classificationEnabled" type="checkbox"/><span><b>Modo classificação</b><small>Destaca quem está dentro/fora da zona de corte.</small></span></label>
+<label class="advanced-rule">Classificam até a posição<input id="qualifyTop" max="200" min="1" type="number" value="5"/></label>
+<label class="span2 advanced-rule">Cortes progressivos por round<input id="qualificationSchedule" placeholder="Ex.: 5:30, 10:15, 15:5, 20:1"/><small>Opcional. Formato round:Top. O corte muda automaticamente após cada marco.</small></label>
+<label class="advanced-rule">Entrada tardia<select id="lateJoinPolicy"><option value="allow_zero">Permitir com zero nos anteriores</option><option value="until_round">Permitir somente até o round...</option><option value="deny">Bloquear depois de começar</option></select></label>
+<label class="advanced-rule">Último round para entrada<input id="lateJoinUntil" max="200" min="1" type="number" value="3"/></label>
 <label class="switch-line"><input id="autoCloseAll" type="checkbox"/><span><b>Encerrar quando todos responderem</b><small>Opcional. Fecha o round quando 100% responderem.</small></span></label>
 <label class="switch-line"><input id="autoCloseTime" type="checkbox"/><span><b>Encerrar ao acabar o tempo</b><small>Opcional. Pontua automaticamente quando o cronômetro chegar a zero.</small></span></label>
 <label class="switch-line"><input checked="" id="streakEnabled" type="checkbox"/><span><b>Mostrar sequência de acertos</b><small>Feedback 🔥 para sequência.</small></span></label>
 <label class="switch-line"><input checked="" id="speedBonusEnabled" type="checkbox"/><span><b>Bônus de velocidade</b><small>Usa o percentual definido em cada pergunta.</small></span></label>
-<label>Bônus fixo por sequência<input id="streakBonus" max="100000" min="0" type="number" value="0"/></label>
-<label>Evitar perguntas usadas nas últimas partidas<input id="avoidRecentGames" max="50" min="0" type="number" value="0"/></label>
-<label>Tema<select id="themePreset"><option value="violet">Violeta</option><option value="ocean">Oceano</option><option value="emerald">Esmeralda</option><option value="sunset">Pôr do sol</option><option value="midnight">Midnight</option></select></label>
-<label>Logo (URL opcional)<input id="logoUrl" maxlength="500" placeholder="https://..." type="url"/></label>
+<label class="advanced-rule">Bônus fixo por sequência<input id="streakBonus" max="100000" min="0" type="number" value="0"/></label>
+<label class="advanced-rule">Evitar perguntas usadas nas últimas partidas<input id="avoidRecentGames" max="50" min="0" type="number" value="0"/></label>
+
+
 <label class="switch-line"><input checked="" id="soundEnabled" type="checkbox"/><span><b>Sons do evento</b><small>Contagem, resposta e campeão.</small></span></label>
-<label class="switch-line"><input id="rehearsalMode" type="checkbox"/><span><b>Modo ensaio</b><small>Marca esta sala como teste para não confundir com evento oficial.</small></span></label>
-<label class="switch-line"><input id="allowDuplicateNames" type="checkbox"/><span><b>Permitir nomes repetidos</b><small>Por padrão o sistema exige nomes únicos.</small></span></label>
-<label class="span2">Palavras bloqueadas nos nomes<input id="bannedWords" placeholder="palavra1, palavra2, palavra3"/></label>
-</div><div class="actions wrap config-rules-actions"><button class="ghost" id="saveRoomSettingsBtn" type="button">Salvar configurações</button></div></article></div><div class="config-subpane" data-config-content="rounds"><article class="card config-rounds-card">
+<label class="switch-line advanced-rule"><input id="rehearsalMode" type="checkbox"/><span><b>Modo ensaio</b><small>Marca esta sala como teste para não confundir com evento oficial.</small></span></label>
+<label class="switch-line advanced-rule"><input id="allowDuplicateNames" type="checkbox"/><span><b>Permitir nomes repetidos</b><small>Por padrão o sistema exige nomes únicos.</small></span></label>
+<label class="span2 advanced-rule">Palavras bloqueadas nos nomes<input id="bannedWords" placeholder="palavra1, palavra2, palavra3"/></label>
+</div><div class="actions wrap config-rules-actions"><button class="ghost" id="rulesBackQuestionsBtn" type="button">← Perguntas</button><button class="ghost" id="saveRoomSettingsBtn" type="button">Salvar configurações</button><button class="primary" id="rulesNextReviewBtn" type="button">Continuar: revisar →</button></div></article></div><div class="config-subpane" data-config-content="rounds"><article class="card config-rounds-card">
 <div class="row wrap"><div><h2>Perguntas escolhidas para os rounds</h2><p class="muted">A ordem abaixo será a ordem oficial da partida.</p></div><div class="actions wrap"><button class="ghost" id="goQuestionsBtn" type="button">Escolher no banco</button><button class="ghost" disabled="" id="shuffleQueueBtn" type="button">Embaralhar agora</button><span class="badge" id="queueCount">0 / 0</span></div></div>
 <div class="queue-warning" id="queueWarning">Crie uma sala para montar os rounds.</div><div class="question-list" id="roundQueue"></div>
 </article></div>
 </section>
 <section aria-labelledby="adminTabPresentation" class="tab-panel" data-panel="presentation" id="adminPanelPresentation" role="tabpanel">
-<div class="section-heading"><div><div class="eyebrow">CENTRAL AO VIVO</div><h2>Apresentação e controle do jogo</h2><p>Use esta tela para o lobby, acompanhar conexões e avançar os rounds.</p></div><span class="live-stage-badge" id="presentationStageBadge">LOBBY</span></div>
-<div aria-label="Etapas da partida" class="presentation-stepper"><div class="active" data-stage="lobby"><b>1</b><span>Lobby</span></div><i></i><div data-stage="question"><b>2</b><span>Perguntas</span></div><i></i><div data-stage="result"><b>3</b><span>Resultados</span></div></div>
+<div class="section-heading"><div><div class="eyebrow">CENTRAL AO VIVO</div><h2>Apresentação e controle do jogo</h2><p>Use esta tela para o lobby, acompanhar conexões e avançar os rounds.</p></div><div class="presentation-heading-actions"><button class="ghost" id="backToPreparationBtn" type="button">← Voltar à preparação</button><span class="live-stage-badge" id="presentationStageBadge">LOBBY</span></div></div>
+<div aria-label="Etapas da partida" class="presentation-stepper live-journey"><div class="active" data-stage="lobby"><b>1</b><span>Lobby</span></div><i></i><div data-stage="question"><b>2</b><span>Pergunta</span></div><i></i><div data-stage="answer"><b>3</b><span>Resposta</span></div><i></i><div data-stage="distribution"><b>4</b><span>Distribuição</span></div><i></i><div data-stage="ranking"><b>5</b><span>Ranking</span></div></div>
 <div class="presentation-grid">
 <article class="card span2 event-health-card">
 <div class="event-health-head"><div><div class="eyebrow">PRÉ-TESTE E SAÚDE</div><h2>Pronto para o evento</h2><p class="muted">Verificação contínua do Supabase, Realtime, telão, perguntas e controlador principal.</p></div><div class="actions wrap"><button class="ghost" id="runPreflightBtn" type="button">Executar pré-teste</button><button class="ghost" id="loadTest20Btn" type="button">Simular 20 jogadores</button><button class="ghost" id="loadTest50Btn" type="button">Simular 50 jogadores</button><button class="ghost" id="loadTest100Btn" type="button">Simular 100 jogadores</button><button class="ghost" id="fullAutoTestBtn" type="button">Teste completo automático</button></div></div>
@@ -270,7 +271,7 @@ TEMPO: 30
 <div class="health-tile checking" id="healthQuestions"><span>PERGUNTAS</span><strong>0 prontas</strong><small>Fila da partida</small></div>
 <div class="health-tile checking" id="healthController"><span>CONTROLE</span><strong>Verificando…</strong><small>Painel principal</small></div>
 <div class="health-tile checking" id="healthRemote"><span>REMOTO</span><strong>Verificando…</strong><small>Celular autorizado</small></div>
-<div class="health-tile checking" id="healthVersions"><span>VERSÕES</span><strong>v3.34</strong><small>ADM, telão e jogadores</small></div>
+<div class="health-tile checking" id="healthVersions"><span>VERSÕES</span><strong>v3.36</strong><small>ADM, telão e jogadores</small></div>
 </div>
 <div class="preflight-summary neutral" id="preflightSummary">Execute o pré-teste antes de começar o evento.</div>
 </article>
@@ -309,10 +310,10 @@ TEMPO: 30
 <div class="actions wrap secondary-live-actions"><button class="ghost" disabled="" id="pauseQuizBtn">Pausar entre rounds</button><button class="ghost danger-soft" disabled="" id="annulRoundBtn">Anular pergunta</button><button class="ghost" disabled="" id="regradeRoundBtn">Corrigir gabarito</button></div>
 <div class="reveal-controls"><span>Revelação:</span><button class="ghost small" data-reveal="answer">Resposta</button><button class="ghost small" data-reveal="distribution">Distribuição</button><button class="ghost small" data-reveal="ranking">Ranking</button></div>
 </details>
-<div class="finished-game-actions hidden" id="finishedGameActions"><button class="ghost" id="toggleFullRankingBtn" type="button">Mostrar classificação completa</button><button class="primary" id="samePlayersNewGameBtn" type="button">Nova partida com os mesmos jogadores</button><button class="ghost" id="newRoomAfterGameBtn" type="button">Criar nova sala</button></div>
+<div class="finished-game-actions hidden" id="finishedGameActions"><div class="final-show-control"><div><span class="eyebrow">APRESENTAÇÃO FINAL NO TELÃO</span><strong id="finalShowStageLabel">Ranking final</strong></div><div class="final-show-buttons" role="group" aria-label="Etapas da apresentação final"><button class="ghost final-show-btn active" data-final-show="ranking" type="button">1. Ranking</button><button class="ghost final-show-btn" data-final-show="stats" type="button">2. Estatísticas</button><button class="ghost final-show-btn" data-final-show="highlights" type="button">3. Destaques</button><button class="primary final-show-btn" data-final-show="champion" type="button">4. Campeão</button></div></div><button class="ghost" id="toggleFullRankingBtn" type="button">Mostrar classificação completa</button><button class="primary" id="samePlayersNewGameBtn" type="button">Nova partida com os mesmos jogadores</button><button class="ghost" id="newRoomAfterGameBtn" type="button">Criar nova sala</button><button class="ghost" id="duplicateFinishedGameBtn" type="button">Duplicar partida</button><button class="ghost" id="differentQuestionsGameBtn" type="button">Nova sala + outras perguntas</button></div>
 <p class="muted compact" id="roundHint">O primeiro round começa com uma contagem 3…2…1 sincronizada.</p>
 </article>
-<article class="card span2 event-insights-card hidden" id="eventInsightsCard"><div class="row wrap"><div><div class="eyebrow">DESEMPENHO DAS PERGUNTAS</div><h2>Mais acertada e mais errada</h2><p class="muted">Calculado com as respostas registradas no servidor.</p></div><button class="ghost small" id="refreshInsightsBtn" type="button">Atualizar</button></div><div class="event-insights-grid"><div class="insight-card success"><span>MAIS ACERTADA</span><strong id="mostCorrectQuestion">—</strong><b id="mostCorrectMetric">—</b><small id="mostCorrectDetail">Aguardando rounds encerrados</small></div><div class="insight-card danger"><span>MAIS ERRADA</span><strong id="mostWrongQuestion">—</strong><b id="mostWrongMetric">—</b><small id="mostWrongDetail">Aguardando rounds encerrados</small></div></div></article>
+<article class="card span2 next-question-card hidden" id="nextQuestionPreviewCard"><div class="row wrap"><div><div class="eyebrow">PRÓXIMA PERGUNTA</div><h2 id="nextQuestionTitle">—</h2><p class="muted" id="nextQuestionMeta">Aguardando fila.</p></div><span class="badge neutral" id="nextQuestionBadge">PRÉVIA ADM</span></div><div class="next-question-note" id="nextQuestionNote">Só o administrador vê esta prévia.</div></article><article class="card span2 event-insights-card hidden" id="eventInsightsCard"><div class="row wrap"><div><div class="eyebrow">RESUMO DA PARTIDA</div><h2>Estatísticas e destaques finais</h2><p class="muted">Calculado no servidor com todos os rounds válidos e respostas registradas.</p></div><button class="ghost small" id="refreshInsightsBtn" type="button">Atualizar</button></div><div class="event-insights-grid"><div class="insight-card success"><span>MAIS ACERTADA</span><strong id="mostCorrectQuestion">—</strong><b id="mostCorrectMetric">—</b><small id="mostCorrectDetail">Aguardando rounds encerrados</small></div><div class="insight-card danger"><span>MAIS ERRADA</span><strong id="mostWrongQuestion">—</strong><b id="mostWrongMetric">—</b><small id="mostWrongDetail">Aguardando rounds encerrados</small></div><div class="insight-card info"><span>MAIS RÁPIDA</span><strong id="fastestQuestion">—</strong><b id="fastestMetric">—</b><small>Média das respostas</small></div><div class="insight-card warning"><span>MAIS DEMORADA</span><strong id="slowestQuestion">—</strong><b id="slowestMetric">—</b><small>Média das respostas</small></div></div><div class="event-summary-metrics"><div><span>JOGADORES</span><strong id="insightPlayers">0</strong></div><div><span>RESPOSTAS</span><strong id="insightAnswers">0</strong></div><div><span>ACERTOS</span><strong id="insightAccuracy">0%</strong></div><div><span>TEMPO MÉDIO</span><strong id="insightAvgTime">—</strong></div></div><div class="event-highlights-grid"><div class="highlight-card"><span>🎯 MELHOR PRECISÃO</span><strong id="bestAccuracyPlayer">—</strong><b id="bestAccuracyMetric">—</b></div><div class="highlight-card"><span>🔥 MAIOR SEQUÊNCIA</span><strong id="bestStreakPlayer">—</strong><b id="bestStreakMetric">—</b></div><div class="highlight-card"><span>🚀 MAIOR SUBIDA</span><strong id="biggestClimbPlayer">—</strong><b id="biggestClimbMetric">—</b></div><div class="highlight-card"><span>💨 RESPOSTA RELÂMPAGO</span><strong id="fastestCorrectPlayer">—</strong><b id="fastestCorrectMetric">—</b></div><div class="highlight-card"><span>⚖️ MAIS EQUILIBRADA</span><strong id="mostBalancedQuestion">—</strong><b id="mostBalancedMetric">—</b></div></div><div class="fun-summary" id="eventFunFacts"></div></article>
 <article class="card live-ranking-card"><div class="row wrap"><div><h2>Ranking ao vivo</h2><p class="muted">Atualizado após cada round pontuado.</p></div><span class="badge neutral" id="qualificationBadge">Sem corte</span></div><ol class="admin-ranking" id="adminRanking"></ol><div class="ranking-movers" id="rankingMovers"></div></article>
 <article class="card participants-live-card"><div class="row wrap"><div><h2>Participantes</h2><p class="muted">Conexão, prontidão e controle de acesso.</p></div><div class="actions wrap"><span class="badge neutral" id="connectionTestResult">Teste não executado</span><button class="ghost small" id="refreshParticipantsBtn">Atualizar</button></div></div><div class="participant-admin-list" id="participantAdminList"></div></article>
 <article class="card span2 event-secondary-card"><div class="row wrap"><div><h2>Histórico e evolução</h2><p class="muted">Respostas, pontos, rounds perdidos e evolução da classificação.</p></div><div class="actions"><button class="ghost small" id="loadHistoryBtn">Atualizar histórico</button><button class="ghost small" id="showEvolutionBtn">Evolução de posição</button></div></div><div class="history-summary" id="historySummary"></div><div class="evolution-chart hidden" id="evolutionChart"></div></article>
@@ -371,7 +372,7 @@ TEMPO: 30
 <button class="remote-hold-btn" data-remote-action="" id="remoteRestartBtn" type="button">Recomeçar partida</button>
 </div>
 </details>
-<footer class="remote-control-footer">
+<footer class="remote-control-footer"><span class="remote-haptic-status" id="remoteHapticStatus">Vibração ativa</span>
 <span id="remoteDeviceLabel">Celular autorizado</span>
 <button id="remoteRefreshBtn" type="button">Sincronizar agora</button>
 </footer>
@@ -400,6 +401,6 @@ TEMPO: 30
 </div>
 </div>
 </main>
-<script src="assets/js/admin-v3.34.js" type="module"></script>
+<script src="assets/js/admin-v3.36.js" type="module"></script>
 </body>
 </html>

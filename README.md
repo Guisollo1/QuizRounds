@@ -1,6 +1,28 @@
-# QuizRounds v3.34 — ADM com Subabas de Largura Total
+# QuizRounds v3.36 — Final de partida e cerimônia de resultados
 
-## Mudanças da v3.34
+A v3.36 preserva todo o fluxo guiado da v3.35 e transforma o encerramento em uma apresentação sincronizada em quatro momentos: **Ranking final → Estatísticas → Destaques → Campeão**. O ADM e o controle remoto escolhem a etapa; o telão reconstrói a mesma etapa oficial do Supabase mesmo após F5 ou reconexão.
+
+## Final da partida
+
+- Ranking final antes da cerimônia.
+- Estatísticas gerais: jogadores, respostas, taxa de acerto e tempo médio.
+- Pergunta mais acertada e pergunta mais errada com acertos, erros e percentual.
+- Pergunta mais rápida, mais demorada e mais equilibrada.
+- Melhor precisão individual, maior sequência de acertos, maior subida no ranking e resposta correta mais rápida.
+- Resumo divertido automático: “A pergunta que derrubou a sala”, “Todo mundo sabia essa!”, “Resposta relâmpago”, “Virada da partida” e “Dividiu opiniões”.
+- Tela de campeão com avatar, pontuação, pódio Top 3 e recapitulação da pergunta mais acertada/mais errada.
+- Feedback visual e vibração no controle remoto nas trocas de etapa.
+- Exportação pós-evento inclui os novos destaques.
+
+## Banco de dados
+
+As migrations `025_final_showcase_v336.sql` e `026_final_showcase_precision_v336.sql` adicionam o estado sincronizado da apresentação final, ampliam `quiz_event_insights` e garantem que a precisão individual considere somente rounds fechados, válidos e não anulados. Os RPCs públicos administrativos permanecem restritos a sessões autenticadas; a função privada de cálculo não é executável por `anon` ou `authenticated`.
+
+---
+
+# Base anterior — v3.34 com subabas de largura total
+
+## Mudanças herdadas da v3.34
 
 - **Editar perguntas** agora usa subabas permanentes: **Editor | Banco | Importar**.
 - O **Editor** ocupa a área principal e mantém a prévia ao lado em telas largas; em telas menores, a prévia passa para baixo.
@@ -15,11 +37,11 @@
 
 ---
 
-# QuizRounds v3.34 — Refatoração Canônica
+# QuizRounds v3.36 — Refatoração Canônica
 
 ## Refatoração
 
-- CSS de produção separado em `core-v3.34.css`, `admin-v3.34.css` e `display-v3.34.css`.
+- CSS de produção separado em `core-v3.36.css`, `admin-v3.36.css` e `display-v3.36.css`.
 - Removidas dependências das classes históricas `admin-v17`, `admin-v329` e `admin-v331`; o ADM usa apenas `admin-app`.
 - Tokens antigos de versão foram substituídos por tokens semânticos.
 - Grade de saúde consolidada em uma única progressão responsiva: 4, 3 e 2 colunas.

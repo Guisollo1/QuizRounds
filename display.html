@@ -1,141 +1,139 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Quiz Rounds v3.34 — Cidade Viva dos Jogadores</title>
-  <link rel="stylesheet" href="assets/css/core-v3.34.css">
-  <link rel="stylesheet" href="assets/css/display-v3.34.css">
-  <link rel="stylesheet" href="assets/css/avatars-v3.34.css">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.min.js"></script>
-  <script src="assets/vendor/qr-bundle.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>Quiz Rounds v3.36 — Cidade Viva dos Jogadores</title>
+<link href="assets/css/core-v3.36.css" rel="stylesheet"/>
+<link href="assets/css/display-v3.36.css" rel="stylesheet"/>
+<link href="assets/css/avatars-v3.36.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.min.js"></script>
+<script src="assets/vendor/qr-bundle.js"></script>
 </head>
 <body class="display-body" data-auth-scope="display">
-<div id="displayReconnectBanner" class="display-reconnect-banner hidden" role="status" aria-live="polite">Reconectando ao servidor…</div>
+<div aria-live="polite" class="display-reconnect-banner hidden" id="displayReconnectBanner" role="status">Reconectando ao servidor…</div>
 <main class="display-shell">
-  <section id="displayConnect" class="display-connect">
-    <div class="display-connect-card">
-      <div class="eyebrow">Tela de apresentação</div>
-      <h1>Quiz Rounds</h1>
-      <p>Informe o código da sala para colocar o lobby, as perguntas e o ranking na TV ou projetor.</p>
-      <div class="display-code-entry">
-        <input id="displayRoomCode" maxlength="8" autocomplete="off" placeholder="ABC123">
-        <button id="displayConnectBtn">Abrir sala</button>
-      </div>
-      <p id="displayError" class="error"></p>
-    </div>
-  </section>
-
-  <section id="displayStage" class="hidden display-stage">
-    <header class="display-header">
-      <div>
-        <div id="displayTitle" class="display-title">Quiz ao vivo</div>
-        <div id="displayRoomInfo" class="display-room-info">Sala ------</div><span class="display-version-badge">v3.34</span>
-        <div class="display-header-actions"><span id="displayConnection" class="connection-pill connecting" role="status" aria-live="polite">Conectando…</span><button id="displaySoundBtn" class="display-mini-btn" type="button">Som ✓</button><button id="displayFullscreenBtn" class="display-mini-btn" type="button">Tela cheia</button></div>
-      </div>
-      <div class="display-header-right">
-        <div id="displayMiniQr" class="display-mini-qr" aria-label="QR Code de entrada"></div>
-        <div class="display-header-stats">
-        <div><strong id="displayConnected">0</strong><span>conectados</span></div>
-        <div><strong id="displayRegistered">0</strong><span>cadastrados</span></div>
-        <div><strong id="displayAnswers">0</strong><span>respostas</span></div>
-        <div><strong id="displayResponseRate">0%</strong><span>participação</span></div>
-        </div>
-      </div>
-    </header>
-
-    <div class="display-stage-layout">
-      <div class="display-main-area">
-        <div id="displayLobby" class="display-center-panel display-lobby-panel">
-          <div class="display-kicker display-lobby-kicker">ENTRE PELO CELULAR</div>
-          <div class="display-lobby-grid">
-            <div class="display-lobby-pin">
-              <div class="display-pin-head">
-                <div class="display-lobby-label">PIN DA SALA</div>
-                <p id="displayLobbyRounds" class="display-rounds-badge">0 rounds preparados</p>
-              </div>
-              <div id="displayLobbyCode" class="display-big-code">------</div>
-              <div class="display-pin-helper">Digite este código no celular para entrar</div>
-            </div>
-            <div class="display-qr-card">
-              <div class="display-qr-label">QR PARA ENTRAR</div>
-              <div id="displayQr" class="display-qr" aria-label="QR Code da sala"></div>
-              <strong>Escaneie pelo celular</strong>
-              <span id="displayJoinUrl">Abra pelo celular</span>
-            </div>
-          </div>
-          <div class="display-lobby-footer">
-            <div class="display-lobby-stat"><strong id="displayLobbyConnected">0</strong><span>conectados agora</span></div>
-            <div class="display-lobby-stat"><strong id="displayLobbyRegistered">0</strong><span>participantes cadastrados</span></div>
-            <div class="display-lobby-waiting"><span class="display-waiting-dot" aria-hidden="true"></span><strong>Aguardando o administrador começar</strong></div>
-          </div>
-        </div>
-
-        <div id="displayPreparing" class="hidden display-center-panel display-preparing-panel"><div class="display-kicker">PRÓXIMO ROUND</div><div id="displayCountdown" class="display-countdown">3</div><h1>Prepare-se!</h1><p id="displayPreparingLabel">A pergunta será liberada em instantes.</p></div>
-        <div id="displayPaused" class="hidden display-center-panel display-paused-panel"><div class="display-kicker">INTERVALO</div><h1>Partida pausada</h1><p>O administrador retomará quando estiver pronto.</p></div>
-        <div id="displayQuestion" class="hidden display-question-panel">
-          <div class="display-round-line">
-            <div id="displayRoundLabel" class="display-round-label">ROUND 1 DE 10</div>
-            <div id="displayTimer" class="display-timer">30</div>
-          </div>
-          <div id="displayQuestionText" class="display-question-text"></div>
-          <div id="displayOptions" class="display-options"></div>
-          <div id="displayNumericHint" class="hidden display-numeric-hint">Digite sua resposta numérica no celular</div>
-          <div class="display-live-response">
-            <div id="displayAnswerProgress" class="display-answer-progress">0 respostas recebidas</div>
-            <div class="display-response-meter"><i id="displayResponseBar"></i></div>
-            <div id="displayWaitingText" class="display-waiting-text">Aguardando respostas...</div>
-          </div>
-        </div>
-
-        <div id="displayResult" class="hidden display-result-panel">
-          <div class="display-result-hero">
-            <div id="displayRevealStep" class="display-reveal-step">RESPOSTA</div>
-            <div id="displayResultRound" class="display-kicker">ROUND ENCERRADO</div>
-            <h1 id="displayResultText">Resultado</h1>
-            <div id="displayDistribution" class="display-distribution hidden"></div>
-            <div id="displayMovers" class="display-movers hidden"></div>
-            <div id="displayNextText" class="display-next-text">Aguardando a próxima pergunta...</div>
-          </div>
-          <div class="display-ranking-wrap">
-            <h2>Ranking</h2>
-            <ol id="displayRanking" class="display-ranking"></ol>
-          </div>
-        </div>
-
-        <div id="displayFinished" class="hidden display-result-panel display-finished-stage">
-          <div class="display-result-hero">
-            <div class="display-kicker">QUIZ ENCERRADO</div>
-            <div id="championCelebration" class="champion-celebration"><div class="champion-crown">★</div><span>CAMPEÃO</span><h1 id="championName">Resultado final</h1><p id="championScore"></p></div>
-            <div id="displayEventInsights" class="display-event-insights hidden"><div><span>MAIS ACERTADA</span><strong id="displayMostCorrectQuestion">—</strong><b id="displayMostCorrectMetric">—</b></div><div><span>MAIS ERRADA</span><strong id="displayMostWrongQuestion">—</strong><b id="displayMostWrongMetric">—</b></div></div>
-          </div>
-          <div class="display-ranking-wrap final">
-            <ol id="displayFinalRanking" class="display-ranking"></ol>
-          </div>
-        </div>
-      </div>
-
-      <section id="avatarCity" class="avatar-city" aria-label="Cenário animado dos participantes" data-scene="city">
-        <div class="city-sun"></div><div class="city-cloud c1"></div><div class="city-cloud c2"></div>
-        <div class="scene-mountains" aria-hidden="true"></div>
-        <div class="scene-hills" aria-hidden="true"></div>
-        <div class="scene-beach-water" aria-hidden="true"></div>
-        <div class="scene-beach-sand" aria-hidden="true"></div>
-        <div class="scene-farm-field" aria-hidden="true"></div>
-        <div class="scene-farm-fence" aria-hidden="true"></div>
-        <div class="scene-farm-barn" aria-hidden="true"></div>
-        <div class="city-skyline" aria-hidden="true">
-          <i class="city-building" style="--bh:58%"></i><i class="city-building" style="--bh:86%"></i><i class="city-building" style="--bh:68%"></i><i class="city-building" style="--bh:95%"></i><i class="city-building" style="--bh:62%"></i><i class="city-building" style="--bh:80%"></i><i class="city-building" style="--bh:52%"></i><i class="city-building" style="--bh:90%"></i><i class="city-building" style="--bh:66%"></i><i class="city-building" style="--bh:76%"></i>
-        </div>
-        <div class="city-park" aria-hidden="true"></div><i class="city-tree t1" aria-hidden="true"></i><i class="city-tree t2" aria-hidden="true"></i>
-        <div class="city-sidewalk" aria-hidden="true"></div><div class="city-road" aria-hidden="true"></div>
-        <div id="avatarCitySceneLabel" class="avatar-scene-badge">Cidade</div>
-        <div id="avatarCityWalkers" class="city-walkers"></div>
-        <div id="avatarCityPopulation" class="city-population-badge">0 moradores</div>
-      </section>
-    </div>
-  </section>
+<section class="display-connect" id="displayConnect">
+<div class="display-connect-card">
+<div class="eyebrow">Tela de apresentação</div>
+<h1>Quiz Rounds</h1>
+<p>Informe o código da sala para colocar o lobby, as perguntas e o ranking na TV ou projetor.</p>
+<div class="display-code-entry">
+<input autocomplete="off" id="displayRoomCode" maxlength="8" placeholder="ABC123"/>
+<button id="displayConnectBtn">Abrir sala</button>
+</div>
+<p class="error" id="displayError"></p>
+</div>
+</section>
+<section class="hidden display-stage" id="displayStage">
+<header class="display-header">
+<div>
+<div class="display-title" id="displayTitle">Quiz ao vivo</div>
+<div class="display-room-info" id="displayRoomInfo">Sala ------</div><span class="display-version-badge">v3.36</span>
+<div class="display-header-actions"><span aria-live="polite" class="connection-pill connecting" id="displayConnection" role="status">Conectando…</span><button class="display-mini-btn" id="displaySoundBtn" type="button">Som ✓</button><button class="display-mini-btn" id="displayFullscreenBtn" type="button">Tela cheia</button></div>
+</div>
+<div class="display-header-right">
+<div aria-label="QR Code de entrada" class="display-mini-qr" id="displayMiniQr"></div>
+<div class="display-header-stats">
+<div><strong id="displayConnected">0</strong><span>conectados</span></div>
+<div><strong id="displayRegistered">0</strong><span>cadastrados</span></div>
+<div><strong id="displayAnswers">0</strong><span>respostas</span></div>
+<div><strong id="displayResponseRate">0%</strong><span>participação</span></div>
+</div>
+</div>
+</header>
+<div class="display-stage-layout">
+<div class="display-main-area">
+<div class="display-center-panel display-lobby-panel" id="displayLobby">
+<div class="display-kicker display-lobby-kicker">ENTRE PELO CELULAR</div>
+<div class="display-lobby-grid">
+<div class="display-lobby-pin">
+<div class="display-pin-head">
+<div class="display-lobby-label">PIN DA SALA</div>
+<p class="display-rounds-badge" id="displayLobbyRounds">0 rounds preparados</p>
+</div>
+<div class="display-big-code" id="displayLobbyCode">------</div>
+<div class="display-pin-helper">Digite este código no celular para entrar</div>
+</div>
+<div class="display-qr-card">
+<div class="display-qr-label">QR PARA ENTRAR</div>
+<div aria-label="QR Code da sala" class="display-qr" id="displayQr"></div>
+<strong>Escaneie pelo celular</strong>
+<span id="displayJoinUrl">Abra pelo celular</span>
+</div>
+</div>
+<div class="display-lobby-footer">
+<div class="display-lobby-stat"><strong id="displayLobbyConnected">0</strong><span>conectados agora</span></div>
+<div class="display-lobby-stat"><strong id="displayLobbyRegistered">0</strong><span>participantes cadastrados</span></div>
+<div class="display-lobby-waiting"><span aria-hidden="true" class="display-waiting-dot"></span><strong>Aguardando o administrador começar</strong></div>
+</div>
+</div>
+<div class="hidden display-center-panel display-preparing-panel" id="displayPreparing"><div class="display-kicker">PRÓXIMO ROUND</div><div class="display-countdown" id="displayCountdown">3</div><h1>Prepare-se!</h1><p id="displayPreparingLabel">A pergunta será liberada em instantes.</p></div>
+<div class="hidden display-center-panel display-paused-panel" id="displayPaused"><div class="display-kicker">INTERVALO</div><h1>Partida pausada</h1><p>O administrador retomará quando estiver pronto.</p></div>
+<div class="hidden display-question-panel" id="displayQuestion">
+<div class="display-round-line">
+<div class="display-round-label" id="displayRoundLabel">ROUND 1 DE 10</div>
+<div class="display-timer" id="displayTimer">30</div>
+</div>
+<div class="display-question-text" id="displayQuestionText"></div>
+<div class="display-options" id="displayOptions"></div>
+<div class="hidden display-numeric-hint" id="displayNumericHint">Digite sua resposta numérica no celular</div>
+<div class="display-live-response">
+<div class="display-answer-progress" id="displayAnswerProgress">0 respostas recebidas</div>
+<div class="display-response-meter"><i id="displayResponseBar"></i></div>
+<div class="display-waiting-text" id="displayWaitingText">Aguardando respostas...</div>
+</div>
+</div>
+<div class="hidden display-result-panel" id="displayResult">
+<div class="display-result-hero">
+<div class="display-reveal-step" id="displayRevealStep">RESPOSTA</div>
+<div class="display-kicker" id="displayResultRound">ROUND ENCERRADO</div>
+<h1 id="displayResultText">Resultado</h1>
+<div class="display-distribution hidden" id="displayDistribution"></div>
+<div class="display-movers hidden" id="displayMovers"></div>
+<div class="display-next-text" id="displayNextText">Aguardando a próxima pergunta...</div>
+</div>
+<div class="display-ranking-wrap">
+<h2>Ranking</h2>
+<ol class="display-ranking" id="displayRanking"></ol>
+</div>
+</div>
+<div class="hidden display-finished-stage" id="displayFinished" data-final-stage="ranking">
+<section class="final-show-stage final-ranking-stage" data-final-stage-panel="ranking" id="finalRankingStage">
+<div class="final-stage-kicker">RESULTADO FINAL</div><h1>Ranking final</h1><p>Top 5 da partida</p><div class="display-ranking-wrap final"><ol class="display-ranking" id="displayFinalRanking"></ol></div>
+</section>
+<section class="final-show-stage hidden final-stats-stage" data-final-stage-panel="stats" id="finalStatsStage">
+<div class="final-stage-kicker">RESUMO DA PARTIDA</div><h1>Estatísticas</h1><div class="display-event-summary" id="displayEventSummary"><div><span>JOGADORES</span><strong id="displaySummaryPlayers">0</strong></div><div><span>RESPOSTAS</span><strong id="displaySummaryAnswers">0</strong></div><div><span>ACERTOS</span><strong id="displaySummaryAccuracy">0%</strong></div><div><span>TEMPO MÉDIO</span><strong id="displaySummaryTime">—</strong></div></div><div class="display-event-insights" id="displayEventInsights"><div class="success"><span>MAIS ACERTADA</span><strong id="displayMostCorrectQuestion">—</strong><b id="displayMostCorrectMetric">—</b></div><div class="danger"><span>MAIS ERRADA</span><strong id="displayMostWrongQuestion">—</strong><b id="displayMostWrongMetric">—</b></div><div><span>MAIS RÁPIDA</span><strong id="displayFastestQuestion">—</strong><b id="displayFastestMetric">—</b></div><div><span>MAIS DEMORADA</span><strong id="displaySlowestQuestion">—</strong><b id="displaySlowestMetric">—</b></div></div>
+</section>
+<section class="final-show-stage hidden final-highlights-stage" data-final-stage-panel="highlights" id="finalHighlightsStage">
+<div class="final-stage-kicker">DESTAQUES DO EVENTO</div><h1>Quem fez história?</h1><div class="display-highlight-grid"><div><span>🎯 MELHOR PRECISÃO</span><strong id="displayBestAccuracyPlayer">—</strong><b id="displayBestAccuracyMetric">—</b></div><div><span>🔥 MAIOR SEQUÊNCIA</span><strong id="displayBestStreakPlayer">—</strong><b id="displayBestStreakMetric">—</b></div><div><span>🚀 VIRADA DA PARTIDA</span><strong id="displayBiggestClimbPlayer">—</strong><b id="displayBiggestClimbMetric">—</b></div><div><span>💨 RESPOSTA RELÂMPAGO</span><strong id="displayFastestCorrectPlayer">—</strong><b id="displayFastestCorrectMetric">—</b></div><div><span>⚖️ MAIS EQUILIBRADA</span><strong id="displayMostBalancedQuestion">—</strong><b id="displayMostBalancedMetric">—</b></div></div><div class="display-fun-facts" id="displayFunFacts"></div>
+</section>
+<section class="final-show-stage hidden final-champion-stage" data-final-stage-panel="champion" id="finalChampionStage">
+<div class="champion-celebration" id="championCelebration"><div class="champion-crown">★</div><span>CAMPEÃO</span><div class="champion-avatar" id="championAvatar"></div><h1 id="championName">Resultado final</h1><p id="championScore"></p></div><div class="display-podium" id="displayPodium"></div><div class="champion-question-recap"><div><span>✅ MAIS ACERTADA</span><strong id="championMostCorrect">—</strong><b id="championMostCorrectMetric">—</b></div><div><span>❌ MAIS ERRADA</span><strong id="championMostWrong">—</strong><b id="championMostWrongMetric">—</b></div></div>
+</section>
+</div>
+<section aria-label="Cenário animado dos participantes" class="avatar-city" data-scene="city" id="avatarCity">
+<div class="city-sun"></div><div class="city-cloud c1"></div><div class="city-cloud c2"></div>
+<div aria-hidden="true" class="scene-mountains"></div>
+<div aria-hidden="true" class="scene-hills"></div>
+<div aria-hidden="true" class="scene-beach-water"></div>
+<div aria-hidden="true" class="scene-beach-sand"></div>
+<div aria-hidden="true" class="scene-farm-field"></div>
+<div aria-hidden="true" class="scene-farm-fence"></div>
+<div aria-hidden="true" class="scene-farm-barn"></div>
+<div aria-hidden="true" class="city-skyline">
+<i class="city-building" style="--bh:58%"></i><i class="city-building" style="--bh:86%"></i><i class="city-building" style="--bh:68%"></i><i class="city-building" style="--bh:95%"></i><i class="city-building" style="--bh:62%"></i><i class="city-building" style="--bh:80%"></i><i class="city-building" style="--bh:52%"></i><i class="city-building" style="--bh:90%"></i><i class="city-building" style="--bh:66%"></i><i class="city-building" style="--bh:76%"></i>
+</div>
+<div aria-hidden="true" class="city-park"></div><i aria-hidden="true" class="city-tree t1"></i><i aria-hidden="true" class="city-tree t2"></i>
+<div aria-hidden="true" class="city-sidewalk"></div><div aria-hidden="true" class="city-road"></div>
+<div class="avatar-scene-badge" id="avatarCitySceneLabel">Cidade</div>
+<div class="city-walkers" id="avatarCityWalkers"></div>
+<div class="city-population-badge" id="avatarCityPopulation">0 moradores</div>
+</section>
+</div>
+</section>
 </main>
-<script type="module" src="assets/js/display-v3.34.js"></script>
+<script src="assets/js/display-v3.36.js" type="module"></script>
 </body>
 </html>

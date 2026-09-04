@@ -1,47 +1,37 @@
-QuizRounds v3.34 — VALIDAÇÃO FINAL
+QuizRounds v3.36 — VALIDAÇÃO FINAL
 
 RESULTADO: APROVADO
 
-Objetivo da versão
-- Criar subabas permanentes para aumentar a área útil do ADM.
-- Perguntas: Editor | Banco | Importar.
-- Configuração: Sala | Regras | Rounds.
-- Ampliar a largura útil do ADM no desktop para até 1680 px.
-- Preservar integralmente a lógica, IDs funcionais, Supabase e controle remoto da versão anterior.
-
-Perguntas
-- Editor e prévia usam a área inteira da subaba; ficam lado a lado em telas largas e empilham em telas menores.
-- Banco usa largura total e até 3 colunas de cards em desktop largo.
-- Importação usa workspace exclusivo e textarea maior.
-- Editar uma pergunta a partir do Banco leva automaticamente para a subaba Editor.
-- O botão "Escolher no banco" da Configuração abre diretamente Perguntas > Banco.
-- Estado da subaba é persistido em localStorage sem duplicar dados ou lógica.
-
-Configuração
-- Sala: dados do evento, criação da sala, checklist, modelos e ferramentas.
-- Regras: configurações de competição/entrada/experiência em workspace de largura total; até 3 colunas em desktop largo.
-- Rounds: fila oficial isolada em largura total.
-- Estado da subaba é persistido em localStorage.
-
-Responsividade
-- Desktop: área útil do ADM até 1680 px.
-- Até 1250 px: Editor reduz proporção e Banco passa para 2 colunas.
-- Até 960 px: Editor/Prévia empilham; Sala e Checklist empilham; Rounds em 1 coluna.
-- Até 700 px: subabas compactas e sticky; todos os workspaces ficam em 1 coluna quando necessário.
+Escopo validado
+- Fluxo v3.35 preservado: Central → Sala → Perguntas → Regras → Revisão → Lobby → Jogo → Resultado.
+- Cerimônia final sincronizada: Ranking → Estatísticas → Destaques → Campeão.
+- ADM possui controles explícitos para as quatro etapas finais e botão contextual de próxima ação.
+- Controle remoto segue a mesma sequência e mantém feedback tátil em dispositivos compatíveis.
+- Telão lê `settings.final_show_stage` do estado oficial da sala e reconstrói a etapa após sincronização/F5.
+- Estatísticas finais: jogadores, respostas, acertos/erros, taxa geral de acerto e tempo médio ponderado por resposta.
+- Pergunta mais acertada/errada é escolhida por percentual de acerto, com desempates determinísticos.
+- Pergunta mais rápida, mais demorada e mais equilibrada.
+- Melhor precisão individual, maior sequência, maior subida no ranking e resposta correta mais rápida.
+- Resumo divertido automático e pódio Top 3 com campeão em destaque.
+- Exportação CSV inclui os destaques novos.
+- Alternativas A–E permanecem estáticas durante leitura e resposta.
 
 Regressão
-- 255 IDs funcionais do admin anterior preservados: 0 removidos.
-- IDs consultados pelo admin JS: 244; 0 ausentes.
-- HTML: 0 IDs duplicados.
-- Referências locais HTML: 0 quebradas.
-- Imports JS locais: 0 quebrados.
-- JavaScript versionado v3.34: node --check aprovado.
-- CSS ativo: parse aprovado com tinycss2.
-- Camada antiga question-mobile-nav/data-question-mobile removida.
-- Nenhuma referência ativa v3.33 permaneceu.
-- Supabase/migrations: byte-a-byte preservados.
-- assets/js/config.js: byte-a-byte preservado.
-- Alternativas A–E, controle remoto, modo Evento, diagnóstico, insights e telão preservados.
+- Todas as referências locais dos HTMLs apontam para arquivos existentes.
+- Nenhum ID duplicado nos HTMLs de produção.
+- Nenhuma referência ativa a assets v3.35.
+- Migrations 025 e 026 incluídas no pacote.
 
-Observação
-- Validação estática/estrutural. O HTML não foi aberto/renderizado visualmente, conforme o fluxo de desenvolvimento adotado para este projeto.
+Sintaxe
+- node --check aprovado para todos os JavaScript ativos.
+- tinycss2: 0 erros de parse em todos os CSS ativos.
+
+Supabase
+- `025_final_showcase_v336.sql` e `026_final_showcase_precision_v336.sql` aplicadas em produção.
+- `private.quiz_event_insights(uuid)`: SECURITY DEFINER, sem EXECUTE para anon/authenticated.
+- `admin_set_final_show_stage`, `admin_set_reveal_stage`, `admin_get_event_insights` e `get_public_event_insights`: anon sem EXECUTE; authenticated com EXECUTE.
+- RPC de insights executado com sucesso após a migração.
+
+Correções adicionais da auditoria
+- Cache de insights do telão passou a considerar `state_version`, evitando estatística antiga após reclassificação/alteração do estado final.
+- Controle remoto vibra também quando a etapa final muda por outro controlador sincronizado.

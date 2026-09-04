@@ -1,6 +1,7 @@
-QuizRounds v3.34
-ADM com subabas de largura total.
-Perguntas: Editor | Banco | Importar.
-Configuração: Sala | Regras | Rounds.
-Área útil do ADM ampliada no desktop para até 1680 px.
-Mesmos dados, funções, Supabase, controle remoto e lógica anterior preservados.
+QuizRounds v3.36
+Cerimônia final sincronizada: Ranking final → Estatísticas → Destaques → Campeão.
+Estatísticas: jogadores, respostas, taxa geral de acerto, tempo médio, pergunta mais acertada/errada, mais rápida/demorada e mais equilibrada.
+Destaques: melhor precisão individual, maior sequência, maior subida no ranking e resposta correta mais rápida.
+Resumo divertido automático e pódio final com campeão em destaque.
+ADM, controle remoto e telão compartilham a etapa final oficial via Supabase; atualização/reconexão reconstrói a tela correta.
+Migrações novas: 025_final_showcase_v336.sql e 026_final_showcase_precision_v336.sql.
