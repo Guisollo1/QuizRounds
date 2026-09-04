@@ -1,0 +1,27 @@
+/* Quiz Rounds v3.50 + layout v3.92 compatibility layer. */
+/* v3.50 has four primary admin areas (Central + Perguntas + Configuração + Apresentação). */
+.layout-v392.admin-app .admin-tabs{grid-template-columns:repeat(4,minmax(0,1fr));width:min(1080px,calc(100% - 16px));}
+.layout-v392.admin-app .reveal-controls{grid-template-columns:repeat(4,minmax(0,1fr));}
+.layout-v392.admin-app #adminPanelPresentation .live-segmented{grid-template-columns:repeat(4,minmax(0,1fr));}
+/* Keep v3.50-only setup journey, central workflow and playlist layout usable. */
+.layout-v392 .central-panel.active{display:block;}
+.layout-v392 .setup-journey{position:relative;z-index:1;}
+.layout-v392 .playlist-builder-grid,.layout-v392 .central-grid{min-width:0;}
+.layout-v392 .playlist-bank-column,.layout-v392 .playlist-queue-column{min-width:0;}
+/* Keep reconnection/status surfaces above the v3.92 decorative layer. */
+.layout-v392 .display-reconnect-banner,.layout-v392 .player-reconnecting-banner,.layout-v392 #playerReconnectBanner{z-index:9999;}
+/* v3.50 player lobby is a functional state absent from the v3.92 HTML fork. */
+.layout-v392 .player-lobby-panel{position:relative;z-index:2;}
+.layout-v392 .player-ready-btn{cursor:pointer;}
+/* v3.50 final multi-stage presentation remains visible under the v3.92 display styling. */
+.layout-v392 .final-show-stage.hidden{display:none!important;}
+.layout-v392 .final-show-stage:not(.hidden){display:grid;}
+/* Simulator v3.50 keeps its login gate; v3.92 visual CSS must not force the app open. */
+.layout-v392 .sim-app.hidden,.layout-v392 .sim-login-view.hidden{display:none!important;}
+@media(max-width:800px){
+  .layout-v392.admin-app .admin-tabs{grid-template-columns:repeat(4,minmax(0,1fr));overflow-x:auto;}
+  .layout-v392.admin-app .reveal-controls,.layout-v392.admin-app #adminPanelPresentation .live-segmented{grid-template-columns:repeat(2,minmax(0,1fr));}
+}
+@media(max-width:520px){
+  .layout-v392.admin-app .admin-tabs{grid-template-columns:repeat(2,minmax(0,1fr));}
+}

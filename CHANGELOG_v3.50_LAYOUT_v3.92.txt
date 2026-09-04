@@ -1,0 +1,9 @@
+Quiz Rounds v3.50-layout-v3.92-r1
+
+- Base funcional preservada da v3.50 para GitHub Pages + Supabase.
+- Mantidos os JavaScript v3.50, assets/js/config.js e supabase/ADMIN_BOOTSTRAP.sql.
+- Mantidos sprites, mapas e sistema de avatares da v3.50.
+- Aplicada a camada visual/layout da v3.92 sobre admin, telão, jogador e simulador.
+- Referências de mapas da folha v3.92 foram remapeadas para os mapas existentes da v3.50.
+- Adicionada camada de compatibilidade para o 4º tab Central, controles extras, lobby do jogador, reconexão e apresentação final da v3.50.
+- Não foi incorporado server/local-backend.js nem os JavaScript v3.92.

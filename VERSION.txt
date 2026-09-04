@@ -1,2 +1,3 @@
-Quiz Rounds v3.50
-Ajustes críticos de CSS/JS: avatares visíveis, mapa contido e lobby com PIN/QR mais legíveis.
+Quiz Rounds v3.50-layout-v3.92-r1
+Base funcional: v3.50 GitHub/Supabase
+Interface visual: v3.92 (HTML/CSS/page layout compatibility)
