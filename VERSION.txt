@@ -1,11 +1,4 @@
-QuizRounds v3.41
-Hardening pós-auditoria e correções gerais.
-- RPCs administrativos legados sem execução anônima.
-- Índices de FKs e listagem de participantes otimizada.
-- Logo externa HTTPS em produção; HTTP só em localhost.
-- Limpeza automática de logos antigas gerenciadas no Supabase Storage.
-- Policies do bucket restritas à pasta do próprio administrador.
-- Tema semântico consolidado em ADM, telão e jogador.
-- Acessibilidade e contraste reforçados.
-- Timers visuais reduzidos para 200 ms.
-- Documentação do simulador atualizada.
+QuizRounds v3.42
+Contraste e tipografia do ADM corrigidos. Partidas recentes e jornada usam texto preto em fundo claro.
+Entrada do jogador simplificada com todos os avatares sem filtros e botão Entrar no lobby restaurado.
+Base funcional e Supabase v3.41 preservados; sem nova migration.

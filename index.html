@@ -5,9 +5,9 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#5927c7" name="theme-color"/>
-<title>Quiz Rounds v3.41 — Jogador</title>
-<link href="assets/css/player-v3.41.css" rel="stylesheet"/>
-<link href="assets/css/avatars-v3.41.css" rel="stylesheet"/>
+<title>Quiz Rounds v3.42 — Jogador</title>
+<link href="assets/css/player-v3.42.css" rel="stylesheet"/>
+<link href="assets/css/avatars-v3.42.css" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.min.js"></script>
 </head>
 <body class="player-body" data-auth-scope="player">
@@ -15,7 +15,7 @@
 <main class="player-shell">
 <header class="player-header">
 <div class="player-brand"><span>Q</span><div><b>Quiz Rounds</b><small id="statusText">Entre na sala para jogar</small></div></div>
-<div class="player-status-row"><button aria-pressed="true" class="player-change-room" id="soundToggle" type="button">Som ✓</button><button class="player-change-room hidden" id="changeRoomBtn" type="button">Trocar sala</button><span class="connection-pill connecting" id="connectionStatus">Conectando…</span><span class="badge player-version-badge">v3.41</span><span class="badge neutral" id="stateVersion">Estado 0</span></div>
+<div class="player-status-row"><button aria-pressed="true" class="player-change-room" id="soundToggle" type="button">Som ✓</button><button class="player-change-room hidden" id="changeRoomBtn" type="button">Trocar sala</button><span class="connection-pill connecting" id="connectionStatus">Conectando…</span><span class="badge player-version-badge">v3.42</span><span class="badge neutral" id="stateVersion">Estado 0</span></div>
 </header>
 <section class="player-join-stage" id="joinView">
 <article class="join-hero-card">
@@ -23,12 +23,12 @@
 <div class="join-form-card">
 <label>PIN da sala<input autocapitalize="characters" autocomplete="off" id="roomCode" maxlength="8" placeholder="ABC123"/></label>
 <label>Seu nome<input autocomplete="nickname" id="playerName" maxlength="32" placeholder="Como quer aparecer?"/></label>
-<fieldset class="avatar-picker">
-<legend>Escolha seu avatar</legend>
-<div aria-label="Avatares disponíveis" class="avatar-picker-browser" id="avatarPicker"></div>
+<fieldset aria-label="Avatar" class="avatar-picker">
+<legend class="visually-hidden">Avatar</legend>
+<div aria-label="Todos os avatares disponíveis" class="avatar-picker-browser" id="avatarPicker"></div>
 <div aria-live="polite" class="avatar-selected-line" id="avatarSelectedLine"></div>
 </fieldset>
-<button class="primary jumbo" id="joinBtn" type="button">Entrar na partida</button>
+<button class="primary jumbo join-lobby-btn" id="joinBtn" type="button">Entrar no lobby</button>
 <div class="resume-hint hidden" id="resumeHint"></div>
 <p class="error" id="joinError"></p>
 </div>
@@ -66,6 +66,6 @@
 </div>
 </section>
 </main>
-<script src="assets/js/player-v3.41.js" type="module"></script>
+<script src="assets/js/player-v3.42.js" type="module"></script>
 </body>
 </html>

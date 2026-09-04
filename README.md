@@ -1,4 +1,17 @@
-# QuizRounds v3.41 — Hardening pós-auditoria
+# QuizRounds v3.42 — contraste, avatares e entrada no lobby
+
+- Texto preto nas partidas recentes e na jornada Sala → Perguntas → Regras → Revisar → Lobby.
+- Conflito com a cor branca global dos botões removido na origem.
+- Tipografia operacional do ADM padronizada em 13 px, texto operacional e metadados em 13 px e títulos hierárquicos.
+- “Escolha seu avatar” removido da interface visível.
+- Todos os 48 avatares aparecem juntos, sem filtros/categorias.
+- Botão “Entrar no lobby” restaurado abaixo da seleção.
+- Seleção de avatar não reconstrói a grade nem perde a posição de rolagem.
+- Sem alteração de banco/Supabase.
+
+---
+
+# QuizRounds v3.42 — Hardening pós-auditoria
 
 Esta versão preserva a lógica estável da v3.40 e corrige os pontos encontrados na auditoria completa: segurança de RPCs, performance do banco, limpeza de logos, HTTPS, tema, contraste, acessibilidade, timers e documentação.
 
@@ -6,7 +19,7 @@ Esta versão preserva a lógica estável da v3.40 e corrige os pontos encontrado
 
 ---
 
-# QuizRounds v3.41 — Logo por upload ou link
+# QuizRounds v3.42 — Logo por upload ou link
 
 ## Logo do evento
 
