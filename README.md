@@ -1,3 +1,38 @@
+# QuizRounds v3.41 — Hardening pós-auditoria
+
+Esta versão preserva a lógica estável da v3.40 e corrige os pontos encontrados na auditoria completa: segurança de RPCs, performance do banco, limpeza de logos, HTTPS, tema, contraste, acessibilidade, timers e documentação.
+
+> Observação: a proteção de senhas vazadas é uma configuração do Supabase Auth/GoTrue e não é controlada por migrations SQL do projeto. O pacote não altera essa configuração externa.
+
+---
+
+# QuizRounds v3.41 — Logo por upload ou link
+
+## Logo do evento
+
+- O ADM permite **colar um link** ou **selecionar uma imagem do computador/celular**.
+- Upload direto para o Supabase Storage com PNG, JPG ou WebP de até 5 MB.
+- Prévia antes de aplicar e indicação da proporção detectada.
+- A URL gerada pelo upload é salva na mesma configuração `logo_url` já usada pelo projeto.
+- Botão para remover a logo sem afetar tema, perguntas ou sala.
+
+## Encaixe automático
+
+- A imagem usa `contain`, preservando a proporção original sem recorte nem deformação.
+- O sistema detecta logo **horizontal, paisagem, quadrada ou vertical**.
+- ADM, telão e jogador possuem limites próprios de largura/altura para a logo.
+- Logos muito largas ganham um slot horizontal controlado; logos altas permanecem estreitas.
+- O cabeçalho não aumenta de altura por causa da logo e o texto continua com ellipsis quando necessário.
+- Link quebrado não reserva um espaço vazio permanente.
+
+## Supabase
+
+- Migração `029_logo_storage_upload_v340.sql`.
+- Bucket público `quiz-logos` para leitura das imagens.
+- INSERT/UPDATE/DELETE no bucket restritos a administradores autenticados via RLS.
+
+---
+
 # QuizRounds v3.38 — Lobbys integrados e Cidade Viva ampliada
 
 A v3.38 preserva o fluxo de criação, jogo, ranking e estatísticas da v3.37 e refatora a experiência antes da partida nos três pontos do sistema: **ADM, jogador e telão**.

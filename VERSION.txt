@@ -1,13 +1,11 @@
-QuizRounds v3.38
-
-Lobbys unificados e refinados:
-- Telão 100vh com header compacto, PIN/QR lado a lado e Cidade Viva estruturalmente separada da área principal.
-- Modo mapa em destaque manual ou automático por prontidão/conexão.
-- QR adaptativo e contadores que animam apenas quando mudam.
-- Avatares com profundidade, nomes adaptativos e modo de desempenho para 40/80+ jogadores.
-- Novos cenários Laboratório e Plataforma, além de Cidade, Praia, Fazenda e Montanha.
-- Entrada de jogador com feedback localizado no mapa.
-- Jogador com lobby dedicado e botão explícito “Estou pronto”.
-- ADM com prontidão, filtros de participantes, mensagem/horário do lobby, cenário, layout e música ambiente.
-- Contagem 3–2–1 + VAMOS!, feedback tátil e transição mapa → pergunta.
-- Supabase sincronizado com prontidão explícita e preservação do estado após reconexão/F5.
+QuizRounds v3.41
+Hardening pós-auditoria e correções gerais.
+- RPCs administrativos legados sem execução anônima.
+- Índices de FKs e listagem de participantes otimizada.
+- Logo externa HTTPS em produção; HTTP só em localhost.
+- Limpeza automática de logos antigas gerenciadas no Supabase Storage.
+- Policies do bucket restritas à pasta do próprio administrador.
+- Tema semântico consolidado em ADM, telão e jogador.
+- Acessibilidade e contraste reforçados.
+- Timers visuais reduzidos para 200 ms.
+- Documentação do simulador atualizada.

@@ -1,34 +1,26 @@
-QuizRounds v3.38 — validação final
+QuizRounds v3.41 — validação pós-auditoria
 
-ESTRUTURA
-- display.html: Cidade Viva corrigida para ser irmã da área principal dentro de .display-stage-layout; não fica mais aninhada em .display-main-area.
-- PIN e QR permanecem lado a lado no telão desktop.
-- Telão continua estritamente em 100vh/100dvh sem overflow horizontal.
-- Assets ativos consolidados apenas em v3.38.
+Frontend
+- JavaScript: node --check em todos os módulos atuais: OK.
+- HTML: IDs duplicados: nenhum.
+- Referências locais de CSS/JS: OK.
+- Imports ES modules: OK.
+- Botões sem type explícito: nenhum.
+- IDs estáticos referenciados no ADM/telão/simulador: OK.
+- A–E preservado no parser/editor.
+- Tema semântico aplicado em ADM, telão e jogador.
+- Contraste de superfícies claras reforçado.
+- Logo: HTTPS em produção; HTTP apenas localhost; upload PNG/JPG/WebP até 5 MB; auto-fit preservado.
+- Limpeza de logo antiga do Storage adicionada.
+- Timer visual ADM/telão/jogador: 200 ms.
 
-JAVASCRIPT
-- node --check aprovado: common, avatars, city, player, admin, display e simulator v3.38.
-- Todos os IDs literais usados no ADM e telão existem no HTML correspondente.
-- IDs player numAnswer/numSend são elementos dinâmicos do formulário numérico.
+Supabase produção
+- Migration audit_hardening_performance_v341 aplicada.
+- RPC admin_* / is_quiz_admin executáveis por anon: 0.
+- RPCs atuais do ADM continuam executáveis por authenticated e validam private.is_admin(auth.uid()).
+- Índices de FKs/caminhos quentes criados.
+- admin_list_participants reescrita com agregações em CTE.
+- Policies de quiz-logos restritas ao UUID/pasta do administrador autenticado.
 
-HTML/CSS
-- Sem IDs duplicados em index.html, admin.html, display.html e simulator.html.
-- Todas as referências locais de script/stylesheet existem.
-- CSS v3.38 analisado com tinycss2 sem erros de parse.
-
-RESPONSIVIDADE / LAYOUT (Chromium headless via page.set_content)
-- Telão validado em 1920x1080, 1366x768, 1280x720, 1024x768 e 760x900.
-- scrollWidth = viewport em todos os testes.
-- Header do lobby: ~41–43 px nos viewports desktop testados.
-- Modo mapa: Cidade Viva ocupa ~475 px em 1920x1080, ~338 px em 1366x768, ~317 px em 1280x720 e ~338 px em 1024x768.
-- Pergunta com cinco alternativas A–E validada sem overflow em 1920x1080, 1366x768, 1280x720 e 1024x768.
-- Player lobby validado em 390x844, 412x915, 768x1024 e 1366x768 sem overflow horizontal.
-- ADM validado sem overflow horizontal; Ranking e Participantes corrigidos para meia largura no desktop.
-
-SUPABASE
-- lobby_readiness_experience_v338 aplicado em produção.
-- explicit_player_ready_v338 aplicado em produção.
-- player_set_ready, get_public_avatar_roster, get_public_display_state e join_quiz_room: SECURITY DEFINER, anon sem EXECUTE, authenticated com EXECUTE.
-- get_public_display_state retorna ready_count.
-- get_public_avatar_roster retorna ready por participante.
-- join_quiz_room não força ready=true; participante novo entra ready=false e reconexão preserva a escolha anterior.
+Observação externa
+- Leaked Password Protection é configuração do Supabase Auth/GoTrue e não pode ser ativada por migration SQL do projeto. Permanece como configuração externa da conta.
