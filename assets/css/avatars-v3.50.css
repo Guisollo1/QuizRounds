@@ -1,0 +1,319 @@
+:root{
+  --avatar-ink:#1e1732;
+  --avatar-muted:#6d6580;
+}
+
+/* =========================================================
+   QuizRounds v3.50 — sprites RPG Maker reais
+   Grade 3x4: baixo/frente, esquerda, direita, cima/costas.
+   ========================================================= */
+.quiz-avatar{
+  --avatar-sprite:none;
+  --sprite-y:0%;
+  position:relative;
+  width:72px;
+  height:82px;
+  display:inline-grid;
+  place-items:end center;
+  flex:0 0 auto;
+  vertical-align:middle;
+  isolation:isolate;
+  filter:drop-shadow(0 5px 5px rgba(12,8,24,.24));
+}
+.quiz-avatar .qa-shadow{
+  position:absolute;
+  left:13%;
+  right:13%;
+  bottom:1px;
+  height:8px;
+  border-radius:50%;
+  background:rgba(18,12,30,.28);
+  filter:blur(2px);
+  z-index:-1;
+}
+.quiz-avatar .qa-sprite{
+  width:72px;
+  height:82px;
+  display:block;
+  background-repeat:no-repeat;
+  background-size:300% 400%;
+  background-position:50% var(--sprite-y);
+  image-rendering:pixelated;
+  transform-origin:center bottom;
+}
+.quiz-avatar.avatar-compact{width:42px;height:48px}
+.quiz-avatar.avatar-compact .qa-sprite{width:42px;height:48px}
+.quiz-avatar.avatar-animated .qa-sprite{animation:rpgSpriteIdle .95s steps(1,end) infinite}
+
+@keyframes rpgSpriteIdle{
+  0%,100%{background-position:50% var(--sprite-y)}
+  25%{background-position:0 var(--sprite-y)}
+  50%{background-position:50% var(--sprite-y)}
+  75%{background-position:100% var(--sprite-y)}
+}
+@keyframes rpgSpriteWalk{
+  0%,100%{background-position:50% var(--sprite-y)}
+  25%{background-position:0 var(--sprite-y)}
+  50%{background-position:50% var(--sprite-y)}
+  75%{background-position:100% var(--sprite-y)}
+}
+@keyframes rpgSpriteAction{
+  0%,100%{background-position:50% var(--sprite-y);transform:translateY(0)}
+  50%{background-position:100% var(--sprite-y);transform:translateY(-3px)}
+}
+
+/* Tamanhos por contexto */
+.player-identity .quiz-avatar{transform:scale(.72);margin:-11px -7px}
+.rank-row .rank-avatar{display:inline-flex;align-items:center;justify-content:center;margin-right:2px}
+.rank-row .rank-avatar .quiz-avatar{transform:scale(.82);margin:-7px -4px}
+.participant-admin-row .participant-avatar{display:inline-grid;place-items:center;width:38px}
+.participant-admin-row .participant-avatar .quiz-avatar{transform:scale(.76);margin:-9px -5px}
+.player-lobby-avatar .quiz-avatar{transform:scale(1.62)}
+.champion-avatar .quiz-avatar{transform:scale(1.65)}
+.podium-avatar .quiz-avatar{transform:scale(1.05)}
+.admin-body .participant-admin-row .participant-avatar,
+.admin-body .participant-admin-row .participant-avatar span{color:inherit}
+
+/* =========================================================
+   Mapa RPG do telão
+   O cenário é a própria imagem do mapa; não há camadas de cidade
+   sintética por baixo, evitando sobreposição e regras mortas.
+   ========================================================= */
+.avatar-city{
+  --city-lane-step:13px;
+  position:relative;
+  width:100%;
+  min-width:0;
+  min-height:0;
+  height:100%;
+  overflow:hidden;
+  pointer-events:none;
+  contain:layout paint style;
+  isolation:isolate;
+  background-color:#05080c;
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:contain;
+}
+.avatar-city::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:2;
+  pointer-events:none;
+  background:linear-gradient(180deg,rgba(0,0,0,.02),rgba(0,0,0,.01) 65%,rgba(0,0,0,.25));
+}
+.avatar-city::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:70;
+  pointer-events:none;
+  opacity:0;
+  background:linear-gradient(90deg,rgba(3,7,12,.12),transparent 12%,transparent 88%,rgba(3,7,12,.12));
+  transition:opacity .35s ease,background .35s ease;
+}
+.avatar-city[data-scene="office"]{background-image:url('../maps/office-v3.50.webp')}
+.avatar-city[data-scene="laboratory"]{background-image:url('../maps/laboratory-v3.50.webp')}
+.avatar-city[data-scene="industry"]{background-image:url('../maps/industry-v3.50.webp')}
+.avatar-city[data-scene="platform"]{background-image:url('../maps/platform-v3.50.webp')}
+.avatar-city[data-city-phase="preparing"]::after{
+  opacity:1;
+  background:linear-gradient(180deg,rgba(17,5,40,.12),rgba(17,5,40,.54));
+}
+.avatar-city[data-city-phase="question_open"]::after{opacity:0}
+
+.avatar-scene-badge,.city-population-badge{
+  position:absolute;
+  z-index:80;
+  padding:5px 9px;
+  border:1px solid rgba(255,255,255,.22);
+  border-radius:999px;
+  background:rgba(11,13,19,.86);
+  color:#fff;
+  font-size:.63rem;
+  font-weight:900;
+  box-shadow:0 4px 14px rgba(0,0,0,.16);
+  backdrop-filter:blur(6px);
+}
+.avatar-scene-badge{left:9px;top:7px;letter-spacing:.07em;text-transform:uppercase}
+.city-population-badge{right:9px;bottom:7px}
+.city-walkers{position:absolute;inset:0;z-index:20}
+
+.city-actor{
+  --city-x:10%;
+  --city-lane:0;
+  --city-scale:.94;
+  --city-move-time:3.2s;
+  position:absolute;
+  left:var(--city-x);
+  bottom:calc(7% + var(--city-lane)*var(--city-lane-step));
+  z-index:calc(30 + var(--city-lane));
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:2px;
+  transform:translate3d(-50%,0,0) scale(var(--city-scale));
+  transform-origin:center bottom;
+  transition:left var(--city-move-time) linear,bottom .55s ease,transform .18s ease,filter .25s ease,opacity .25s ease;
+  will-change:left,bottom,transform;
+}
+.city-actor.offline{filter:grayscale(.8);opacity:.48}
+.city-actor .city-name{
+  max-width:96px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  padding:3px 6px;
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:999px;
+  background:rgba(17,18,24,.88);
+  color:#fff;
+  font-size:.56rem;
+  font-weight:900;
+  text-shadow:0 1px 2px rgba(0,0,0,.7);
+  box-shadow:0 2px 7px rgba(0,0,0,.18);
+}
+.city-avatar-shell{display:grid;place-items:center;transform-origin:center bottom;transition:transform .2s ease}
+.city-actor.face-left .city-avatar-shell{transform:none}
+.city-actor .quiz-avatar{transform:scale(.86);margin:-6px 0 -9px}
+.city-speech{
+  position:absolute;
+  left:50%;
+  bottom:82px;
+  min-width:30px;
+  max-width:110px;
+  padding:4px 6px;
+  border-radius:10px 10px 10px 3px;
+  background:#fff;
+  color:#2a2141;
+  font-size:.56rem;
+  font-weight:900;
+  line-height:1.1;
+  text-align:center;
+  white-space:nowrap;
+  box-shadow:0 4px 13px rgba(30,22,51,.2);
+  opacity:0;
+  transform:translate(-50%,5px) scale(.9);
+  transition:opacity .16s ease,transform .16s ease;
+}
+.city-speech::after{
+  content:"";
+  position:absolute;
+  left:9px;
+  bottom:-5px;
+  border:5px solid transparent;
+  border-top-color:#fff;
+  border-left-width:0;
+}
+.city-toy{
+  position:absolute;
+  left:50%;
+  bottom:4px;
+  font-size:19px;
+  opacity:0;
+  transform:translateX(-50%);
+  filter:drop-shadow(0 3px 2px rgba(0,0,0,.2));
+}
+.city-rank-crown{
+  position:absolute;
+  top:-18px;
+  z-index:5;
+  font-size:16px;
+  filter:drop-shadow(0 2px 2px rgba(0,0,0,.25));
+  animation:cityCrown .9s ease-in-out infinite alternate;
+}
+.city-actor.city-leader .quiz-avatar{filter:drop-shadow(0 0 7px rgba(255,222,80,.85)) drop-shadow(0 4px 5px rgba(35,25,69,.2))}
+.city-actor.is-ready .quiz-avatar{filter:drop-shadow(0 0 6px rgba(91,255,169,.72)) drop-shadow(0 4px 5px rgba(35,25,69,.22))}
+.city-actor.is-ready .city-name::before{content:'✓ ';color:#7dffb5}
+.city-actor.is-chatting .city-speech,
+.city-actor.is-waving .city-speech,
+.city-actor.is-dancing .city-speech,
+.city-actor.is-cheering .city-speech{opacity:1;transform:translate(-50%,0) scale(1)}
+.city-actor.is-playing .city-toy{opacity:1;animation:cityToyBounce .7s ease-in-out infinite alternate}
+.city-actor.is-jumping .city-avatar-shell{animation:cityJump .9s cubic-bezier(.2,.8,.25,1)}
+.city-actor.is-dancing .city-avatar-shell{animation:cityDance .6s ease-in-out infinite alternate}
+.city-actor.is-sidestepping .city-avatar-shell{animation:citySideStep .42s ease-in-out infinite alternate}
+.city-actor.is-cheering .city-avatar-shell{animation:cityCheer .48s cubic-bezier(.2,.85,.2,1) infinite alternate}
+.city-actor.is-walking .qa-sprite,
+.city-actor.is-sidestepping .qa-sprite{animation:rpgSpriteWalk .52s steps(1,end) infinite}
+.city-actor.is-waving .qa-sprite,
+.city-actor.is-dancing .qa-sprite,
+.city-actor.is-cheering .qa-sprite{animation:rpgSpriteAction .7s steps(1,end) infinite}
+
+/* 4 direções reais */
+.city-actor.face-down .qa-sprite{--sprite-y:0%}
+.city-actor.face-left .qa-sprite{--sprite-y:33.333333%}
+.city-actor.face-right .qa-sprite{--sprite-y:66.666667%}
+.city-actor.face-up .qa-sprite{--sprite-y:100%}
+
+/* Profundidade e densidade */
+.city-actor[data-depth="0"]{opacity:.82;z-index:30}
+.city-actor[data-depth="1"]{opacity:.88;z-index:34}
+.city-actor[data-depth="2"]{opacity:.94;z-index:38}
+.city-actor[data-depth="3"]{opacity:1;z-index:42}
+.city-actor[data-depth="4"]{opacity:1;z-index:46}
+.city-actor.city-entering{animation:cityEnter .9s cubic-bezier(.18,.85,.2,1) both}
+.city-actor.city-entering .city-name{opacity:1;transform:none}
+.avatar-city[data-density="medium"] .city-name,
+.avatar-city[data-density="high"] .city-name{opacity:0;transform:translateY(3px);transition:opacity .18s ease,transform .18s ease}
+.avatar-city[data-density="medium"] .city-actor:is(.city-entering,.city-leader,.is-chatting,.is-waving,.is-cheering) .city-name,
+.avatar-city[data-density="high"] .city-actor:is(.city-entering,.city-leader,.is-cheering) .city-name{opacity:1;transform:none}
+.avatar-city[data-density="high"] .city-speech,
+.avatar-city[data-density="high"] .city-toy{display:none}
+
+.city-join-feed{
+  position:absolute;
+  left:50%;
+  top:8px;
+  z-index:95;
+  display:grid;
+  gap:5px;
+  transform:translateX(-50%);
+  pointer-events:none;
+}
+.city-join-toast{
+  padding:6px 11px;
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:999px;
+  background:rgba(28,18,50,.88);
+  color:#fff;
+  font-size:.7rem;
+  font-weight:950;
+  box-shadow:0 8px 22px rgba(20,8,44,.2);
+  animation:cityJoin .3s ease both;
+}
+.city-join-toast.leaving{opacity:0;transform:translateY(-6px);transition:.4s ease}
+
+@keyframes cityCrown{to{transform:translateY(-3px) rotate(5deg)}}
+@keyframes cityJump{0%,100%{translate:0 0}45%{translate:0 -28px}65%{translate:0 -24px}}
+@keyframes cityDance{to{transform:rotate(8deg) translateY(-5px)}}
+@keyframes citySideStep{to{transform:rotate(3deg) translateY(-3px)}}
+@keyframes cityCheer{to{transform:translateY(-10px) scale(1.05)}}
+@keyframes cityToyBounce{to{transform:translate(-50%,-13px) rotate(18deg)}}
+@keyframes cityEnter{from{opacity:0;filter:blur(2px);transform:translate3d(-50%,18px,0) scale(calc(var(--city-scale)*.72))}to{opacity:1;filter:none;transform:translate3d(-50%,0,0) scale(var(--city-scale))}}
+@keyframes cityJoin{from{opacity:0;transform:translateY(-8px) scale(.94)}to{opacity:1;transform:none}}
+
+@media(max-height:760px){
+  .avatar-city{--city-lane-step:10px}
+  .city-actor{bottom:calc(5% + var(--city-lane)*var(--city-lane-step))}
+  .city-actor .quiz-avatar{transform:scale(.76)}
+  .city-speech{display:none}
+  .avatar-scene-badge,.city-population-badge{font-size:.58rem;padding:4px 8px}
+}
+@media(max-width:620px){
+  .avatar-scene-badge{display:none}
+  .city-population-badge{font-size:.52rem}
+  .city-actor .city-name{max-width:70px;font-size:.48rem}
+}
+@media(prefers-reduced-motion:reduce){
+  .quiz-avatar.avatar-animated .qa-sprite,
+  .city-actor .qa-sprite,
+  .city-rank-crown,
+  .city-avatar-shell,
+  .city-toy,
+  .city-actor.city-entering,
+  .city-join-toast{animation:none}
+  .avatar-city::after,.avatar-city,.city-actor,.city-speech{transition:none}
+  .city-speech,.city-toy{display:none}
+}

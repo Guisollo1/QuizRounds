@@ -1,2 +1,2 @@
-Quiz Rounds v3.49
-Pacote: CSS refatorado + gambás RPG Maker 4 direções + lobby PIN/QR/Mapa
+Quiz Rounds v3.50
+Ajustes críticos de CSS/JS: avatares visíveis, mapa contido e lobby com PIN/QR mais legíveis.

@@ -1,4 +1,4 @@
-QuizRounds v3.49 — Gambás profissionais em padrão RPG Maker
+QuizRounds v3.50 — Gambás profissionais em padrão RPG Maker
 
 Formato de cada personagem:
 - PNG RGBA com transparência.

@@ -1,12 +1,12 @@
-# QuizRounds v3.49
+# QuizRounds v3.50
 
-## v3.49 — CSS refatorado
+## v3.50 — CSS refatorado
 Pacote consolidado com gambazinhos RPG Maker em quatro direções, miniaturas frontais no seletor e lobby do telão em grade PIN + QR + mapa. A folha de avatares foi reconstruída sem as camadas procedurais antigas e o mapa usa a proporção real 4:3 dos cenários fornecidos.
 
-# QuizRounds v3.49 — Sprites RPG Maker e mapas profissionais
+# QuizRounds v3.50 — Sprites RPG Maker e mapas profissionais
 
 
-## v3.49 — gambás em quatro direções
+## v3.50 — gambás em quatro direções
 
 - Todos os avatares visíveis são os **gambazinhos profissionais** derivados das folhas de sprites fornecidas.
 - Cada personagem usa grade **3 × 4** no padrão de personagem RPG Maker: **baixo/frente, esquerda, direita e cima/costas**.
