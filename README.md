@@ -1,3 +1,37 @@
+# QuizRounds v3.47 — Sprites RPG Maker e mapas profissionais
+
+
+## v3.47 — gambás em quatro direções
+
+- Todos os avatares visíveis são os **gambazinhos profissionais** derivados das folhas de sprites fornecidas.
+- Cada personagem usa grade **3 × 4** no padrão de personagem RPG Maker: **baixo/frente, esquerda, direita e cima/costas**.
+- No mapa do telão os personagens agora mudam a linha do sprite conforme o sentido real do movimento, inclusive deslocamentos verticais entre as faixas do cenário.
+- Os petroleiros de operação e manutenção permanecem em **macacão laranja**, sem usar o macacão verde como avatar final.
+- O seletor do jogador, lobby, lista do ADM, ranking, pódio, campeão e mapa usam o mesmo catálogo visual.
+
+## Avatares
+
+- Os antigos avatares em emoji foram substituídos pelos personagens profissionais fornecidos.
+- Foram integradas 10 opções: Cientista M/F, Químico M/F, Sala Limpa M/F, Petroleiro Operação M/F e Petroleiro Manutenção M/F.
+- Cada arquivo em `assets/sprites/rpgmaker/` segue o formato de personagem único do RPG Maker: 3 colunas × 4 linhas, com direções baixo, esquerda, direita e cima.
+- O antigo macacão verde foi convertido para laranja nas variantes de Operação.
+- Os sprites são usados no seletor do jogador, lobby do jogador, ranking, ADM, pódio, campeão e personagens andando no telão.
+- Chaves antigas de avatar continuam sendo aceitas e são convertidas visualmente para o novo catálogo.
+
+## Mapas do lobby/telão
+
+- Os cenários sintéticos anteriores foram substituídos pelos quatro mapas fornecidos: **Escritório / Administração**, **Laboratório**, **Indústria / Planta** e **Plataforma de petróleo**.
+- O ADM pode escolher qualquer um dos quatro cenários ou deixar em Automático.
+- No automático, o tema/texto da sala influencia a seleção; caso não haja indicação, o cenário é distribuído deterministicamente.
+- Os personagens usam posicionamento relativo ao mapa, evitando o deslocamento incorreto causado por coordenadas em `vw`.
+
+## Supabase
+
+- Aplicar a migration `supabase/migrations/031_rpgmaker_professional_avatars_v346.sql` em instalações já existentes.
+- A migration adiciona as novas chaves sem remover a compatibilidade com os avatares antigos.
+
+---
+
 # QuizRounds v3.45 — Refatoração do jogador
 
 - `index.html` reorganizado para PIN/Nome → avatares → confirmação → Entrar no lobby.

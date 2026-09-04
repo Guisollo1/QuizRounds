@@ -1,4 +1,5 @@
-QuizRounds v3.45
-Refatoração estrutural do fluxo do jogador/index.html.
-Entrada por QR sem auto-join concorrente, CTA sempre reservado no layout, grade de 48 avatares sem scroll horizontal e runtime unificado em 3.45.
-Base funcional e Supabase da v3.44 preservados.
+QuizRounds v3.47
+Base: QuizRounds v3.46
+Atualização: gambás profissionais + sprites RPG Maker 3x4 com 4 direções
+Direções: baixo, esquerda, direita, cima
+Mapas: laboratório, escritório, indústria e plataforma

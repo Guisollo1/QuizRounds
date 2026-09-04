@@ -5,10 +5,10 @@
 <meta charset="utf-8"/>
 <meta content="#5d28c7" name="theme-color"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<title>Quiz Rounds v3.45 — Cidade Viva dos Jogadores</title>
-<link href="assets/css/core-v3.45.css" rel="stylesheet"/>
-<link href="assets/css/display-v3.45.css" rel="stylesheet"/>
-<link href="assets/css/avatars-v3.45.css" rel="stylesheet"/>
+<title>Quiz Rounds v3.47 — Mapa RPG dos Jogadores</title>
+<link href="assets/css/core-v3.47.css" rel="stylesheet"/>
+<link href="assets/css/display-v3.47.css" rel="stylesheet"/>
+<link href="assets/css/avatars-v3.47.css" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.min.js"></script>
 <script src="assets/vendor/qr-bundle.js"></script>
 </head>
@@ -31,7 +31,7 @@
 <header class="display-header">
 <div>
 <div class="display-title" id="displayTitle">Quiz ao vivo</div>
-<div class="display-room-info" id="displayRoomInfo">Sala ------</div><span class="display-version-badge">v3.45</span>
+<div class="display-room-info" id="displayRoomInfo">Sala ------</div><span class="display-version-badge">v3.47</span>
 <div class="display-header-actions"><span aria-live="polite" class="connection-pill connecting" id="displayConnection" role="status">Conectando…</span><button class="display-mini-btn" id="displaySoundBtn" type="button">Som ✓</button><button class="display-mini-btn" id="displayFullscreenBtn" type="button">Tela cheia</button></div>
 </div>
 <div class="display-header-right">
@@ -116,27 +116,15 @@
 </section>
 </div>
 </div>
-<section aria-label="Cenário animado dos participantes" class="avatar-city" data-scene="city" id="avatarCity">
-<div class="city-sun"></div><div class="city-cloud c1"></div><div class="city-cloud c2"></div>
-<div aria-hidden="true" class="scene-mountains"></div>
-<div aria-hidden="true" class="scene-hills"></div>
-<div aria-hidden="true" class="scene-beach-water"></div>
-<div aria-hidden="true" class="scene-beach-sand"></div>
-<div aria-hidden="true" class="scene-farm-field"></div>
-<div aria-hidden="true" class="scene-farm-fence"></div>
-<div aria-hidden="true" class="scene-farm-barn"></div>
-<div aria-hidden="true" class="city-skyline">
-<i class="city-building" style="--bh:58%"></i><i class="city-building" style="--bh:86%"></i><i class="city-building" style="--bh:68%"></i><i class="city-building" style="--bh:95%"></i><i class="city-building" style="--bh:62%"></i><i class="city-building" style="--bh:80%"></i><i class="city-building" style="--bh:52%"></i><i class="city-building" style="--bh:90%"></i><i class="city-building" style="--bh:66%"></i><i class="city-building" style="--bh:76%"></i>
-</div>
-<div aria-hidden="true" class="city-park"></div><i aria-hidden="true" class="city-tree t1"></i><i aria-hidden="true" class="city-tree t2"></i><div aria-hidden="true" class="scene-lab"></div><div aria-hidden="true" class="scene-platform"></div>
-<div aria-hidden="true" class="city-sidewalk"></div><div aria-hidden="true" class="city-road"></div>
-<div class="avatar-scene-badge" id="avatarCitySceneLabel">Cidade</div>
-<div class="city-walkers" id="avatarCityWalkers"></div><div aria-live="polite" class="city-join-feed" id="avatarCityJoinFeed"></div>
-<div class="city-population-badge" id="avatarCityPopulation">0 moradores</div>
+<section aria-label="Mapa RPG animado dos participantes" class="avatar-city" data-scene="office" id="avatarCity">
+<div class="avatar-scene-badge" id="avatarCitySceneLabel">Escritório</div>
+<div class="city-walkers" id="avatarCityWalkers"></div>
+<div aria-live="polite" class="city-join-feed" id="avatarCityJoinFeed"></div>
+<div class="city-population-badge" id="avatarCityPopulation">0 jogadores</div>
 </section>
 </div>
 </section>
 </main>
-<script src="assets/js/display-v3.45.js" type="module"></script>
+<script src="assets/js/display-v3.47.js" type="module"></script>
 </body>
 </html>

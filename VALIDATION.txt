@@ -1,10 +1,15 @@
-QuizRounds v3.45 — validação estrutural
+QuizRounds v3.47 — validação estrutural
 
-- index.html: fluxo de entrada refatorado.
-- CTA do lobby fora da região rolável.
-- Grade de avatares: overflow-x eliminado; overflow-y isolado.
-- Auto-join no carregamento removido.
-- APP_VERSION = 3.45.
-- JavaScript validado com node --check.
-- IDs HTML únicos e referências locais verificadas.
-- Nenhuma alteração de schema/RPC Supabase nesta versão.
+- Base atualizada a partir do QuizRounds v3.46.
+- APP_VERSION = 3.47 em ADM, jogador e telão.
+- Catálogo ativo contém somente gambás profissionais (10 avatares).
+- Todos os sprites ativos são PNG RGBA em grade 3 colunas x 4 linhas.
+- Ordem das direções: baixo/frente, esquerda, direita, cima/costas.
+- Movimento do mapa reconhece face-down, face-left, face-right e face-up.
+- Movimento vertical entre faixas do mapa usa as linhas cima/baixo do sprite.
+- Macacões dos avatares petroleiros são laranja.
+- Lobby, seletor, ADM, ranking, pódio, campeão e telão usam avatarMarkup() e o mesmo catálogo.
+- Mapas fornecidos permanecem integrados: escritório, laboratório, indústria e plataforma.
+- Migration 031_rpgmaker_professional_avatars_v346.sql preservada para compatibilidade de instalações existentes.
+- Referências HTML/CSS/JS locais verificadas.
+- Sintaxe dos JavaScript verificada com Node.js.
