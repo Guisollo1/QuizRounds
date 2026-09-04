@@ -21,8 +21,7 @@ const LEGACY={
 };
 
 function avatarChoicePreviewMarkup(key){
-  const a=avatarInfo(key);
-  return `<span class="avatar-choice-preview" aria-hidden="true"><span class="avatar-choice-preview-sprite" style="background-image:url('${a.sprite}')"></span></span>`;
+  return `<span class="avatar-choice-visual">${avatarMarkup(key,{animated:false,compact:false})}</span>`;
 }
 
 function hashString(value){let h=2166136261;for(const ch of String(value||'')){h^=ch.charCodeAt(0);h=Math.imul(h,16777619);}return h>>>0;}
@@ -40,5 +39,5 @@ export function avatarMarkup(key,{animated=false,label=false,compact=false}={}){
 }
 export function avatarPickerMarkup(selected='scientist_m'){
   const current=normalizeAvatarKey(selected);
-  return `<div class="avatar-picker-grid avatar-picker-grid-all" role="group" aria-label="Avatares profissionais">${AVATARS.map(a=>`<button type="button" class="avatar-choice ${a.key===current?'selected':''}" data-avatar-choice="${a.key}" aria-pressed="${a.key===current?'true':'false'}" title="${a.label}">${avatarChoicePreviewMarkup(a.key)}<span>${a.label}</span></button>`).join('')}</div>`;
+  return `<div class="avatar-picker-grid avatar-picker-grid-all" role="group" aria-label="Avatares profissionais">${AVATARS.map((a,index)=>`<button type="button" class="avatar-choice ${a.key===current?'selected':''}" data-avatar-choice="${a.key}" aria-pressed="${a.key===current?'true':'false'}" aria-label="${a.label}" title="${a.label}">${avatarChoicePreviewMarkup(a.key)}<span class="avatar-choice-label">${a.label}</span><span class="avatar-choice-id">#${String(index+1).padStart(2,'0')}</span></button>`).join('')}</div>`;
 }

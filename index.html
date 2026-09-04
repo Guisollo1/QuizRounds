@@ -5,12 +5,12 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#5927c7" name="theme-color"/>
-<title>Quiz Rounds v3.50 · Interface v3.92 r2 — Jogador</title>
+<title>Quiz Rounds v3.50 · Interface v3.92 r3 — Jogador</title>
 
 
-<link href="assets/css/player-ui-v3.92-r2.css" rel="stylesheet"/><link href="assets/css/avatars-ui-v3.92-r2.css" rel="stylesheet"/><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.min.js"></script>
+<link href="assets/css/player-ui-v3.92-r3.css" rel="stylesheet"/><link href="assets/css/avatars-ui-v3.92-r3.css" rel="stylesheet"/><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.min.js"></script>
 </head>
-<body class="player-body player-v38 ui-v392-r2" data-auth-scope="player" data-ui="v3.92-r2">
+<body class="player-body player-v38 ui-v392-r3" data-auth-scope="player" data-ui="v3.92-r3">
 <div class="player-bg-shape pbs1"></div><div class="player-bg-shape pbs2"></div><div class="player-bg-shape pbs3"></div>
 <main class="player-shell">
 <header class="player-header">
@@ -44,16 +44,16 @@
 <div class="placement-total"><small>TOTAL</small><b id="placementPoints">0</b><span>pts</span></div>
 </div>
 
+<article class="player-lobby-panel hidden" id="playerLobbyPanel">
+<div class="player-lobby-avatar" id="playerLobbyAvatar"></div>
+<div class="player-lobby-copy"><div class="eyebrow light">VOCÊ ESTÁ NO LOBBY</div><h2 id="playerLobbyName">Jogador</h2><p id="playerLobbyRoom">Sala ------</p><strong id="playerLobbyMessage">Aguardando o administrador começar.</strong><span class="hidden" id="playerLobbyStart"></span></div>
+<div class="player-lobby-status"><span class="player-lobby-online">● CONECTADO</span><button aria-pressed="false" class="player-ready-btn" id="playerReadyBtn" type="button">Estou pronto</button><small id="playerReadyHint">Confirme quando estiver pronto para começar.</small></div>
+</article>
 <div class="player-game-grid">
 <article class="game-question-card">
 <div class="round-head"><div><div class="eyebrow light" id="roundLabel">Aguardando round</div><div class="player-identity" id="playerIdentity"></div><div class="player-meta-chips"><span class="player-chip hidden" id="qualificationStatus"></span><span class="player-chip hidden" id="streakStatus"></span><span class="player-chip hidden" id="roundPointsInfo"></span></div></div><div class="timer" id="timerText"></div></div>
 <div class="question-stage"><h2 id="questionText">O administrador ainda não liberou a pergunta.</h2><div id="answerArea"></div><p class="success answer-status" id="answerStatus"></p><div class="player-result-details hidden" id="resultDetails"></div><div class="player-ranking-changes hidden" id="rankingChanges"></div></div>
-<div class="player-lobby-ready-bar hidden" id="playerLobbyReadyBar">
-<span class="player-lobby-online">● CONECTADO AO LOBBY</span>
-<button aria-pressed="false" class="player-ready-btn" id="playerReadyBtn" type="button">Estou pronto</button>
-<small id="playerReadyHint">Confirme quando estiver pronto para começar.</small>
-<span class="hidden" id="playerLobbyStart"></span>
-</div><div class="player-round-foot"><span id="missedRoundsInfo">Rounds perdidos: 0</span><span id="readyConnectionInfo">Conexão sendo verificada…</span></div>
+<div class="player-round-foot"><span id="missedRoundsInfo">Rounds perdidos: 0</span><span id="readyConnectionInfo">Conexão sendo verificada…</span></div>
 </article>
 <aside class="player-rank-card">
 <div class="rank-title"><div><div class="eyebrow">PLACAR</div><h3>Ranking</h3></div><div class="online-orb"><strong id="onlineCount">0</strong><small>online</small></div></div>
