@@ -1,36 +1,10 @@
-QuizRounds v3.44 — validação pós-auditoria
+QuizRounds v3.45 — validação estrutural
 
-Frontend
-- JavaScript: node --check em todos os módulos atuais: OK.
-- HTML: IDs duplicados: nenhum.
-- Referências locais de CSS/JS: OK.
-- Imports ES modules: OK.
-- Botões sem type explícito: nenhum.
-- IDs estáticos referenciados no ADM/telão/simulador: OK.
-- A–E preservado no parser/editor.
-- Tema semântico aplicado em ADM, telão e jogador.
-- Contraste de superfícies claras reforçado.
-- Logo: HTTPS em produção; HTTP apenas localhost; upload PNG/JPG/WebP até 5 MB; auto-fit preservado.
-- Limpeza de logo antiga do Storage adicionada.
-- Timer visual ADM/telão/jogador: 200 ms.
-
-Supabase produção
-- Migration audit_hardening_performance_v341 aplicada.
-- RPC admin_* / is_quiz_admin executáveis por anon: 0.
-- RPCs atuais do ADM continuam executáveis por authenticated e validam private.is_admin(auth.uid()).
-- Índices de FKs/caminhos quentes criados.
-- admin_list_participants reescrita com agregações em CTE.
-- Policies de quiz-logos restritas ao UUID/pasta do administrador autenticado.
-
-Observação externa
-- Leaked Password Protection é configuração do Supabase Auth/GoTrue e não pode ser ativada por migration SQL do projeto. Permanece como configuração externa da conta.
-
-
-v3.44: contraste, tipografia ADM e seleção de avatares sem filtros validados.
-
-
-Validação v3.44:
-- CTA joinBtn presente e rotulado Entrar no lobby.
-- avatar-picker-grid com overflow-x:hidden e overflow-y:auto.
-- grade adaptativa auto-fit/minmax sem largura fixa de 6 colunas.
-- fluxo QR mantém botão visível após falha de retomada automática.
+- index.html: fluxo de entrada refatorado.
+- CTA do lobby fora da região rolável.
+- Grade de avatares: overflow-x eliminado; overflow-y isolado.
+- Auto-join no carregamento removido.
+- APP_VERSION = 3.45.
+- JavaScript validado com node --check.
+- IDs HTML únicos e referências locais verificadas.
+- Nenhuma alteração de schema/RPC Supabase nesta versão.

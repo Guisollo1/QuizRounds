@@ -1,6 +1,21 @@
-# QuizRounds v3.44 — Entrada QR e seletor de avatares corrigidos
+# QuizRounds v3.45 — Refatoração do jogador
 
-## Correções v3.44
+- `index.html` reorganizado para PIN/Nome → avatares → confirmação → Entrar no lobby.
+- Somente a grade dos avatares possui rolagem vertical.
+- Scroll horizontal dos avatares eliminado estruturalmente.
+- Botão Entrar no lobby ocupa linha própria e não depende de `sticky` ou `fixed`.
+- Entrada automática concorrente removida; QR apenas preenche/trava o PIN.
+- Estado do botão: Entrar no lobby → Entrando… → Conectado ✓.
+- Timeouts de conexão evitam CTA aparentemente travado.
+- Apenas o avatar selecionado anima no seletor, reduzindo uso de CPU/GPU.
+- `APP_VERSION` corrigido para 3.45.
+- Nenhuma migration adicional do Supabase.
+
+---
+
+# QuizRounds v3.45 — Entrada QR e seletor de avatares corrigidos
+
+## Correções v3.45
 
 - O CTA do jogador agora é **Entrar no lobby** e permanece visível após a seleção do avatar.
 - O seletor não cria mais barra de rolagem horizontal.
@@ -11,7 +26,7 @@
 
 ---
 
-# QuizRounds v3.44 — Correção de entrada pelo QR Code
+# QuizRounds v3.45 — Correção de entrada pelo QR Code
 
 - Corrigido botão de entrada que ficava fora da área visível após a grade com 48 avatares.
 - O CTA agora aparece como **Entrar no quiz** e permanece acessível no celular.
@@ -20,7 +35,7 @@
 
 ---
 
-# QuizRounds v3.44 — contraste, avatares e entrada no lobby
+# QuizRounds v3.45 — contraste, avatares e entrada no lobby
 
 - Texto preto nas partidas recentes e na jornada Sala → Perguntas → Regras → Revisar → Lobby.
 - Conflito com a cor branca global dos botões removido na origem.
@@ -33,7 +48,7 @@
 
 ---
 
-# QuizRounds v3.44 — Hardening pós-auditoria
+# QuizRounds v3.45 — Hardening pós-auditoria
 
 Esta versão preserva a lógica estável da v3.40 e corrige os pontos encontrados na auditoria completa: segurança de RPCs, performance do banco, limpeza de logos, HTTPS, tema, contraste, acessibilidade, timers e documentação.
 
@@ -41,7 +56,7 @@ Esta versão preserva a lógica estável da v3.40 e corrige os pontos encontrado
 
 ---
 
-# QuizRounds v3.44 — Logo por upload ou link
+# QuizRounds v3.45 — Logo por upload ou link
 
 ## Logo do evento
 
