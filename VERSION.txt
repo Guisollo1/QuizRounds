@@ -1,7 +1,6 @@
-QuizRounds v3.33
-Refatoração estrutural sem novas funções.
-CSS monolítico separado em core, admin e display.
-ADM usa um único escopo canônico: admin-app.
-Breakpoints conflitantes da saúde do evento consolidados.
-Keyframes mortos removidos e ranking do jogador com movimentos estilizados.
-Lógica, Supabase e migrações da v3.32 preservados.
+QuizRounds v3.34
+ADM com subabas de largura total.
+Perguntas: Editor | Banco | Importar.
+Configuração: Sala | Regras | Rounds.
+Área útil do ADM ampliada no desktop para até 1680 px.
+Mesmos dados, funções, Supabase, controle remoto e lógica anterior preservados.

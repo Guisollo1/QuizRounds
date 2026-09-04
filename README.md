@@ -1,8 +1,25 @@
-# QuizRounds v3.33 — Refatoração Canônica
+# QuizRounds v3.34 — ADM com Subabas de Largura Total
+
+## Mudanças da v3.34
+
+- **Editar perguntas** agora usa subabas permanentes: **Editor | Banco | Importar**.
+- O **Editor** ocupa a área principal e mantém a prévia ao lado em telas largas; em telas menores, a prévia passa para baixo.
+- O **Banco** ocupa a largura total e pode mostrar mais cards por linha.
+- **Importar** ganhou workspace próprio e textarea maior.
+- **Configuração** agora usa: **Sala | Regras | Rounds**.
+- **Regras** usa até três colunas em monitores largos para aproveitar melhor o espaço.
+- **Rounds** usa a largura inteira para organizar a fila oficial.
+- A área útil do ADM foi ampliada de 1380 px para até **1680 px** no desktop.
+- As subabas preservam estado local e compartilham os mesmos dados/eventos, sem duplicação da lógica.
+- Nenhuma alteração de banco foi necessária.
+
+---
+
+# QuizRounds v3.34 — Refatoração Canônica
 
 ## Refatoração
 
-- CSS de produção separado em `core-v3.33.css`, `admin-v3.33.css` e `display-v3.33.css`.
+- CSS de produção separado em `core-v3.34.css`, `admin-v3.34.css` e `display-v3.34.css`.
 - Removidas dependências das classes históricas `admin-v17`, `admin-v329` e `admin-v331`; o ADM usa apenas `admin-app`.
 - Tokens antigos de versão foram substituídos por tokens semânticos.
 - Grade de saúde consolidada em uma única progressão responsiva: 4, 3 e 2 colunas.
