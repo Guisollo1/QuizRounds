@@ -1,22 +1,38 @@
-Quiz Rounds v3.50-layout-v3.92-r1 — VALIDATION
+QuizRounds v3.50 — validação estrutural
 
-Base funcional
-- v3.50 mantida como base GitHub Pages + Supabase.
-- 41 arquivos funcionais (JS, SQL e workflow) comparados por SHA-256 com a v3.50 original: idênticos.
-- assets/js/config.js preservado.
-- Supabase CDN preservado em admin.html, display.html e index.html.
-- Nenhum server/local-backend.js da v3.92 foi incorporado aos HTMLs.
-- Nenhum JavaScript v3.92 foi incorporado aos HTMLs.
+- Base atualizada a partir do QuizRounds v3.46.
+- APP_VERSION = 3.47 em ADM, jogador e telão.
+- Catálogo ativo contém somente gambás profissionais (10 avatares).
+- Todos os sprites ativos são PNG RGBA em grade 3 colunas x 4 linhas.
+- Ordem das direções: baixo/frente, esquerda, direita, cima/costas.
+- Movimento do mapa reconhece face-down, face-left, face-right e face-up.
+- Movimento vertical entre faixas do mapa usa as linhas cima/baixo do sprite.
+- Macacões dos avatares petroleiros são laranja.
+- Lobby, seletor, ADM, ranking, pódio, campeão e telão usam avatarMarkup() e o mesmo catálogo.
+- Mapas fornecidos permanecem integrados: escritório, laboratório, indústria e plataforma.
+- Migration 031_rpgmaker_professional_avatars_v346.sql preservada para compatibilidade de instalações existentes.
+- Referências HTML/CSS/JS locais verificadas.
+- Sintaxe dos JavaScript verificada com Node.js.
 
-Interface
-- Camada visual v3.92 aplicada a admin, display, jogador e simulador.
-- Compatibilidade adicionada para recursos exclusivos da v3.50.
-- Avatares, mapas e sprites continuam sendo os da v3.50.
+Validação v3.50:
+- index.html atualizado para assets v3.50
+- display.html atualizado para assets v3.50
+- seletor de avatar com preview frontal explícito
+- lobby do telão reorganizado em grade PIN/QR/Mapa
 
-Verificações
-- HTML: IDs duplicados verificados.
-- HTML/CSS: referências locais verificadas; nenhuma referência quebrada.
-- JavaScript v3.50: sintaxe verificada com Node.js.
-- URLs de mapas da camada v3.92 remapeadas para os assets existentes da v3.50.
+VALIDAÇÃO v3.50 — CSS CRÍTICO
+- CSS ativo: admin/core/player/display/avatars/simulator v3.50
+- CSS parse: OK
+- Seletores top-level duplicados nas folhas ativas: 0
+- Propriedades duplicadas dentro da mesma regra: 0
+- Assets legados v3.47/v3.48 ativos: removidos
+- Referências locais quebradas: 0
+- JavaScript v3.50: node --check OK
+- Mapas: 1448x1086, proporção 4:3; lobby respeita essa proporção
+- Sprites: grade RPG Maker 3x4 com 4 direções preservadas
 
-Resultado: OK para pacote estático da v3.50 com layout v3.92.
+Validação v3.50:
+- refs HTML atualizadas para CSS/JS v3.50
+- avatars-v3.50.js validado
+- city-v3.50.js validado
+- player/display CSS revisados para layout do lobby e sprites visíveis
