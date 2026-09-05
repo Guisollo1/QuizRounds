@@ -5,10 +5,10 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#5d28c7" name="theme-color"/>
-<title>Quiz Rounds v3.59 — Administração</title>
+<title>Quiz Rounds v3.60 — Administração</title>
 <link href="assets/css/core-v3.50.css" rel="stylesheet"/>
-<link href="assets/css/admin-v3.50.css" rel="stylesheet"/>
-<link href="assets/css/avatars-runtime-v3.59-r17.css?v=3.59-r17" rel="stylesheet"/>
+<link href="assets/css/admin-v3.60-r18.css" rel="stylesheet"/>
+<link href="assets/css/avatars-runtime-v3.60-r18.css?v=3.60-r18" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.min.js"></script>
 <script src="assets/vendor/qr-bundle.js"></script>
 </head>
@@ -22,7 +22,8 @@
 <div><div class="eyebrow light">QUIZ ROUNDS</div><h1>Painel do Administrador</h1><p>Prepare, apresente e controle o quiz em tempo real.</p></div>
 </div>
 <div aria-label="Ações do administrador" class="top-actions">
-<span class="badge version-badge" id="appVersionBadge">v3.59</span><span aria-live="polite" class="connection-pill connecting" id="adminConnection" role="status">Conectando…</span>
+<span class="badge version-badge" id="appVersionBadge">v3.60</span><span aria-live="polite" class="connection-pill connecting" id="adminConnection" role="status">Conectando…</span>
+<button class="ghost glass admin-help-trigger" id="adminHelpBtn" type="button"><span aria-hidden="true">?</span> Ajuda</button>
 <a class="ghost glass" href="simulator.html">Simulador</a>
 <a class="ghost glass" href="index.html">Modo jogador</a>
 <button class="ghost glass hidden" id="remoteModeBtn" type="button">Controle remoto</button>
@@ -73,6 +74,7 @@
 <div class="question-command-primary">
 <button class="primary competition-action" id="newQuestionBtn" type="button">＋ Nova pergunta</button>
 <button class="ghost" id="resetQuestionBtn" type="button">Limpar editor</button>
+<button class="ghost question-help-trigger" id="questionHelpBtn" type="button"><span aria-hidden="true">?</span> Guia de perguntas</button>
 </div>
 <div class="question-command-status">
 <span class="editor-mode-badge" id="editorModeBadge">CRIANDO</span>
@@ -270,7 +272,7 @@ TEMPO: 30
 <div class="health-tile checking" id="healthQuestions"><span>PERGUNTAS</span><strong>0 prontas</strong><small>Fila da partida</small></div>
 <div class="health-tile checking" id="healthController"><span>CONTROLE</span><strong>Verificando…</strong><small>Painel principal</small></div>
 <div class="health-tile checking" id="healthRemote"><span>REMOTO</span><strong>Verificando…</strong><small>Celular autorizado</small></div>
-<div class="health-tile checking" id="healthVersions"><span>VERSÕES</span><strong>v3.59</strong><small>ADM, telão e jogadores</small></div>
+<div class="health-tile checking" id="healthVersions"><span>VERSÕES</span><strong>v3.60</strong><small>ADM, telão e jogadores</small></div>
 </div>
 <div class="preflight-summary neutral" id="preflightSummary">Execute o pré-teste antes de começar o evento.</div>
 </article>
@@ -376,6 +378,85 @@ TEMPO: 30
 <button id="remoteRefreshBtn" type="button">Sincronizar agora</button>
 </footer>
 </section>
+
+<div aria-labelledby="questionHelpTitle" aria-modal="true" class="hidden question-help-modal" id="questionHelpModal" role="dialog">
+<div class="question-help-dialog" tabindex="-1">
+<header class="question-help-header">
+<div class="question-help-heading"><span class="question-help-icon" aria-hidden="true">?</span><div><div class="eyebrow">CENTRAL DE AJUDA</div><h2 id="questionHelpTitle">Guia completo para criar perguntas</h2><p>Legenda dos campos, formatos aceitos, boas práticas e importação em lote.</p></div></div>
+<button aria-label="Fechar ajuda" class="question-help-close" id="questionHelpCloseBtn" type="button">×</button>
+</header>
+<div class="question-help-toolbar">
+<label class="question-help-search"><span aria-hidden="true">⌕</span><input autocomplete="off" id="questionHelpSearch" placeholder="Buscar no guia: pontuação, TXT, desempate..." type="search"/></label>
+<nav aria-label="Atalhos do guia" class="question-help-jumps">
+<button data-help-target="helpQuick" type="button">Começar</button><button data-help-target="helpFields" type="button">Campos</button><button data-help-target="helpChoice" type="button">Escolha</button><button data-help-target="helpNumeric" type="button">Numérica</button><button data-help-target="helpTxt" type="button">TXT</button><button data-help-target="helpQuality" type="button">Qualidade</button>
+</nav>
+</div>
+<div class="question-help-scroll" id="questionHelpScroll">
+<section class="question-help-section question-help-lead" id="helpQuick" data-help-section>
+<div class="help-section-title"><span>01</span><div><h3>Fluxo recomendado</h3><p>Uma pergunta pronta deve passar por estes cinco pontos.</p></div></div>
+<div class="help-check-grid"><div><b>1. Enunciado</b><span>Curto, claro e sem ambiguidade.</span></div><div><b>2. Respostas</b><span>Alternativas plausíveis ou valor numérico.</span></div><div><b>3. Gabarito</b><span>Confira antes de salvar.</span></div><div><b>4. Ritmo</b><span>Defina pontos e tempo coerentes.</span></div><div><b>5. Organização</b><span>Categoria, dificuldade e nota privada.</span></div></div>
+<div class="help-callout success"><b>Atalho:</b><span>no editor, pressione Ctrl + Enter (ou ⌘ + Enter) para salvar.</span></div>
+</section>
+<section class="question-help-section" id="helpFields" data-help-section>
+<div class="help-section-title"><span>02</span><div><h3>Legenda de todos os campos</h3><p>O que cada opção controla durante o jogo.</p></div></div>
+<div class="help-field-table" role="table" aria-label="Legenda dos campos da pergunta">
+<div class="help-field-row head" role="row"><b>Campo</b><b>Para que serve</b><b>Recomendação</b></div>
+<div class="help-field-row" role="row"><strong>Enunciado</strong><span>Texto mostrado no telão e no celular.</span><em>Uma ideia por pergunta; evite textos longos.</em></div>
+<div class="help-field-row" role="row"><strong>Tipo</strong><span>Escolha entre múltipla escolha ou resposta numérica.</span><em>Escolha para conceitos; numérica para valores e estimativas.</em></div>
+<div class="help-field-row" role="row"><strong>A–E</strong><span>Alternativas da múltipla escolha. E é opcional.</span><em>Mantenha tamanhos parecidos para não dar pistas.</em></div>
+<div class="help-field-row" role="row"><strong>Resposta correta</strong><span>Define o gabarito usado na correção.</span><em>Revise sempre antes de colocar na fila.</em></div>
+<div class="help-field-row" role="row"><strong>Pontuação</strong><span>Valor base concedido à resposta correta.</span><em>Use uma escala consistente, por exemplo 100 pontos.</em></div>
+<div class="help-field-row" role="row"><strong>Tempo</strong><span>Segundos disponíveis para responder.</span><em>15–30 s para questões curtas; 45–60 s para cálculo.</em></div>
+<div class="help-field-row" role="row"><strong>Bônus de velocidade</strong><span>Acrescenta bônus proporcional para quem acerta mais rápido.</span><em>0% para precisão; 10–30% para mais competitividade.</em></div>
+<div class="help-field-row" role="row"><strong>Desempate</strong><span>Marca a pergunta como critério especial de desempate.</span><em>Prefira perguntas objetivas e de dificuldade adequada.</em></div>
+<div class="help-field-row" role="row"><strong>Vale pontos</strong><span>Permite rodada de diversão sem alterar o ranking.</span><em>Desative para treino, enquete ou demonstração.</em></div>
+<div class="help-field-row" role="row"><strong>Categoria</strong><span>Agrupa e facilita busca/filtros no banco.</span><em>Use nomes consistentes: Segurança, Geologia, Química...</em></div>
+<div class="help-field-row" role="row"><strong>Dificuldade</strong><span>Classifica a questão como Fácil, Médio, Difícil ou Final.</span><em>Ajuda a equilibrar a playlist.</em></div>
+<div class="help-field-row" role="row"><strong>Nota privada</strong><span>Informação visível apenas para o administrador.</span><em>Use para explicação, fonte, curiosidade ou orientação.</em></div>
+</div>
+</section>
+<section class="question-help-section" id="helpChoice" data-help-section>
+<div class="help-section-title"><span>03</span><div><h3>Múltipla escolha</h3><p>Formato indicado para conceitos, definições e reconhecimento.</p></div></div>
+<div class="help-two-cols"><div class="help-card"><h4>Estrutura ideal</h4><ul><li>1 enunciado claro.</li><li>4 alternativas obrigatórias (A–D).</li><li>5ª alternativa (E) opcional.</li><li>Somente um gabarito correto.</li><li>Alternativas com extensão semelhante.</li></ul></div><div class="help-card"><h4>Evite</h4><ul><li>“Todas as anteriores” quando não for necessário.</li><li>Duas respostas tecnicamente corretas.</li><li>Negativas duplas e pegadinhas de leitura.</li><li>Uma alternativa muito maior que as demais.</li><li>Pistas no próprio enunciado.</li></ul></div></div>
+<div class="help-example"><span>EXEMPLO</span><b>Qual grandeza é medida em pascal (Pa)?</b><p>A: Temperatura · B: Pressão · C: Massa · D: Comprimento</p><strong>Gabarito: B</strong></div>
+</section>
+<section class="question-help-section" id="helpNumeric" data-help-section>
+<div class="help-section-title"><span>04</span><div><h3>Número / mais próximo</h3><p>Use para cálculo, estimativa ou perguntas cujo resultado seja um valor.</p></div></div>
+<div class="help-two-cols"><div class="help-card"><h4>Como funciona</h4><ul><li>Informe um único valor correto.</li><li>O jogador digita um número.</li><li>Quando não houver acerto exato, a proximidade pode decidir o resultado conforme a regra do jogo.</li><li>Use ponto ou vírgula conforme o teclado do jogador; o sistema normaliza a entrada.</li></ul></div><div class="help-card"><h4>Boas práticas</h4><ul><li>Informe a unidade no enunciado.</li><li>Diga se deseja arredondamento.</li><li>Evite resultado dependente de convenção não informada.</li><li>Dê mais tempo quando exigir cálculo.</li></ul></div></div>
+<div class="help-example"><span>EXEMPLO</span><b>Quantos minutos existem em 2,5 horas?</b><p>Valor correto: 150</p><strong>Tempo sugerido: 30 s</strong></div>
+</section>
+<section class="question-help-section" id="helpScore" data-help-section>
+<div class="help-section-title"><span>05</span><div><h3>Pontuação, tempo e dificuldade</h3><p>Equilibre o jogo antes de transformar uma questão em “mais importante” que outra.</p></div></div>
+<div class="help-score-grid"><div><span>FÁCIL</span><strong>15–20 s</strong><small>Conceito direto, reconhecimento ou aquecimento.</small></div><div><span>MÉDIO</span><strong>20–35 s</strong><small>Exige conhecimento ou comparação.</small></div><div><span>DIFÍCIL</span><strong>30–60 s</strong><small>Cálculo, interpretação ou detalhe técnico.</small></div><div><span>FINAL</span><strong>30–60 s</strong><small>Pode valer mais pontos, mas deve continuar justa.</small></div></div>
+<div class="help-callout"><b>Consistência:</b><span>se perguntas normais valem 100 pontos, use 200 apenas quando quiser que o round tenha peso realmente dobrado.</span></div>
+</section>
+<section class="question-help-section" id="helpTxt" data-help-section>
+<div class="help-section-title"><span>06</span><div><h3>Importação TXT</h3><p>Cadastre várias perguntas de uma vez mantendo o banco validável.</p></div></div>
+<div class="help-txt-grid"><div class="help-card"><h4>Campos reconhecidos</h4><dl><dt>PERGUNTA:</dt><dd>enunciado</dd><dt>TIPO:</dt><dd>ESCOLHA ou NUMERO</dd><dt>A: ... E:</dt><dd>alternativas</dd><dt>CORRETA:</dt><dd>letra ou número</dd><dt>PONTOS:</dt><dd>valor da questão</dd><dt>TEMPO:</dt><dd>segundos</dd><dt>CATEGORIA:</dt><dd>organização do banco</dd><dt>DIFICULDADE:</dt><dd>FACIL, MEDIO, DIFICIL ou FINAL</dd><dt>PONTUAR:</dt><dd>SIM ou NAO</dd><dt>BONUS_VELOCIDADE:</dt><dd>percentual máximo</dd><dt>DESEMPATE:</dt><dd>SIM ou NAO</dd><dt>NOTA:</dt><dd>nota privada do ADM</dd></dl></div><div class="help-card help-code-card"><h4>Modelo de múltipla escolha</h4><pre>PERGUNTA: Qual é a capital do Brasil?
+TIPO: ESCOLHA
+A: São Paulo
+B: Brasília
+C: Salvador
+D: Recife
+CORRETA: B
+PONTOS: 100
+TEMPO: 30
+CATEGORIA: Geografia
+DIFICULDADE: FACIL
+PONTUAR: SIM
+---</pre></div></div>
+<div class="help-callout warning"><b>Substituir tudo:</b><span>use somente quando quiser trocar o banco ativo. O sistema valida o lote antes e a opção de backup deve permanecer ligada.</span></div>
+</section>
+<section class="question-help-section" id="helpQuality" data-help-section>
+<div class="help-section-title"><span>07</span><div><h3>Checklist de qualidade</h3><p>Use antes de colocar a pergunta na playlist.</p></div></div>
+<div class="help-quality-grid"><label><span>✓</span><b>Clareza</b><small>Existe uma interpretação principal?</small></label><label><span>✓</span><b>Gabarito</b><small>É inequívoco e foi conferido?</small></label><label><span>✓</span><b>Alternativas</b><small>São plausíveis e equilibradas?</small></label><label><span>✓</span><b>Tempo</b><small>É suficiente para ler e responder?</small></label><label><span>✓</span><b>Pontos</b><small>O peso é coerente com a dificuldade?</small></label><label><span>✓</span><b>Fonte/nota</b><small>O ADM tem contexto se alguém questionar?</small></label></div>
+<div class="help-callout danger"><b>Erros que bloqueiam importação:</b><span>gabarito inexistente, enunciado vazio, alternativas obrigatórias ausentes, número inválido ou campos fora dos limites aceitos.</span></div>
+</section>
+<div class="question-help-empty hidden" id="questionHelpEmpty"><b>Nenhum tópico encontrado.</b><span>Tente outra palavra, como “tempo”, “gabarito”, “TXT” ou “desempate”.</span></div>
+</div>
+<footer class="question-help-footer"><div><span class="kbd">Esc</span><span>fecha a ajuda</span></div><div class="question-help-footer-actions"><button class="ghost" id="questionHelpOpenImportBtn" type="button">Ir para Importar TXT</button><button class="primary" id="questionHelpOpenEditorBtn" type="button">Abrir editor de perguntas</button></div></footer>
+</div>
+</div>
 <div aria-labelledby="remotePairTitle" aria-modal="true" class="hidden remote-pair-modal" id="remotePairModal" role="dialog">
 <div class="remote-pair-dialog">
 <button aria-label="Fechar" class="remote-pair-close" id="remotePairCloseBtn" type="button">×</button>
@@ -400,6 +481,6 @@ TEMPO: 30
 </div>
 </div>
 </main>
-<script src="assets/js/admin-v3.59.js?v=3.59-r17" type="module"></script>
+<script src="assets/js/admin-v3.60-r18.js?v=3.60-r18" type="module"></script>
 </body>
 </html>
