@@ -290,3 +290,15 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none;filter:grayscale(
 @keyframes displayGo{0%{opacity:0;transform:scale(.72)}30%{opacity:1;transform:scale(1.08)}75%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.12)}}
 @keyframes lobbyCountChange{0%{transform:scale(.88);opacity:.62}55%{transform:scale(1.12);opacity:1}100%{transform:scale(1);opacity:1}}
 @media(prefers-reduced-motion:reduce){.display-go-overlay.show,.count-change{animation:none!important}.display-go-overlay.show{opacity:1;transform:none}}
+
+
+/* r14 — transição suave entre lobby, pergunta, resposta, ranking e telas finais */
+.display-main-area{position:relative;isolation:isolate;}
+.display-main-area>.display-center-panel,.display-main-area>.display-question-panel,.display-main-area>.display-result-panel,.display-main-area>.display-finished-stage{grid-area:1/1;opacity:1;visibility:visible;transition:opacity .26s ease,transform .26s ease,filter .26s ease;will-change:opacity,transform,filter;}
+.display-main-area>.display-finished-stage{min-height:0;display:grid;align-items:center;}
+.final-show-stage{transition:opacity .24s ease,transform .24s ease,filter .24s ease;will-change:opacity,transform,filter;}
+.display-panel-enter{opacity:0;transform:translateY(12px) scale(.992);filter:blur(4px);pointer-events:none;}
+.display-panel-enter.display-panel-enter-active{opacity:1;transform:none;filter:none;pointer-events:auto;}
+.display-panel-leave{opacity:1;transform:none;filter:none;pointer-events:none;}
+.display-panel-leave.display-panel-leave-active{opacity:0;transform:translateY(-8px) scale(.992);filter:blur(3px);}
+@media(prefers-reduced-motion:reduce){.display-main-area>.display-center-panel,.display-main-area>.display-question-panel,.display-main-area>.display-result-panel,.display-main-area>.display-finished-stage,.final-show-stage{transition:none!important}.display-panel-enter,.display-panel-leave{opacity:1!important;transform:none!important;filter:none!important}}

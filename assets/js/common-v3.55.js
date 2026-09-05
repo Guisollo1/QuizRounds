@@ -1,6 +1,6 @@
 import{avatarMarkup}from'./avatars-v3.55-r13.js';
 import{SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY}from'./config.js';
-export const APP_VERSION='3.55';
+export const APP_VERSION='3.56';
 
 export const THEME_PALETTES=Object.freeze({
   violet:{primary:'#5d28c7',secondary:'#7a3be3',deep:'#2c0e60',mid:'#4d168f',bright:'#6722b6',soft:'#efe7ff'},
