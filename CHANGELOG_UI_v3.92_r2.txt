@@ -1,9 +1,0 @@
-Quiz Rounds v3.50 · UI v3.92 r2
-
-- v3.50 continua sendo o motor funcional e a integração GitHub/Supabase.
-- O lobby do telão voltou à grade canônica da v3.92: PIN + QR na área superior e mapa em faixa inferior.
-- Removida a regra antiga da v3.50 que colocava PIN/QR à esquerda e mapa à direita.
-- O jogador não usa mais o cartão de lobby exclusivo da v3.50; volta à estrutura de jogo/lobby da v3.92.
-- O controle de prontidão da v3.50 foi preservado em barra compacta, sem recriar a camada antiga.
-- CSS de display/player foi substituído por bases v3.92; não há empilhamento de CSS antigo + override.
-- Sprites/mapas e lógica Supabase da v3.50 foram preservados.
