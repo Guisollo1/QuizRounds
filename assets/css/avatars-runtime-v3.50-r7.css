@@ -1,0 +1,79 @@
+:root{
+  --avatar-ink:#1e1732;
+  --avatar-muted:#6d6580;
+}
+
+/* =========================================================
+   QuizRounds v3.50 — sprites RPG Maker reais
+   Grade 3x4: baixo/frente, esquerda, direita, cima/costas.
+   ========================================================= */
+.quiz-avatar{
+  --avatar-sprite:none;
+  --sprite-y:0%;
+  --sprite-flip:1;
+  position:relative;
+  width:72px;
+  height:82px;
+  display:inline-grid;
+  place-items:end center;
+  flex:0 0 auto;
+  vertical-align:middle;
+  isolation:isolate;
+  filter:drop-shadow(0 5px 5px rgba(12,8,24,.24));
+}
+.quiz-avatar .qa-shadow{
+  position:absolute;
+  left:13%;
+  right:13%;
+  bottom:1px;
+  height:8px;
+  border-radius:50%;
+  background:rgba(18,12,30,.28);
+  filter:blur(2px);
+  z-index:-1;
+}
+.quiz-avatar .qa-sprite{
+  width:72px;
+  height:82px;
+  display:block;
+  background-repeat:no-repeat;
+  background-size:300% 400%;
+  background-position:50% var(--sprite-y);
+  image-rendering:auto;
+  transform:scaleX(var(--sprite-flip));
+  transform-origin:center bottom;
+}
+.quiz-avatar.avatar-compact{width:42px;height:48px}
+.quiz-avatar.avatar-compact .qa-sprite{width:42px;height:48px}
+.quiz-avatar.avatar-animated .qa-sprite{animation:rpgSpriteIdle .95s steps(1,end) infinite}
+
+@keyframes rpgSpriteIdle{
+  0%,100%{background-position:50% var(--sprite-y)}
+  25%{background-position:0 var(--sprite-y)}
+  50%{background-position:50% var(--sprite-y)}
+  75%{background-position:100% var(--sprite-y)}
+}
+@keyframes rpgSpriteWalk{
+  0%,100%{background-position:50% var(--sprite-y)}
+  25%{background-position:0 var(--sprite-y)}
+  50%{background-position:50% var(--sprite-y)}
+  75%{background-position:100% var(--sprite-y)}
+}
+@keyframes rpgSpriteAction{
+  0%,100%{background-position:50% var(--sprite-y);transform:translateY(0) scaleX(var(--sprite-flip))}
+  50%{background-position:100% var(--sprite-y);transform:translateY(-3px) scaleX(var(--sprite-flip))}
+}
+
+/* Tamanhos por contexto */
+.player-identity .quiz-avatar{transform:scale(.72);margin:-11px -7px}
+.rank-row .rank-avatar{display:inline-flex;align-items:center;justify-content:center;margin-right:2px}
+.rank-row .rank-avatar .quiz-avatar{transform:scale(.82);margin:-7px -4px}
+.participant-admin-row .participant-avatar{display:inline-grid;place-items:center;width:38px}
+.participant-admin-row .participant-avatar .quiz-avatar{transform:scale(.76);margin:-9px -5px}
+.player-lobby-avatar .quiz-avatar{transform:scale(1.62)}
+.champion-avatar .quiz-avatar{transform:scale(1.65)}
+.podium-avatar .quiz-avatar{transform:scale(1.05)}
+.admin-body .participant-admin-row .participant-avatar,
+.admin-body .participant-admin-row .participant-avatar span{color:inherit}
+
+/* r7: runtime visual de avatares compartilhado pelo ADM. */

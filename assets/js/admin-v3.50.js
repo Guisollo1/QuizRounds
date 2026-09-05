@@ -1,5 +1,5 @@
 import{db,$,esc,renderRank,setConnection,serverRemaining,sleep,APP_VERSION,applyDocumentTheme,normalizeLogoUrl}from'./common-v3.50.js';
-import{avatarMarkup}from'./avatars-v3.50.js';
+import{avatarMarkup}from'./avatars-v3.50-r7.js';
 
 let room=null,roomState=null,queueRows=[],questionBank=[],participants=[],historyRows=[],channel=null,progressChannel=null,poll=null,serverOffset=0,timerTick=null,reconnectTimer=null,reconnectAttempt=0,auditTick=null,actionBusy=false,presenceOnline=null,displayOnline=false,progressRefreshTimer=null,lastAdminQr='',activeAdminTab='central',autoOpening=false,autoClosing=false,lastLatency=0,subscriptionEpoch=0,lastConnectionKey='',refreshSeq=0,refreshAppliedSeq=0,displayWindowRef=null,remoteAuthorized=false,remoteModeActive=false,remoteDeviceLabel='',remotePairLink='',remotePairExpiresAt=0,eventModeActive=false,controllerGranted=true,controllerConflictLabel='',controllerHeartbeatTimer=null,lastPreflight=null,presenceVersions={players:[],displays:[],admins:[]},versionMismatch=false,eventInsights=null,lastInsightsRounds=-1,lastObservedPhase='',diagnosticEvents=[],lastRemotePhase='',lastRemoteFinalStage='',remoteDeviceCount=0,lastVersionBroadcast='';
 let parsedImport={questions:[],errors:[],results:[]},parseTimer=null,recentQuestionIds=new Set(),connectionTestNonce='',connectionAcks=new Set();

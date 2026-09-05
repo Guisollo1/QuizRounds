@@ -1,4 +1,4 @@
-import{avatarMarkup}from'./avatars-v3.50.js';
+import{avatarMarkup}from'./avatars-v3.50-r7.js';
 import{SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY}from'./config.js';
 export const APP_VERSION='3.49';
 
