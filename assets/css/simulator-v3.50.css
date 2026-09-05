@@ -427,4 +427,3 @@ to{opacity:1;transform:none;}
 .sim-tab-panel[data-panel="questions"] .sim-bulk-bank .bulk-textarea{min-height:220px;max-height:none;}
 }
 
-button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid rgba(109,53,220,.35);outline-offset:3px;}
