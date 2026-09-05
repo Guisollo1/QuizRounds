@@ -4,19 +4,21 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<title>Quiz Rounds v3.56 - Simulador Local de Carga e Fluxo</title>
+<title>Quiz Rounds v3.57 - Simulador Local de Carga e Fluxo</title>
 <link href="assets/css/core-v3.50.css" rel="stylesheet"/>
 <link href="assets/css/admin-v3.50.css" rel="stylesheet"/>
 <link href="assets/css/display-v3.50.css" rel="stylesheet"/>
-<link href="assets/css/simulator-v3.50.css" rel="stylesheet"/>
-<script defer="" src="assets/vendor/qr-bundle.js"></script>
+<link href="assets/css/simulator-v3.57-r15.css?v=3.57-r15" rel="stylesheet"/>
+<link href="assets/css/avatars-runtime-v3.57-r15.css?v=3.57-r15" rel="stylesheet"/>
+<link href="assets/css/avatars-ui-v3.92-r15.css?v=3.57-r15" rel="stylesheet"/>
+<script src="assets/vendor/qr-bundle.js"></script>
 </head>
 <body class="sim-body">
 <section class="sim-login-view" id="simLoginView">
 <div class="sim-login-card">
 <div class="sim-brand-orb">Q</div>
 <div class="eyebrow">AMBIENTE LOCAL DE TESTE</div>
-<h1>Quiz Rounds v3.56</h1>
+<h1>Quiz Rounds v3.57</h1>
 <p>Entre como administrador para testar o mesmo fluxo que será usado no evento.</p>
 <form class="sim-login-form" id="simLoginForm">
 <label>Usuário
@@ -42,7 +44,7 @@
 <header class="sim-app-header">
 <div class="sim-brand-line">
 <div class="sim-brand-orb small">Q</div>
-<div><div class="eyebrow">SIMULADOR LOCAL</div><h1>Quiz Rounds <span>v3.56</span></h1></div>
+<div><div class="eyebrow">SIMULADOR LOCAL</div><h1>Quiz Rounds <span>v3.57</span></h1></div>
 </div>
 <div class="sim-header-actions">
 <span class="badge neutral" id="simStateBadge">CONFIGURAÇÃO</span>
@@ -145,6 +147,7 @@ TEMPO: 30
 <label class="switch-line"><input id="simAutoClose" type="checkbox"/><span><b>Fechar com todos respondendo</b></span></label>
 <label class="switch-line"><input checked="" id="simStreak" type="checkbox"/><span><b>Sequência de acertos</b></span></label>
 <label>Entrada tardia<select id="simLateJoin"><option value="allow_zero">Permitir com zero</option><option value="until_round">Até round 3</option><option value="deny">Bloquear após início</option></select></label>
+<label>Cenário do mapa<select id="simAvatarScene"><option value="office">Escritório</option><option value="laboratory">Laboratório</option><option value="industry">Indústria</option><option value="platform">Plataforma</option></select></label>
 <label>Tema<select id="simTheme"><option value="violet">Violeta</option><option value="ocean">Oceano</option><option value="emerald">Esmeralda</option><option value="sunset">Pôr do sol</option><option value="midnight">Midnight</option></select></label>
 </div>
 <button class="primary big" id="prepareSimBtn" type="button">Preparar lobby</button>
@@ -194,14 +197,20 @@ TEMPO: 30
 <div class="sim-projector-stats"><div><strong id="projectorPlayers">0</strong><span>jogadores</span></div><div><strong id="projectorAnswers">0</strong><span>respostas</span></div></div>
 </div>
 <div class="sim-projector-body lobby-stage" id="projectorLobby">
-<div class="lobby-grid">
-<div class="lobby-join-box">
+<div class="sim-lobby-layout">
+<div class="sim-lobby-join-panel">
 <span class="display-kicker">ENTRE NA SALA</span>
-<div class="display-big-code sim-code" id="projectorPin">482731</div>
-<div aria-label="QR Code de teste" class="sim-qr" id="simQr"></div>
-<div class="sim-link" id="projectorLink">http://localhost/quiz?pin=482731</div>
+<div class="sim-lobby-join-flex">
+<div class="sim-pin-zone"><span class="display-kicker">PIN DA SALA</span><div class="display-big-code sim-code" id="projectorPin">482731</div><small>Digite o PIN no celular</small></div>
+<div class="sim-qr-zone"><span class="display-kicker">QR PARA ENTRAR</span><div aria-label="QR Code de teste" class="sim-qr" id="simQr"></div><strong>Escaneie pelo celular</strong></div>
 </div>
-<div class="lobby-people-box"><h2>Jogadores no lobby</h2><div class="avatar-cloud" id="lobbyAvatars"></div><p id="lobbyStatusText">Prepare a partida para abrir o lobby.</p></div>
+<div class="sim-link" id="projectorLink">http://localhost/quiz?pin=482731</div>
+<div class="sim-lobby-status"><p id="lobbyStatusText">Prepare a partida para abrir o lobby.</p><div class="avatar-cloud" id="lobbyAvatars"></div></div>
+</div>
+<section aria-label="Mapa RPG do simulador" class="avatar-city sim-avatar-city" data-scene="office" id="simAvatarCity">
+<div class="city-map-viewport"><div class="city-scene-fx" id="avatarCityFx" aria-hidden="true"></div><div class="city-walkers" id="simAvatarCityWalkers"></div><div class="city-occlusion-layer" id="avatarCityOcclusion" aria-hidden="true"></div></div>
+<div class="avatar-scene-badge" id="simAvatarCitySceneLabel">Escritório</div><div class="city-population-badge" id="simAvatarCityPopulation">0 jogadores</div>
+</section>
 </div>
 </div>
 <div class="sim-projector-body hidden" id="projectorPreparing"><span class="display-kicker">PREPARE-SE</span><div class="display-countdown" id="simCountdown">3</div><h2 class="sim-result-answer">Próximo round</h2></div>
@@ -232,9 +241,9 @@ TEMPO: 30
 <div class="phone-frame">
 <div class="phone-notch"></div>
 <div class="phone-screen active" id="phoneJoin">
-<div class="phone-brand">Quiz Rounds</div><h3>Entrar na partida</h3><label>PIN<input id="testPlayerPin" inputmode="numeric" maxlength="6"/></label><label>Seu nome<input id="testPlayerName" maxlength="28" value="Jogador Teste"/></label><button class="primary big" id="joinTestPlayerBtn" type="button">Entrar</button><p class="phone-msg" id="testPlayerJoinMsg"></p>
+<div class="phone-brand">Quiz Rounds</div><h3>Entrar na partida</h3><label>PIN<input id="testPlayerPin" inputmode="numeric" maxlength="6"/></label><label>Seu nome<input id="testPlayerName" maxlength="28" value="Jogador Teste"/></label><div class="phone-avatar-picker"><span>Escolha seu avatar</span><div id="simAvatarPicker"></div></div><button class="primary big" id="joinTestPlayerBtn" type="button">Entrar</button><p class="phone-msg" id="testPlayerJoinMsg"></p>
 </div>
-<div class="phone-screen" id="phoneLobby"><div class="phone-brand">Quiz Rounds</div><div class="phone-status-pill">CONECTADO</div><div class="phone-avatar">JT</div><h3 id="phonePlayerName">Jogador Teste</h3><p>Aguardando o administrador iniciar.</p><div class="phone-room">Sala <b id="phoneLobbyPin">------</b></div><button class="ghost" id="disconnectTestPlayerBtn" type="button">Simular fechar navegador</button></div>
+<div class="phone-screen" id="phoneLobby"><div class="phone-brand">Quiz Rounds</div><div class="phone-status-pill">CONECTADO</div><div class="phone-avatar-visual" id="phoneAvatarVisual"></div><h3 id="phonePlayerName">Jogador Teste</h3><p>Aguardando o administrador iniciar.</p><div class="phone-room">Sala <b id="phoneLobbyPin">------</b></div><button class="ghost" id="disconnectTestPlayerBtn" type="button">Simular fechar navegador</button></div>
 <div class="phone-screen" id="phoneQuestion"><div class="phone-topline"><span id="phoneRound">1/5</span><strong id="phoneTimer">20</strong></div><h3 id="phonePrompt"></h3><div class="phone-answer-grid" id="phoneChoiceAnswers"></div><div class="hidden" id="phoneNumericAnswer"><input aria-label="Digite o número" id="phoneNumberInput" placeholder="Digite o número" step="any" type="number"/><button class="primary big" id="submitPhoneNumberBtn" type="button">Responder</button></div><p class="phone-msg" id="phoneAnswerMsg"></p></div>
 <div class="phone-screen" id="phoneResult"><div class="phone-brand">Round encerrado</div><div class="phone-result-icon" id="phoneResultIcon">✓</div><h3 id="phoneResultTitle">Resposta registrada</h3><p id="phoneResultText"></p><div class="phone-placement hidden" id="phonePlacementResult"><strong id="phonePlacementResultRank">1º</strong><span id="phonePlacementResultText">Top 5</span></div><div class="phone-score">Pontuação <b id="phoneScore">0</b></div></div>
 <div class="phone-screen" id="phoneDisconnected"><div class="phone-brand">Sessão salva</div><div class="phone-result-icon muted-icon">↻</div><h3>Navegador fechado</h3><p>Ao abrir novamente, o jogador retorna com o mesmo nome. Rounds encerrados enquanto esteve fora valem 0.</p><button class="primary big" id="reopenTestPlayerBtn" type="button">Reabrir navegador</button></div>
@@ -242,6 +251,6 @@ TEMPO: 30
 </div>
 </aside>
 <div class="drawer-backdrop hidden" id="drawerBackdrop"></div>
-<script defer="" src="assets/js/simulator-v3.55.js?v=3.56-r14"></script>
+<script src="assets/js/simulator-v3.57-r15.js?v=3.57-r15" type="module"></script>
 </body>
 </html>
