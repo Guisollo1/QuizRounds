@@ -1,0 +1,8 @@
+Quiz Rounds v3.50 · UI v3.92 r4
+
+- Refatorado o deslocamento dos avatares no telão para navegação por grafo específica de cada mapa.
+- Eliminada movimentação direta entre faixas que podia atravessar paredes e mobiliário.
+- Eliminada escala por profundidade que fazia o personagem aumentar/diminuir durante a caminhada.
+- Tamanho do avatar do mapa passou a ser uniforme e responsivo à altura do mapa.
+- Corrigidos centralização, enquadramento e responsividade das imagens no seletor de avatares.
+- Atualizados index/display para recursos r4; integrações v3.50 mantidas.

@@ -1,3 +1,4 @@
-Quiz Rounds v3.50 · UI v3.92 r2
+Quiz Rounds v3.50 · UI v3.92 r4
 Motor funcional: v3.50 (GitHub Pages + Supabase)
-Interface do lobby/telão/jogador: v3.92, com camadas antigas de layout removidas.
+Interface: v3.92 r4
+Correções: navegação segura por rotas dos mapas, escala estável dos personagens e seletor de avatares centralizado.

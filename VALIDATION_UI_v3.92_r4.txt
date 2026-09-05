@@ -1,0 +1,23 @@
+Quiz Rounds v3.50 · UI v3.92 r4 — validação
+
+Resultado: APROVADO
+
+Validações executadas:
+- Sintaxe de todos os JavaScripts em assets/js: OK.
+- Referências locais de HTML, CSS e imports ES modules: OK (32 referências verificadas).
+- IDs duplicados nos HTMLs principais: nenhum encontrado.
+- Balanceamento estrutural das folhas CSS: OK.
+- index.html usa somente player-ui v3.92 r4 + avatars-ui v3.92 r4 e player-v3.50-r4.js.
+- display.html usa somente display-ui v3.92 r4 + avatars-ui v3.92 r4 e display-v3.50-r4.js.
+- city-v3.50-r4.js está integrado ao display e usa navegação por grafo específica por mapa.
+- Variáveis/regras antigas de escala por faixa/profundidade foram removidas da camada r4.
+- Mapas 4:3 validados em 1448x1086.
+- 10 folhas de sprites RPG Maker validadas em 288x440, divisíveis em grade 3x4.
+- Arquivos protegidos de integração GitHub/Supabase comparados com r3: 34 arquivos sem alteração.
+- config.js preservado.
+
+Correções funcionais desta revisão:
+- Rotas de deslocamento confinadas a corredores/passarelas/áreas abertas dos mapas.
+- Tamanho uniforme dos personagens no mesmo mapa, responsivo ao tamanho do painel e sem zoom por profundidade.
+- Seletor de avatar com grid adaptativo ao espaço real, miniaturas centralizadas e frame frontal estável.
+- Miniatura do avatar selecionado com o mesmo enquadramento do seletor.
