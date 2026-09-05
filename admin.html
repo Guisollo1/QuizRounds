@@ -5,9 +5,9 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#5d28c7" name="theme-color"/>
-<title>Quiz Rounds v3.63 — Administração</title>
+<title>Quiz Rounds v3.66 — Administração</title>
 <link href="assets/css/core-v3.50.css" rel="stylesheet"/>
-<link href="assets/css/admin-v3.63-r21.css" rel="stylesheet"/>
+<link href="assets/css/admin-v3.66-r24.css" rel="stylesheet"/>
 <link href="assets/css/avatars-runtime-v3.63-r21.css?v=3.63-r21" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.min.js"></script>
 <script src="assets/vendor/qr-bundle.js"></script>
@@ -22,7 +22,7 @@
 <div><div class="eyebrow light">QUIZ ROUNDS</div><h1>Painel do Administrador</h1><p>Prepare, apresente e controle o quiz em tempo real.</p></div>
 </div>
 <div aria-label="Ações do administrador" class="top-actions">
-<span class="badge version-badge" id="appVersionBadge">v3.63</span><span aria-live="polite" class="connection-pill connecting" id="adminConnection" role="status">Conectando…</span>
+<span class="badge version-badge" id="appVersionBadge">v3.66</span><span aria-live="polite" class="connection-pill connecting" id="adminConnection" role="status">Conectando…</span>
 <button aria-controls="questionHelpModal" aria-haspopup="dialog" class="ghost glass admin-help-trigger" id="adminHelpBtn" type="button"><span aria-hidden="true">?</span> Ajuda</button>
 <a class="ghost glass" href="simulator.html">Simulador</a>
 <a class="ghost glass" href="index.html">Modo jogador</a>
@@ -272,7 +272,7 @@ TEMPO: 30
 <div class="health-tile checking" id="healthQuestions"><span>PERGUNTAS</span><strong>0 prontas</strong><small>Fila da partida</small></div>
 <div class="health-tile checking" id="healthController"><span>CONTROLE</span><strong>Verificando…</strong><small>Painel principal</small></div>
 <div class="health-tile checking" id="healthRemote"><span>REMOTO</span><strong>Verificando…</strong><small>Celular autorizado</small></div>
-<div class="health-tile checking" id="healthVersions"><span>VERSÕES</span><strong>v3.63</strong><small>ADM, telão e jogadores</small></div>
+<div class="health-tile checking" id="healthVersions"><span>VERSÕES</span><strong>v3.66</strong><small>ADM, telão e jogadores</small></div>
 </div>
 <div class="preflight-summary neutral" id="preflightSummary">Execute o pré-teste antes de começar o evento.</div>
 </article>
@@ -357,12 +357,22 @@ TEMPO: 30
 <button data-remote-action="" id="remoteExtend5Btn" type="button">+5 s</button>
 <button data-remote-action="" id="remoteExtend10Btn" type="button">+10 s</button>
 </div>
-<section aria-label="Revelação do resultado" class="remote-reveal-card">
+<section aria-label="Revelação do resultado" class="remote-reveal-card" id="remoteRevealCard">
 <span>Mostrar no telão</span>
 <div class="remote-reveal-actions">
 <button data-remote-action="" id="remoteRevealAnswerBtn" type="button">Resposta</button>
 <button data-remote-action="" id="remoteRevealDistributionBtn" type="button">Distribuição</button>
 <button data-remote-action="" id="remoteRevealRankingBtn" type="button">Ranking</button>
+</div>
+</section>
+<section aria-label="Apresentação final" class="remote-final-card hidden" id="remoteFinalShowCard">
+<span>APRESENTAÇÃO FINAL</span>
+<strong id="remoteFinalStageLabel">Ranking final</strong>
+<div class="remote-final-actions">
+<button data-remote-final-show="ranking" type="button">Ranking</button>
+<button data-remote-final-show="stats" type="button">Estatísticas</button>
+<button data-remote-final-show="highlights" type="button">Destaques</button>
+<button data-remote-final-show="champion" type="button">Campeão</button>
 </div>
 </section>
 <details class="remote-danger-zone">
@@ -481,6 +491,6 @@ PONTUAR: SIM
 </div>
 </div>
 </main>
-<script src="assets/js/admin-v3.65-r23.js?v=3.65-r23" type="module"></script>
+<script src="assets/js/admin-v3.66-r24.js?v=3.66-r24" type="module"></script>
 </body>
 </html>
